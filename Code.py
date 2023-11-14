@@ -174,8 +174,171 @@ for i in range(20):
     liste = [equipes[i]] + liste
     classement_15_16.loc[len(classement_15_16)] = liste
 
-#Ici le classement n'est pas en ordre croissant, on rajoute donc une ligne de code
+#Ici le classement n'est pas en ordre croissant, on rajoute donc un peu de code
 classement_15_16["J38"] = classement_15_16["J38"].astype(int)
 classement_15_16 = classement_15_16.sort_values(by="J38")
 classement_15_16 = classement_15_16.reset_index(drop=True)
-print(classement_15_16)
+classement_15_16["J38"] = classement_15_16["J38"].astype(str)
+
+#on fait la même chose pour la saison 2014/2015
+url = "https://fr.wikipedia.org/wiki/Championnat_de_France_de_football_2014-2015"
+page = requests.get(url)
+soup = BeautifulSoup(page.text, "html.parser")
+
+classement = soup.find("table", class_="wikitable sortable center nowrap")
+equipes =[]
+balises_a = classement.find_all('a')
+for balise in balises_a[0:]:
+    equipes.append(balise.text)
+
+colonnes = ["Équipes"] + ["J{}".format(i) for i in range(1, 39)]
+classement_14_15 = pd.DataFrame(columns=colonnes)
+
+x = classement.find_all('td')
+for i in range(20):
+    liste = [x.get_text(strip=True) for x in x[1+41*i:39+41*i]]
+    liste = [equipes[i]] + liste
+    classement_14_15.loc[len(classement_14_15)] = liste
+
+classement_14_15["J38"] = classement_14_15["J38"].astype(int)
+classement_14_15 = classement_14_15.sort_values(by="J38")
+classement_14_15 = classement_14_15.reset_index(drop=True)
+classement_14_15["J38"] = classement_14_15["J38"].astype(str)
+
+
+#on fait la même chose pour la saison 2013/2014
+url = "https://fr.wikipedia.org/wiki/Championnat_de_France_de_football_2013-2014"
+page = requests.get(url)
+soup = BeautifulSoup(page.text, "html.parser")
+
+classement = soup.find("table", class_="wikitable sortable center")
+equipes =[]
+balises_a = classement.find_all('a')
+for balise in balises_a[0:]:
+    equipes.append(balise.text)
+
+colonnes = ["Équipes"] + ["J{}".format(i) for i in range(1, 39)]
+classement_13_14 = pd.DataFrame(columns=colonnes)
+
+x = classement.find_all('td')
+for i in range(20):
+    liste = [x.get_text(strip=True) for x in x[1+41*i:39+41*i]]
+    liste = [equipes[i]] + liste
+    classement_13_14.loc[len(classement_13_14)] = liste
+
+classement_13_14["J38"] = classement_13_14["J38"].astype(int)
+classement_13_14 = classement_13_14.sort_values(by="J38")
+classement_13_14 = classement_13_14.reset_index(drop=True)
+classement_13_14["J38"] = classement_13_14["J38"].astype(str)
+
+#on fait la même chose pour la saison 2012/2013
+url = "https://fr.wikipedia.org/wiki/Championnat_de_France_de_football_2012-2013"
+page = requests.get(url)
+soup = BeautifulSoup(page.text, "html.parser")
+
+classement = soup.find("table", class_="wikitable sortable center")
+equipes =[]
+balises_a = classement.find_all('a')
+for balise in balises_a[0:]:
+    equipes.append(balise.text)
+
+colonnes = ["Équipes"] + ["J{}".format(i) for i in range(1, 39)]
+classement_12_13 = pd.DataFrame(columns=colonnes)
+
+x = classement.find_all('td')
+for i in range(20):
+    liste = [x.get_text(strip=True) for x in x[1+41*i:39+41*i]]
+    liste = [equipes[i]] + liste
+    classement_12_13.loc[len(classement_12_13)] = liste
+
+classement_12_13["J38"] = classement_12_13["J38"].astype(int)
+classement_12_13 = classement_12_13.sort_values(by="J38")
+classement_12_13 = classement_12_13.reset_index(drop=True)
+classement_12_13["J38"] = classement_12_13["J38"].astype(str)
+
+#on fait la même chose pour la saison 2011/2012
+url = "https://fr.wikipedia.org/wiki/Championnat_de_France_de_football_2011-2012"
+page = requests.get(url)
+soup = BeautifulSoup(page.text, "html.parser")
+
+classement = soup.find("table", class_="wikitable sortable center")
+equipes =[]
+balises_a = classement.find_all('a')
+for balise in balises_a[0:]:
+    equipes.append(balise.text)
+
+colonnes = ["Équipes"] + ["J{}".format(i) for i in range(1, 39)]
+classement_11_12 = pd.DataFrame(columns=colonnes)
+
+x = classement.find_all('td')
+for i in range(20):
+    liste = [x.get_text(strip=True) for x in x[1+41*i:39+41*i]]
+    liste = [equipes[i]] + liste
+    classement_11_12.loc[len(classement_11_12)] = liste
+
+classement_11_12["J38"] = classement_11_12["J38"].astype(int)
+classement_11_12 = classement_11_12.sort_values(by="J38")
+classement_11_12 = classement_11_12.reset_index(drop=True)
+classement_11_12["J38"] = classement_11_12["J38"].astype(str)
+
+#A partir de maintenant les noms des équipes sont des acronymes/sigles, il faut donc créer un glossaire
+acronymes_clubs = {
+    'PSG': 'Paris',
+    'OM': 'Marseille',
+    'OL': 'Lyon',
+    'ASSE': 'Saint-Étienne',
+    'LOSC': 'Lille',
+    'ASM': 'Monaco',
+    'FCN': 'Nantes',
+    'OGCN': 'Nice',
+    'RCSA': 'Strasbourg',
+    'SRFC': 'Rennes',
+    'FCSM': 'Sochaux',
+    'FCGB': 'Bordeaux',
+    'TFC': 'Toulouse',
+    'AJA': 'Auxerre',
+    'FCL': 'Lorient',
+    'VAFC': 'Valenciennes',
+    'ASNL': 'Nancy',
+    'MHSC': 'Montpellier',
+    'SMC': 'Caen',
+    'SB29': 'Brest',
+    'RCL': 'Lens',
+    'ACAA': 'Arles-Avignon',
+    'ETGFC':'Évian TG',
+    'ACA': 'Ajaccio',
+    'DFCO':'Dijon'
+}
+
+#on change ensuite le nom des équipes 
+classement_11_12['Équipes'] = classement_11_12['Équipes'].map(acronymes_clubs)
+
+print(classement_11_12)
+
+
+#on fait la même chose pour la saison 2010/2011
+url = "https://fr.wikipedia.org/wiki/Championnat_de_France_de_football_2010-2011"
+page = requests.get(url)
+soup = BeautifulSoup(page.text, "html.parser")
+
+classement = soup.find("table", class_="wikitable sortable center")
+equipes =[]
+balises_a = classement.find_all('a')
+for balise in balises_a[0:]:
+    equipes.append(balise.text)
+
+colonnes = ["Équipes"] + ["J{}".format(i) for i in range(1, 39)]
+classement_10_11 = pd.DataFrame(columns=colonnes)
+
+x = classement.find_all('td')
+for i in range(20):
+    liste = [x.get_text(strip=True) for x in x[1+39*i:39+39*i]]
+    liste = [equipes[i]] + liste
+    classement_10_11.loc[len(classement_10_11)] = liste
+
+classement_10_11["J38"] = classement_10_11["J38"].astype(int)
+classement_10_11 = classement_10_11.sort_values(by="J38")
+classement_10_11 = classement_10_11.reset_index(drop=True)
+classement_10_11["J38"] = classement_10_11["J38"].astype(str)
+classement_10_11['Équipes'] = classement_10_11['Équipes'].map(acronymes_clubs)
+print(classement_10_11)
