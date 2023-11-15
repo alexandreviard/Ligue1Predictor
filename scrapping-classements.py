@@ -21,7 +21,6 @@ def fonction_classement(url):
     
     tableau = soup.find("table", class_="wikitable sortable" + str(supplement) + str(supplement2))
     n = tableau.get_text().count("[r ") + tableau.get_text().count("[a ") + tableau.get_text().count("[e ")
-    print(n)
     balises_td = tableau.find_all('td')
     m = len(balises_td)
     equipes =[]
@@ -59,7 +58,39 @@ def fonction_classement(url):
         for i in range(29,39):
             nom_colonne = "J" + str(i)
             classement[nom_colonne] = 0
+    
+    classement.insert(0,"Saison", str(annee))
     return classement
+
+
+def fonction_classement2(url):
+    df_classement = pd.DataFrame()
+    annee = re.search(r'\d{4}-\d{4}', url).group()
+    for i in range(1,39):
+        url2 = url + str(i)
+        page = requests.get(url2)
+        soup = BeautifulSoup(page.text, "html.parser")
+
+        tableau = soup.find("table", class_="tableau")
+        equipes = tableau.select('tr.classement td.gras, tr.classement-avec-separateur td.gras')
+        equipes_final = []
+        for equipe in equipes:
+            equipes_final.append(equipe.get_text(strip=True))
+        classements = tableau.select('tr.classement span.flag-place, tr.classement-avec-separateur span.flag-place')
+        classement_final = []
+        for classement in classements:
+            if classement.get_text(strip=True) == "-":
+                classement_final.append(classement_final[-1])
+            else:
+                classement_final.append(classement.get_text(strip=True))
+        dictionnaire_classement = dict(zip(equipes_final, classement_final))
+        if i==1:
+            df_classement["Équipes"] = equipes_final
+            df_classement["J" + str(i)] = df_classement['Équipes'].map(dictionnaire_classement)
+        else:
+            df_classement["J" + str(i)] = df_classement['Équipes'].map(dictionnaire_classement)
+    df_classement.insert(0,"Saison", str(annee))
+    return(df_classement)
 
 liste_url = []
 
@@ -67,9 +98,23 @@ for annee in range(2009, 2023):
     lien = f"https://fr.wikipedia.org/wiki/Championnat_de_France_de_football_{annee}-{annee+1}"
     liste_url.append(lien)
 
-noms_colonnes = ["Équipes"] + ["J{}".format(i) for i in range(1, 39)]
+liste_url2 = []
+
+for annee in range(2002, 2009):
+    lien = f"https://www.deux-zero.com/ligue-1/classement-general/edition/{annee}-{annee+1}/init/1/fin/"
+    liste_url2.append(lien)
+
+
+noms_colonnes = ["Saison", "Équipes"] + ["J{}".format(i) for i in range(1, 39)]
 dataframe_classement = pd.DataFrame(columns=noms_colonnes)
 #on ajoute les résultats pour chaque saison, en vérifiant qu'il n'y a pas d'erreur
+for element in liste_url2:
+    try:
+        classement = fonction_classement2(element)
+        dataframe_classement = dataframe_classement._append(classement, ignore_index=True)
+    except Exception as e:
+        print(f"Erreur à l'élément {element}: {e}")
+
 for element in liste_url:
     try:
         classement = fonction_classement(element)
@@ -77,5 +122,5 @@ for element in liste_url:
     except Exception as e:
         print(f"Erreur à l'élément {element}: {e}")
 
-
-    
+#on enregistre le dataframe final au format csv
+dataframe_classement.to_csv('dataframe_classements.csv', index=False)
