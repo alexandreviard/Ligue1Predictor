@@ -10,7 +10,15 @@ def fonction_résultats(url,classe):
     soup = BeautifulSoup(page.text, "html.parser")
     noms_colonnes = ['Saison','Journée','Domicile','Extérieur','Buts domicile','Buts extérieur','Résultat']
     résultats_finaux = pd.DataFrame(columns=noms_colonnes)
-    for i in range(1,39):
+    url_parts = url.split("/")
+    annee_part = [part for part in url_parts if "season" in part][0]
+    annee = annee_part.replace("season-", "")
+    if annee == "2019-2020":
+        x=29
+    else:
+        x=39
+    
+    for i in range(1,x):
         tableau = soup.find_all("span", class_="rounds r_" + str(classe) + " w_" + str(i))
         equipes = []
         for element in tableau:
@@ -27,23 +35,23 @@ def fonction_résultats(url,classe):
 
         scores = []
         for element in tableau:
-            scores.append(element.find_all('span', class_='score-text'))
+            scores.append(element.select('.btn-info'))
         scores_int =[]
         for element in scores:
-            scores_matche = re.findall(r'\d+\s*-\s*\d+', str(element))
-            scores_int.extend(scores_matche)
+            scores_matche = re.findall(r'>-<|\d+\s*-\s*\d+|>20:45<|>21:00<|>17:00<',str(element))
+            scores_int.extend(scores_matche) 
+        scores_int = ['0 - 0' if item in ('>-<','>20:45<','>21:00<','>17:00<') else item for item in scores_int]  
         scores_int = [element.split(' - ') for element in scores_int]
         scores_finaux = [item for sublist in scores_int for item in sublist]
-
-
+        
         scores_domicile = scores_finaux[::2]
         scores_exterieure = scores_finaux[1::2]
 
         résultats = pd.DataFrame(columns=noms_colonnes)
         url_parts = url.split("/")
         annee_part = [part for part in url_parts if "season" in part][0]
-        annee = annee_part.split("-")[1]
-        résultats['Saison']=annee*10
+        annee = annee_part.replace("season-", "")
+        résultats['Saison']=[annee]*10
         résultats['Journée']= [i]*10
         résultats['Domicile'] = equipes_domicile
         résultats['Extérieur'] = equipes_exterieure
@@ -79,17 +87,18 @@ liste = [
     ["https://www.footballcritic.com/ligue-1/season-2005-2006/matches/4/173",177],
     ["https://www.footballcritic.com/ligue-1/season-2004-2005/matches/4/174",178],
     ["https://www.footballcritic.com/ligue-1/season-2003-2004/matches/4/175",179],
-    ["https://www.footballcritic.com/ligue-1/season-2002-2003/matches/4/176",180],
-    ["https://www.footballcritic.com/ligue-1/season-2001-2002/matches/4/177",181],
-    ["https://www.footballcritic.com/ligue-1/season-2000-2001/matches/4/178",182]
+    ["https://www.footballcritic.com/ligue-1/season-2002-2003/matches/4/176",180]
 ]
 
 #on créé le data frame final en parcourant les éléments de la liste et en utilisant notre fonction 
 noms_colonnes = ['Saison','Journée','Domicile','Extérieur','Buts domicile','Buts extérieur','Résultat']
 dataframe_résultats = pd.DataFrame(columns=noms_colonnes)
 for element in liste:
-    résultats_finaux = fonction_résultats(element[0],element[1])
-    dataframe_résultats = dataframe_résultats._append(résultats_finaux, ignore_index=True)
+    try:
+        résultats_finaux = fonction_résultats(element[0],element[1])
+        dataframe_résultats = dataframe_résultats._append(résultats_finaux, ignore_index=True)
+    except Exception as e:
+        print(f"Erreur à l'élément {element}: {e}")
 
-print(dataframe_résultats)
+dataframe_résultats.to_csv('dataframe_résultats.csv', index=False)
 
