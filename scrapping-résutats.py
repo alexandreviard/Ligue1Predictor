@@ -122,5 +122,5 @@ for element in liste:
         print(f"Erreur à l'élément {element}: {e}")
     
 #on enregistre le dataframe final au format csv
-dataframe_resultats.to_csv('dataframe_résultats.csv', index=False)
+dataframe_resultats.to_csv('dataframe_résultats.csv', encoding = 'utf-8', index=False)
 

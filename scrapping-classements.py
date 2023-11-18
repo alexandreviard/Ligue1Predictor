@@ -123,4 +123,4 @@ for element in liste_url:
         print(f"Erreur à l'élément {element}: {e}")
 
 #on enregistre le dataframe final au format csv
-dataframe_classement.to_csv('dataframe_classements.csv', index=False)
+dataframe_classement.to_csv('dataframe_classements.csv', encoding = 'utf-8', index=False)
