@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np 
+pd.set_option('display.max_rows', 100)    
 dataframe_final = pd.read_csv('C:\\Users\\vtgra\\Desktop\\Projet python\\dataframe_résultats.csv',encoding = 'utf-8')
 dataframe_classement = pd.read_csv('C:\\Users\\vtgra\\Desktop\\Projet python\\dataframe_classements.csv',encoding = 'utf-8')
 
@@ -20,16 +21,25 @@ glossaire = {'AS Monaco FC' : 'Monaco', 'FC Girondins de Bordeaux' : 'Bordeaux',
 dataframe_classement['Équipes'] = dataframe_classement['Équipes'].replace(glossaire)
 
 df_merge1 = pd.merge(dataframe_final, dataframe_classement, left_on=['Saison', 'Domicile'], right_on=['Saison', 'Équipes'], how='left')
-conditions = [df_merge1['Journée'] == i for i in range(1, max(df_merge1['Journée']) + 1)]
+conditions = [df_merge1['Journée'] == (i + 1) for i in range(1, max(df_merge1['Journée']) + 1)]
 valeurs = [df_merge1[f'J{i}'] for i in range(1, max(df_merge1['Journée']) + 1)]
 dataframe_final['Classement Domicile'] = np.select(conditions, valeurs)
+dataframe_final['Classement Domicile'] = dataframe_final['Classement Domicile'].replace({0: np.nan}).astype(pd.Int64Dtype())
+
 
 df_merge2 = pd.merge(dataframe_final, dataframe_classement, left_on=['Saison', 'Extérieur'], right_on=['Saison', 'Équipes'], how='left')
-conditions = [df_merge2['Journée'] == i for i in range(1, max(df_merge2['Journée']) + 1)]
+conditions = [df_merge2['Journée'] == (i + 1) for i in range(1, max(df_merge2['Journée']) + 1)]
 valeurs = [df_merge2[f'J{i}'] for i in range(1, max(df_merge2['Journée']) + 1)]
 dataframe_final['Classement Extérieur'] = np.select(conditions, valeurs)
+dataframe_final['Classement Extérieur'] = dataframe_final['Classement Extérieur'].replace({0: np.nan}).astype(pd.Int64Dtype())
 
-print(dataframe_final.head(20))
+dataframe_final['Moyenne_BM par Domicile à domicile'] = (dataframe_final.groupby(['Saison', 'Domicile'])['Buts domicile'].cumsum() - dataframe_final['Buts domicile']) / (dataframe_final.groupby(['Saison', 'Domicile'])['Journée'].cumcount())
+dataframe_final['Moyenne_BE par Domicile à domicile'] = (dataframe_final.groupby(['Saison', 'Domicile'])['Buts extérieur'].cumsum() - dataframe_final['Buts extérieur']) / (dataframe_final.groupby(['Saison', 'Domicile'])['Journée'].cumcount())
+dataframe_final["Moyenne_BM par Extérieur à l'extérieur"] = (dataframe_final.groupby(['Saison', 'Extérieur'])['Buts extérieur'].cumsum() - dataframe_final['Buts extérieur'])/ (dataframe_final.groupby(['Saison', 'Extérieur'])['Journée'].cumcount())
+dataframe_final["Moyenne_BE par Extérieur à l'extérieur"] = (dataframe_final.groupby(['Saison', 'Extérieur'])['Buts domicile'].cumsum() - dataframe_final['Buts domicile']) / (dataframe_final.groupby(['Saison', 'Extérieur'])['Journée'].cumcount())
+
+
+print(dataframe_final.head(100))
 
 
 
