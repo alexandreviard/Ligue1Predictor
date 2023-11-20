@@ -39,7 +39,7 @@ dataframe_final["Moyenne_BM par Extérieur à l'extérieur"] = (dataframe_final.
 dataframe_final["Moyenne_BE par Extérieur à l'extérieur"] = (dataframe_final.groupby(['Saison', 'Extérieur'])['Buts domicile'].cumsum() - dataframe_final['Buts domicile']) / (dataframe_final.groupby(['Saison', 'Extérieur'])['Journée'].cumcount())
 
 
-print(dataframe_final.head(100))
+print(dataframe_final.head(1422))
 
 
 
