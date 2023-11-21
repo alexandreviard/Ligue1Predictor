@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np 
+import openpyxl
 import sklearn.linear_model
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
@@ -44,7 +45,7 @@ dataframe_final["Moyenne_BM par E à e"] = (dataframe_final.groupby(['Saison', '
 dataframe_final["Moyenne_BE par E à e"] = (dataframe_final.groupby(['Saison', 'Extérieur'])['Buts domicile'].cumsum() - dataframe_final['Buts domicile']) / (dataframe_final.groupby(['Saison', 'Extérieur'])['Journée'].cumcount())
 
 model=LinearRegression()
-dataframe_regression = dataframe_final.dropna()
+dataframe_regression = dataframe_final.dropna().copy()
 x1 = dataframe_regression[["Classement D",  "Classement E",  "Moyenne_BM par D à d", "Moyenne_BE par E à e"]]
 y1 = dataframe_regression[["Buts domicile"]]
 model.fit(x1,y1)
@@ -66,12 +67,15 @@ conditions = [
 ]
 
 valeurs = ['D', 'E', 'N']
-dataframe_regression['Résultat prévu'] = np.select(conditions, valeurs, default=np.nan)
+dataframe_regression['Résultat prévu'] = np.select(conditions, valeurs)
 dataframe_regression['Bon_résultat'] = dataframe_regression['Résultat'] == dataframe_regression['Résultat prévu']
-print(dataframe_regression.head(100))
 freq1 = dataframe_regression['residuals 1'].value_counts()
 print(freq1)
 freq2 = dataframe_regression['residuals 2'].value_counts()
 print(freq2)
 freq3 = dataframe_regression['Bon_résultat'].value_counts()
 print(freq3)
+print(dataframe_regression['Résultat'].value_counts())
+print(dataframe_regression['Résultat prévu'].value_counts())
+
+dataframe_regression.to_excel('dataframe_regression.xlsx', index=False)
