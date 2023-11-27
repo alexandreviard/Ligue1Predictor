@@ -75,9 +75,9 @@ def fonction_resultats(url,classe):
         resultats['Buts domicile'] = scores_domicile
         resultats['Buts extérieur'] = scores_exterieur
         #on met le résultat du match ("D" pour victoire de Domicile, "N" pour Nul et "E" pour victoire d'Extérieur)
-        resultats['Résultat'] = 'E'
-        resultats.loc[resultats['Buts domicile'] > resultats['Buts extérieur'], 'Résultat'] = 'D'
-        resultats.loc[resultats['Buts domicile'] == resultats['Buts extérieur'], 'Résultat'] = 'N'
+        resultats['Résultat'] = -1
+        resultats.loc[resultats['Buts domicile'] > resultats['Buts extérieur'], 'Résultat'] = 1
+        resultats.loc[resultats['Buts domicile'] == resultats['Buts extérieur'], 'Résultat'] = 0
         #on ajoute les données pour chaques journées
         resultats_finaux = resultats_finaux._append(resultats, ignore_index=True)
     

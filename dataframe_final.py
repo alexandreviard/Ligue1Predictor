@@ -39,6 +39,12 @@ valeurs = [df_merge2[f'J{i}'] for i in range(1, max(df_merge2['Journée']) + 1)]
 dataframe_final['Classement E'] = np.select(conditions, valeurs)
 dataframe_final['Classement E'] = dataframe_final['Classement E'].replace({0: np.nan}).astype(pd.Int64Dtype())
 
+dataframe_final['-Résultat'] = -1*dataframe_final['Résultat']
+dataframe_final_copy = dataframe_final.copy()
+dataframe_final = pd.merge(dataframe_final,dataframe_final_copy.groupby(['Saison','Domicile'])['Résultat'].rolling(window=5, min_periods=1).sum().reset_index().drop(columns = {'Saison','Domicile'}).rename(columns = {'Résultat':'Forme D'}), left_index=True, right_on='level_2', how='left').drop(columns = {'level_2'}).reset_index(drop=True)
+dataframe_final = pd.merge(dataframe_final,dataframe_final_copy.groupby(['Saison','Extérieur'])['-Résultat'].rolling(window=5, min_periods=1).sum().reset_index().drop(columns = {'Saison','Extérieur'}).rename(columns = {'-Résultat':'Forme E'}), left_index=True, right_on='level_2', how='left').drop(columns = {'level_2'}).reset_index(drop=True)
+dataframe_final['Forme D'] = dataframe_final['Forme D'] - dataframe_final['Résultat']
+dataframe_final['Forme E'] = dataframe_final['Forme E'] - dataframe_final['-Résultat']
 dataframe_final['Moyenne_BM par D à d'] = (dataframe_final.groupby(['Saison', 'Domicile'])['Buts domicile'].cumsum() - dataframe_final['Buts domicile']) / (dataframe_final.groupby(['Saison', 'Domicile'])['Journée'].cumcount())
 dataframe_final['Moyenne_BE par D à d'] = (dataframe_final.groupby(['Saison', 'Domicile'])['Buts extérieur'].cumsum() - dataframe_final['Buts extérieur']) / (dataframe_final.groupby(['Saison', 'Domicile'])['Journée'].cumcount())
 dataframe_final["Moyenne_BM par E à e"] = (dataframe_final.groupby(['Saison', 'Extérieur'])['Buts extérieur'].cumsum() - dataframe_final['Buts extérieur'])/ (dataframe_final.groupby(['Saison', 'Extérieur'])['Journée'].cumcount())
@@ -46,36 +52,30 @@ dataframe_final["Moyenne_BE par E à e"] = (dataframe_final.groupby(['Saison', '
 
 model=LinearRegression()
 dataframe_regression = dataframe_final.dropna().copy()
-x1 = dataframe_regression[["Classement D",  "Classement E",  "Moyenne_BM par D à d", "Moyenne_BE par E à e"]]
+dataframe_regression = dataframe_regression[dataframe_regression['Journée'] > 30]
+x1 = dataframe_regression[["Classement D",  "Classement E",  "Moyenne_BM par D à d", "Moyenne_BE par E à e", 'Forme D', 'Forme E']]
 y1 = dataframe_regression[["Buts domicile"]]
 model.fit(x1,y1)
-y_pred1 = np.round(model.predict(x1))
+y_pred1 =(model.predict(x1))
 dataframe_regression ['pred_buts D'] = y_pred1 
 dataframe_regression['residuals 1'] = dataframe_regression['pred_buts D'] - dataframe_regression['Buts domicile']
 
-x2 = dataframe_regression[["Classement D",  "Classement E",  "Moyenne_BE par D à d", "Moyenne_BM par E à e"]]
+x2 = dataframe_regression[["Classement D",  "Classement E",  "Moyenne_BE par D à d", "Moyenne_BM par E à e",'Forme D', 'Forme E']]
 y2 = dataframe_regression[["Buts extérieur"]]
 model.fit(x2,y2)
-y_pred2 = np.round(model.predict(x2))
+y_pred2 = (model.predict(x2))
 dataframe_regression ['pred_buts E'] = y_pred2
 dataframe_regression['residuals 2'] = dataframe_regression['pred_buts E'] - dataframe_regression['Buts extérieur']
 
 conditions = [
-    (dataframe_regression['pred_buts D'] > dataframe_regression['pred_buts E']),
-    (dataframe_regression['pred_buts D'] < dataframe_regression['pred_buts E']),
-    (dataframe_regression['pred_buts D'] == dataframe_regression['pred_buts E'])
+    (dataframe_regression['pred_buts D'] > dataframe_regression['pred_buts E'] + 0),
+    (dataframe_regression['pred_buts D'] + 0 < dataframe_regression['pred_buts E']),
 ]
-
-valeurs = ['D', 'E', 'N']
+valeurs = [1, -1]
+dataframe_regression['Résultat prévu'] = 0
 dataframe_regression['Résultat prévu'] = np.select(conditions, valeurs)
 dataframe_regression['Bon_résultat'] = dataframe_regression['Résultat'] == dataframe_regression['Résultat prévu']
-freq1 = dataframe_regression['residuals 1'].value_counts()
-print(freq1)
-freq2 = dataframe_regression['residuals 2'].value_counts()
-print(freq2)
-freq3 = dataframe_regression['Bon_résultat'].value_counts()
-print(freq3)
-print(dataframe_regression['Résultat'].value_counts())
-print(dataframe_regression['Résultat prévu'].value_counts())
+print(dataframe_regression.groupby('Résultat prévu')['Bon_résultat'].value_counts())
+print(dataframe_regression['Bon_résultat'].value_counts())
 
 dataframe_regression.to_excel('dataframe_regression.xlsx', index=False)
