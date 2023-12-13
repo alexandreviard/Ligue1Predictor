@@ -74,7 +74,7 @@ def fonction_resultats(url,classe):
         resultats['Extérieur'] = equipes_exterieur
         resultats['Buts domicile'] = scores_domicile
         resultats['Buts extérieur'] = scores_exterieur
-        #on met le résultat du match ("D" pour victoire de Domicile, "N" pour Nul et "E" pour victoire d'Extérieur)
+        #on met le résultat du match ("1" pour victoire de Domicile, "0" pour Nul et "-1" pour victoire d'Extérieur)
         resultats['Résultat'] = -1
         resultats.loc[resultats['Buts domicile'] > resultats['Buts extérieur'], 'Résultat'] = 1
         resultats.loc[resultats['Buts domicile'] == resultats['Buts extérieur'], 'Résultat'] = 0
