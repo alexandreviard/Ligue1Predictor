@@ -20,7 +20,7 @@ def preprocess(df, mapping_equipe):
 
     # Normalisation des noms des équipes pour qu'il n'y est pas de noms de mêmes équipes différentes
     df['Opponent'] = df['Opponent'].map(mapping_equipe).fillna(df['Opponent'])
-    df['equipe'] = df['equipe'].map(mapping_equipe).fillna(df['equipe'])
+    df['Team'] = df['Team'].map(mapping_equipe).fillna(df['Team'])
 
     # Garder que les matchs 'Ligue 1' (pas de matchs de Coupe)
     df = df[df["Comp"] == "Ligue 1"]
@@ -39,10 +39,10 @@ def preprocess(df, mapping_equipe):
     df['Points'] = df['Result'].map({'W': 3, 'D': 1, 'L': 0})
 
     # Calcul cumulatif des Points, des buts marqués/encaissés et de la différence de buts par saison
-    df.sort_values(by=['Saison', 'Round', 'equipe'], inplace=True)
+    df.sort_values(by=['Saison', 'Round', 'Team'], inplace=True)
     df.reset_index(drop=True, inplace=True)
 
-    cumulative_cols = df.groupby(['Saison', 'equipe']).agg({
+    cumulative_cols = df.groupby(['Saison', 'Team']).agg({
         'Points': 'cumsum',
         'GD': 'cumsum',
         'GF': 'cumsum',
@@ -59,18 +59,18 @@ def preprocess(df, mapping_equipe):
     df['Classement'] = df.groupby(['Saison', 'Round']).cumcount() + 1
 
     """ # Application des décalages (lags)
-    df[[f'{col}_Lag1' for col in lag_cols]] = df.groupby(['Saison', 'equipe'])[lag_cols].shift(1)
+    df[[f'{col}_Lag1' for col in lag_cols]] = df.groupby(['Saison', 'Team'])[lag_cols].shift(1)
 
 
     # Calcul des moyennes roulantes
     for col in mean_cols:
-        df[f'Moyenne_{col}'] = df.groupby(['Saison', 'equipe'])[col].transform(lambda x: x.shift(1).expanding().mean())
+        df[f'Moyenne_{col}'] = df.groupby(['Saison', 'Team'])[col].transform(lambda x: x.shift(1).expanding().mean())
     """
 
     # Création d'un identifiant unique pour analyser les dernières rencontres entre deux équipes
 
     outcome_cols = ['IsWin', 'IsDraw', 'IsLoss']
-    df['MatchID'] = df['equipe'] + '_' + df['Opponent']
+    df['MatchID'] = df['Team'] + '_' + df['Opponent']
     df['Past_Matches'] = df.groupby('MatchID').cumcount()
     df['IsWin'] = df['Result'].apply(lambda x: 1 if x == 'W' else 0)
     df['IsDraw'] = df['Result'].apply(lambda x: 1 if x == 'D' else 0)
@@ -89,7 +89,7 @@ def preprocess(df, mapping_equipe):
     df = df[nouvelles_colonnes]
     # Réinitialisation de l'index et tri final
     df.reset_index(drop=True, inplace=True)
-    df.sort_values(by=['Saison', 'equipe', 'DateTime'], inplace=True)
+    df.sort_values(by=['Saison', 'Team', 'DateTime'], inplace=True)
 
     return df
 
@@ -97,16 +97,6 @@ def preprocess(df, mapping_equipe):
 #outcome_cols = ['IsWin', 'IsDraw', 'IsLoss']
 #lag_cols = ['Points_Cum', 'GD_Cum', 'GF_Cum', 'GA_Cum']
 
-
-def add_new_matches(base_initiale, base_nouvelle):
-
-    # Le scrapping change l'odre des colonnes il faut donc les réaligner pour concaténer
-    base_nouvelle = base_nouvelle[base_initiale.columns]
-
-    # Concaténation des deux bases de données et suppression des doublons
-    concatenated_data = pd.concat([base_nouvelle, base_initiale]).drop_duplicates().sort_values(by ="DateTime").reset_index(drop=True)
-
-    return concatenated_data
 
 
 def preparation_model(df):
@@ -116,16 +106,16 @@ def preparation_model(df):
     """
 
     # 0. Préparation pour le calcul cumulatif
-    df.sort_values(by=['Saison', 'Round', 'equipe'], inplace=True)
+    df.sort_values(by=['Saison', 'Round', 'Team'], inplace=True)
     df.reset_index(drop=True, inplace=True)
 
     # 1. Application des décalages (lags) sur les variables principales
 
     lag_cols = ['Points_Cum', 'GD_Cum', 'GF_Cum', 'GA_Cum']
-    df[[f'{col}_Lag1' for col in lag_cols]] = df.groupby(['Saison', 'equipe'])[lag_cols].shift(1)
+    df[[f'{col}_Lag1' for col in lag_cols]] = df.groupby(['Saison', 'Team'])[lag_cols].shift(1)
     
     # 2. Création du classement et des cumulatives laggés des dernières rencontres entre les deux équipes
-    df['Classement_Lag1'] = df.groupby(['equipe'])['Classement'].shift(1)
+    df['Classement_Lag1'] = df.groupby(['Team'])['Classement'].shift(1)
 
     df[['CumulativeWins_Lag1', 'CumulativeDraws_Lag1', 'CumulativeLosses_Lag1']] = df.groupby('MatchID')[['CumulativeWins', 'CumulativeDraws', 'CumulativeLosses']].shift(1)
 
@@ -140,13 +130,13 @@ def preparation_model(df):
     ]
 
     for col in stat_columns:
-        df[f'Moyenne_{col}_Lag'] = df.groupby(['Saison', 'equipe'])[col].transform(lambda x: x.shift(1).expanding().mean())
+        df[f'Moyenne_{col}_Lag'] = df.groupby(['Saison', 'Team'])[col].transform(lambda x: x.shift(1).expanding().mean())
 
     # Suppression des colonnes initiales de statistiques pour éviter les fuites de données (data leakage)
     df.drop(stat_columns, axis=1, inplace=True, errors='ignore')
 
     # Réorganisation finale du DataFrame
-    df = df.sort_values(by=['Saison', 'equipe', 'DateTime']).reset_index(drop=True)
+    df = df.sort_values(by=['Saison', 'Team', 'DateTime']).reset_index(drop=True)
     
 
     return df

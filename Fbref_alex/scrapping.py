@@ -67,12 +67,16 @@ def scrape_latest_ligue1_data():
     Récupère les dernières données disponibles pour chaque équipe de la Ligue 1.
 
     Returns:
-        DataFrame: Un DataFrame Pandas avec les dernières données de chaque équipe.
+        2 DataFrame:
+         - Un DataFrame Pandas avec les dernières données de chaque équipe.
+         - Un DataFrame qui contient les futurs journées à venir à processer
+
     """
     # Configuration initiale similaire à scrape_ligue1_data()
     url_ligue1 = "https://fbref.com/en/comps/13/Ligue-1-Stats"
     headers = {'User-Agent': 'Mozilla/5.0'}
     latest_data = []
+    futur_matchweek = []
 
     response = requests.get(url_ligue1, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -89,6 +93,7 @@ def scrape_latest_ligue1_data():
         team_name = team_url.split("/")[-1].replace("-Stats", "").replace("-", " ")
         team_data["Team"] = team_name
 
+        futur_matchweek.append(team_data)
         stats_urls = get_stats_urls(team_response)
 
         for stats_url in set(stats_urls):
@@ -99,7 +104,7 @@ def scrape_latest_ligue1_data():
         latest_data.append(team_data)
 
     # Retourne les données concaténées de toutes les équipes
-    return pd.concat(latest_data, ignore_index=True)
+    return pd.concat(latest_data, ignore_index=True), pd.concat(futur_matchweek, ignore_index=True)
 
 
 def rate_limit():
