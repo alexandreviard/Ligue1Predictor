@@ -4,7 +4,10 @@ on:
   schedule:
     - cron: '0 0 */3 * *'  # Exécuté à minuit tous les 3 jours
   workflow_dispatch:
-  
+
+permissions:
+  contents: write
+
 jobs:
   run-script:
     runs-on: ubuntu-latest
@@ -27,9 +30,11 @@ jobs:
       run: python Fbref_alex/script_github.py
 
     - name: Commit and push if changes
+      env:
+        MY_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
       run: |
         git config --global user.email "alexandre.viard@ensae.fr"
         git config --global user.name "alexandreviard"
         git add Fbref_alex/*.csv
         git commit -m "Automated data update" --allow-empty
-        git push
+        git push https://${{ secrets.MY_PERSONAL_TOKEN }}@github.com/alexandreviard/work.git
