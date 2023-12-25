@@ -3,7 +3,8 @@ name: Automate Python Script
 on:
   schedule:
     - cron: '0 0 */3 * *'  # Exécuté à minuit tous les 3 jours
-
+  workflow_dispatch:
+  
 jobs:
   run-script:
     runs-on: ubuntu-latest
