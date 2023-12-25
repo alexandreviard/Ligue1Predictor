@@ -2,15 +2,12 @@ import pandas as pd
 import time
 from datetime import datetime
 
-def preprocess(df, mapping_equipe):
+def preprocess_intitial(df, mapping_equipe):
     """
     Cette fonction effectue plusieurs opérations de prétraitement sur nos données footballistiques scrappées.
     
     :param df: DataFrame contenant les données footballistiques.
     :param mapping_equipe: Dictionnaire pour la normalisation des noms des équipes.
-    :param mean_cols: Colonnes pour lesquelles calculer les moyennes roulantes.
-    :param outcome_cols: Colonnes pour lesquelles calculer les statistiques cumulatives des résultats des matchs.
-    :param lag_cols: Colonnes pour lesquelles appliquer des décalages (lags).
     """
 
     # Conversion et nettoyage des colonnes 'Date' et 'Time' en une seule colonne
@@ -31,6 +28,34 @@ def preprocess(df, mapping_equipe):
     # Création d'une colonne "Saison" qui nous permettra de facilement accéder au matchs d'une année partiulière
     df['Saison'] = df['DateTime'].apply(lambda x: f"{x.year}-{x.year + 1}" if x.month >= 8 else f"{x.year - 1}-{x.year}")
     
+    # Nettoyage de la colonne 'Formation'
+    if 'Formation' in df.columns:
+        # Vérifie si la colonne 'Formation' est présente dans le DataFrame.
+        # Remplace le caractère '◆' par une chaîne vide dans la colonne 'Formation'.
+        df['Formation'] = df['Formation'].apply(lambda x: x.replace('◆', '') if pd.notnull(x) else x)
+
+    # Vérifiez si les deux colonnes existent
+    if 'Poss_x' in df.columns and 'Poss_y' in df.columns:
+        # Renommer "Poss_x" en "Poss"
+        df = df.rename(columns={'Poss_x': 'Poss'})
+
+        # Supprimer la colonne "Poss_y"
+        df = df.drop(columns=['Poss_y'])
+    
+    df['MatchID'] = df['Team'] + '_' + df['Opponent']
+        
+    return df
+
+
+def preprocess_variables(df):
+
+    """
+    Cette fonction effectue plusieurs opérations de créations de variables pertinentes
+    
+    :param df: DataFrame contenant les données footballistiques.
+    :param mapping_equipe: Dictionnaire pour la normalisation des noms des équipes.
+    """
+
     # Création de la variable de différence entre buts marqués et encaissés
     df[['GF', 'GA']] = df[['GF', 'GA']].astype(float).astype(int)
     df['GD'] = df['GF'] - df['GA']
@@ -42,6 +67,7 @@ def preprocess(df, mapping_equipe):
     df.sort_values(by=['Saison', 'Round', 'Team'], inplace=True)
     df.reset_index(drop=True, inplace=True)
 
+
     cumulative_cols = df.groupby(['Saison', 'Team']).agg({
         'Points': 'cumsum',
         'GD': 'cumsum',
@@ -51,8 +77,7 @@ def preprocess(df, mapping_equipe):
 
     df[['Points_Cum', 'GD_Cum', 'GF_Cum', 'GA_Cum']] = cumulative_cols[['Points', 'GD', 'GF', 'GA']]
 
-    # Nettoyage de la colonne 'Formation'
-    df['Formation'] = df['Formation'].str.replace('◆', '')
+
 
     # Calculer un classement basé sur les points cumulés et la différence de buts
     df.sort_values(by=['Saison', 'Round', 'Points_Cum', 'GD_Cum'], ascending=[True, True, False, False], inplace=True)
@@ -70,15 +95,23 @@ def preprocess(df, mapping_equipe):
     # Création d'un identifiant unique pour analyser les dernières rencontres entre deux équipes
 
     outcome_cols = ['IsWin', 'IsDraw', 'IsLoss']
-    df['MatchID'] = df['Team'] + '_' + df['Opponent']
     df['Past_Matches'] = df.groupby('MatchID').cumcount()
     df['IsWin'] = df['Result'].apply(lambda x: 1 if x == 'W' else 0)
     df['IsDraw'] = df['Result'].apply(lambda x: 1 if x == 'D' else 0)
     df['IsLoss'] = df['Result'].apply(lambda x: 1 if x == 'L' else 0)
     df[['CumulativeWins', 'CumulativeDraws', 'CumulativeLosses']] = df.groupby('MatchID')[outcome_cols].cumsum()
 
+
+    # Réinitialisation de l'index et tri final
+    df.reset_index(drop=True, inplace=True)
+    df.sort_values(by=['Saison', 'Team', 'DateTime'], inplace=True)
+
+    return df
+
+def affichage_colonne(df):
+
     # Réorganisez les colonnes dans le DataFrame
-    colonnes_a_afficher_en_premier = ["DateTime", "Comp", "Round", "Day", "Venue", "equipe", "Classement",  
+    colonnes_a_afficher_en_premier = ["DateTime", "Comp", "Round", "Day", "Venue", "Team", "Classement",  
                                   "Formation", "Result", "GF", "GA", "Opponent", "Past_Matches", 
                                   "CumulativeWins", "CumulativeDraws", "CumulativeLosses", 
                                   "Attendance", "Captain", "Referee"]
@@ -87,11 +120,9 @@ def preprocess(df, mapping_equipe):
    
     nouvelles_colonnes = colonnes_a_afficher_en_premier + [col for col in df.columns if col not in colonnes_a_afficher_en_premier]
     df = df[nouvelles_colonnes]
-    # Réinitialisation de l'index et tri final
-    df.reset_index(drop=True, inplace=True)
-    df.sort_values(by=['Saison', 'Team', 'DateTime'], inplace=True)
 
     return df
+
 
 #mean_cols = ['Standard_SoT%', 'Total_Cmp%', 'Poss_x', 'Touches_Def Pen', 'Touches_Def 3rd']
 #outcome_cols = ['IsWin', 'IsDraw', 'IsLoss']
@@ -117,9 +148,13 @@ def preparation_model(df):
     # 2. Création du classement et des cumulatives laggés des dernières rencontres entre les deux équipes
     df['Classement_Lag1'] = df.groupby(['Team'])['Classement'].shift(1)
 
+    # Trier le DataFrame
+    df.sort_values(by=['Saison', 'Round', 'Points_Cum', 'GD_Cum'], ascending=[True, True, False, False], inplace=True)
+
+    # Créer les variables de décalage
     df[['CumulativeWins_Lag1', 'CumulativeDraws_Lag1', 'CumulativeLosses_Lag1']] = df.groupby('MatchID')[['CumulativeWins', 'CumulativeDraws', 'CumulativeLosses']].shift(1)
 
-
+    """
     # 3. Liste des colonnes de statistiques pour lesquelles calculer les moyennes mobiles décalées
     stat_columns = [
         col for col in df.columns 
@@ -134,10 +169,25 @@ def preparation_model(df):
 
     # Suppression des colonnes initiales de statistiques pour éviter les fuites de données (data leakage)
     df.drop(stat_columns, axis=1, inplace=True, errors='ignore')
-
+    """
+    
     # Réorganisation finale du DataFrame
     df = df.sort_values(by=['Saison', 'Team', 'DateTime']).reset_index(drop=True)
     
 
     return df
 
+
+
+def affichage_colonne_stockage(df):
+
+    # Réorganisez les colonnes dans le DataFrame
+    colonnes_a_afficher_en_premier = ["DateTime", "Comp", "Round", "Day", "Venue", "Team", "Classement_Lag1",  
+                                  "Predicted_Result", "Opponent"]
+    # Réorganisez les colonnes dans le DataFrame
+    #df = df[colonnes_a_afficher_en_premier + [col for col in df.columns if col not in colonnes_a_afficher_en_premier]]
+   
+    nouvelles_colonnes = colonnes_a_afficher_en_premier + [col for col in df.columns if col not in colonnes_a_afficher_en_premier]
+    df = df[nouvelles_colonnes]
+
+    return df
