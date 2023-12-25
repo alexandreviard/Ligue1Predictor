@@ -23,6 +23,7 @@ def update_data():
     base_updated = add_new_matches(base_initiale=base_actuelle, base_nouvelle=base_supplémentaire)
 
     base_updated.to_csv("/home/onyxia/work/Projet-python/Fbref_alex/SOCCER_241223.csv")
+    
     recup_matchweek = data[1]
 
     recup_matchweek.to_csv("/home/onyxia/work/Projet-python/Fbref_alex/recup_matchweek.csv")
