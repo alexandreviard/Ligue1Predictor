@@ -15,6 +15,7 @@ import seaborn as sns
 from bs4 import BeautifulSoup
 import requests
 import re
+import os
 from IPython.display import display
 
 
@@ -190,12 +191,7 @@ def fonction_pred(df_train):
 
     dataframe_regression['Classement Equipe 1'] = 1/dataframe_regression['Classement Equipe 1']
     dataframe_regression['Classement Equipe 2'] = 1/dataframe_regression['Classement Equipe 2']
-    dataframe_regression[['BM Equipe 1 à D si D', 'BM Equipe 1 à E si E', 'BE Equipe 1 à D si D', 'BE Equipe 1 à E si E', 'BM Equipe 2 à D si D',
-                        'BM Equipe 2 à E si E', 'BE Equipe 2 à D si D', 'BE Equipe 2 à E si E']] = dataframe_regression.apply(
-            lambda row: [row['Equipe 1 à Domicile'] * row['Moyenne_BM par 1 à Domicile'], (1 - row['Equipe 1 à Domicile']) * row['Moyenne_BM par 1 à Extérieur'], 
-                        row['Equipe 1 à Domicile'] * row['Moyenne_BE par 1 à Domicile'], (1 - row['Equipe 1 à Domicile']) * row['Moyenne_BE par 1 à Extérieur'],
-                        (1-row['Equipe 1 à Domicile']) * row['Moyenne_BM par 2 à Domicile'], (row['Equipe 1 à Domicile']) * row['Moyenne_BM par 2 à Extérieur'], 
-                        (1-row['Equipe 1 à Domicile']) * row['Moyenne_BE par 1 à Domicile'], (row['Equipe 1 à Domicile']) * row['Moyenne_BE par 1 à Extérieur']], axis=1, result_type='expand')
+
 
     X_train = dataframe_regression.drop(['Equipe 1', 'Equipe 2', 'Saison', 'Journée', 'Buts Equipe 1', 'Buts Equipe 2', 'Résultat'], axis=1)
     X_train['poids'] = np.where(dataframe_regression['Journée'] > 15, 2, 1)
@@ -206,9 +202,6 @@ def fonction_pred(df_train):
     Y_train2 = dataframe_regression["Résultat"]
 
 
-    random_forest_model = RandomForestClassifier(n_estimators=1000, random_state=5)
-    random_forest_model.fit(X_train, Y_train2)
-
     random_forest_model2 = RandomForestClassifier(n_estimators=1000, random_state=5)
     random_forest_model2.fit(X_train, Y_train)
 
@@ -218,7 +211,45 @@ def fonction_pred(df_train):
     model2 = sm.WLS(Y_train2.astype(float), X_train1.astype(float), weights = weights_train)
     results2 = model2.fit()
 
-    svm_model = svm.SVC(kernel='rbf', C=50, random_state=42)
-    svm_model.fit(X_train, Y_train2)
     
-    return random_forest_model, random_forest_model2, model1, model2, svm_model
+    return random_forest_model2, model1, model2, 
+
+
+def trouver_chemins_images_avec_mot_cle(dossier, mot_cle):
+    chemins_images = []
+
+    fichiers = os.listdir(dossier)
+
+    for fichier in fichiers:
+        chemin_fichier = os.path.join(dossier, fichier)
+
+        if os.path.isfile(chemin_fichier) and fichier.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):
+            
+            if mot_cle.lower() in fichier.lower():
+                chemins_images.append(chemin_fichier)
+                print(f"Chemin de l'image trouvée : {chemin_fichier}")
+    return chemins_images[0]
+
+def fonction_tableau_stats(df, first, equipe, venue):
+    if venue == 'Domicile':
+        noms_colonnes = ['Classement', 'Moyenne buts marqués', 'Moyenne buts marqués à Domicile', 'Moyenne buts encaissés', 'Moyenne buts encaissés à Domicile', 'Forme']
+        columns_to_round = ['Moyenne_BM par 1', 'Moyenne_BM par 1 à Domicile', 'Moyenne_BE par 1', 'Moyenne_BE par 1 à Domicile']
+        df_match = df[((df['Equipe 1'] == equipe) & (df['Journée'] == first))][['Classement Equipe 1', 'Moyenne_BM par 1','Moyenne_BE par 1', 'Moyenne_BM par 1 à Domicile', 'Moyenne_BE par 1 à Domicile']].reset_index(drop=True)
+    else:
+        noms_colonnes = ['Classement', 'Moyenne buts marqués', 'Moyenne buts marqués à Extérieur', 'Moyenne buts encaissés', 'Moyenne buts encaissés à Extérieur', 'Forme']
+        columns_to_round = ['Moyenne_BM par 1', 'Moyenne_BM par 1 à Extérieur', 'Moyenne_BE par 1', 'Moyenne_BE par 1 à Extérieur']
+        df_match = df[((df['Equipe 1'] == equipe) & (df['Journée'] == first))][['Classement Equipe 1', 'Moyenne_BM par 1','Moyenne_BE par 1', 'Moyenne_BM par 1 à Extérieur', 'Moyenne_BE par 1 à Extérieur']].reset_index(drop=True)
+
+    
+    df_match[columns_to_round] = df_match[columns_to_round].round(2)
+    df['Résultat'] = df['Résultat'].replace({-1: 'D', 0: 'N', 1: 'V'})
+    df_match['Forme'] = ''.join(
+        str(df[((df['Equipe 1'] == equipe) & (df['Journée'] == first - i))]['Résultat'].iloc[0])
+        for i in range(1, 6)
+)
+    df_match.columns = noms_colonnes
+    return df_match
+
+
+
+
