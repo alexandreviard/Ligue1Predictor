@@ -439,9 +439,9 @@ def modelisation(df, cutoff_date):
 
     # Séparation des données
     X_train = X[df['DateTime'] <= cutoff_date].dropna()
-    y_train = X_train[df['DateTime'] <= cutoff_date]["Result"]
+    y_train = X_train["Result"]
     X_train.drop(columns=['Result', 'DateTime'], errors='ignore', inplace=True)
-    X_test = X[df['DateTime'] > cutoff_date].drop(columns=['Result', 'DateTime'], errors='ignore')
+    X_test = X[df['DateTime'] > cutoff_date].drop(columns=['Result', 'DateTime'], errors='ignore').dropna(subset=[col for col in df.columns if col.endswith(('Lag1_Home', 'Lag1_Away', 'Lag_Home', 'Lag_Away'))])
 
 
     # Suréchantillonnage pour équilibrer toutes les classes

@@ -164,7 +164,7 @@ def preparation_model(df):
     df.sort_values(by=['Saison', 'Round', 'Points_Cum', 'GD_Cum'], ascending=[True, True, False, False], inplace=True)
 
     # Décalage des statistiques de victoires, nuls et défaites
-    df[['CumulativeWins_Lag1', 'CumulativeDraws_Lag1', 'CumulativeLosses_Lag1']] = df.groupby('MatchID')[['CumulativeWins', 'CumulativeDraws', 'CumulativeLosses']].shift(1)
+    df[['CumulativeWins_Lag1', 'CumulativeDraws_Lag1', 'CumulativeLosses_Lag1']] = df.groupby('MatchID')[['CumulativeWins', 'CumulativeDraws', 'CumulativeLosses']].shift(1).fillna(0)
 
     # Liste des colonnes de statistiques pour calculer les moyennes mobiles décalées
     stat_columns = [
@@ -439,9 +439,9 @@ def modelisation(df, cutoff_date):
 
     # Séparation des données
     X_train = X[df['DateTime'] <= cutoff_date].dropna()
-    y_train = X_train[df['DateTime'] <= cutoff_date]["Result"]
+    y_train = X_train["Result"]
     X_train.drop(columns=['Result', 'DateTime'], errors='ignore', inplace=True)
-    X_test = X[df['DateTime'] > cutoff_date].drop(columns=['Result', 'DateTime'], errors='ignore')
+    X_test = X[df['DateTime'] > cutoff_date].drop(columns=['Result', 'DateTime'], errors='ignore').dropna(subset=[col for col in df.columns if col.endswith(('Lag1_Home', 'Lag1_Away', 'Lag_Home', 'Lag_Away'))])
 
 
     # Suréchantillonnage pour équilibrer toutes les classes
@@ -461,4 +461,4 @@ def modelisation(df, cutoff_date):
     df.loc[X_test.index, 'Predicted_Result'] = y_pred
     df.loc[X_test.index, 'Prediction_Probability'] = max_proba
 
-    return df[["DateTime", "Comp", "Saison", "Round", "Day","Team Home", "Team Away", "Result", 'Predicted_Result', "Prediction_Probability"]][df['Predicted_Result'].notnull()]
+    return df[["DateTime", "Comp", "Saison", "Round", "Day","Team Home", "Team Away", "Result", 'Predicted_Result', "Prediction_Probability", "MatchID"]][df['Predicted_Result'].notnull()]
