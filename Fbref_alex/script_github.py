@@ -26,4 +26,6 @@ def update_data():
     recup_matchweek.to_csv("Fbref_alex/recup_matchweek.csv")
 
     return
+
+    
 update_data()

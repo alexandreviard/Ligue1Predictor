@@ -128,6 +128,11 @@ def affichage_colonne(df):
 #outcome_cols = ['IsWin', 'IsDraw', 'IsLoss']
 #lag_cols = ['Points_Cum', 'GD_Cum', 'GF_Cum', 'GA_Cum']
 
+def variables_pertinentes(df):
+    {'Standard_Sh': 'Total_shots',
+     'Standard_SoT': "Shots_on_target",
+     'Standard_SoT%' : 'SoT%'
+      'Standar'}
 
 
 def preparation_model(df):
@@ -189,5 +194,149 @@ def affichage_colonne_stockage(df):
    
     nouvelles_colonnes = colonnes_a_afficher_en_premier + [col for col in df.columns if col not in colonnes_a_afficher_en_premier]
     df = df[nouvelles_colonnes]
+
+    return df
+
+
+
+def renommer_colonnes(df):
+    
+    precise_renaming_dict = {
+        # General match information
+        #'GF': 'Goals For',
+        #'GA': 'Goals Against',
+        
+        # Standard stats
+        'Standard_Gls': 'Goals Scored',
+        'Standard_Sh': 'Total Shots',
+        'Standard_SoT': 'Shots on Target',
+        'Standard_SoT%': 'Shots on Target %',
+        'Standard_G/Sh': 'Goals per Shot',
+        'Standard_G/SoT': 'Goals per Shot on Target',
+        'Standard_Dist': 'Average Shot Distance',
+        'Standard_FK': 'Free Kicks Taken',
+        'Standard_PK': 'Penalty Kicks Scored',
+  
+        # Expected stats
+        'Expected_xG': 'Expected Goals',
+        'Expected_npxG': 'Non-Penalty Expected Goals',
+        'Expected_npxG/Sh': 'Non-Penalty Expected Goals per Shot',
+        'Expected_G-xG': 'Goal Difference vs Expected Goals',
+        'Expected_np:G-xG': 'Non-Penalty Goal Difference vs Expected Goals',
+
+        # Touches
+        'Touches_Touches': 'Total Touches',
+        'Touches_Def Pen': 'Touches in Defensive Penalty Area',
+        'Touches_Def 3rd': 'Touches in Defensive Third',
+        'Touches_Mid 3rd': 'Touches in Midfield Third',
+        'Touches_Att 3rd': 'Touches in Attacking Third',
+        'Touches_Att Pen': 'Touches in Attacking Penalty Area',
+
+        # Take-Ons (Dribbles)
+        'Take-Ons_Att': 'Dribbles Attempted',
+        'Take-Ons_Succ': 'Successful Dribbles',
+        'Take-Ons_Succ%': 'Successful Dribble %',
+        'Take-Ons_Tkld': 'Dribbles Tackled',
+        'Take-Ons_Tkld%': 'Dribble Tackle %',
+
+        # Carries = "Contrôle de balle au pied"
+        'Carries_Carries': 'Total Carries',
+        'Carries_TotDist': 'Total Carry Distance',
+        'Carries_PrgDist': 'Progressive Carry Distance', #towards opponent goal
+        'Carries_PrgC': 'Progressive Carries', #10 yards from its furthest point towards opponent goal
+        'Carries_1/3': 'Carries into Final Third',
+        'Carries_CPA': 'Carries into Penalty Area',
+        'Carries_Mis': 'Carries Miscontrolled',
+        'Carries_Dis': 'Carries Dispossessed',
+
+
+        # Defensive Actions
+        'Tackles_Tkl': 'Tackles',
+        'Tackles_TklW': 'Tackles Won',
+        'Tackles_Def 3rd': 'Tackles in Defensive Third',
+        'Tackles_Mid 3rd': 'Tackles in Midfield Third',
+        'Tackles_Att 3rd': 'Tackles in Attacking Third',
+        'Challenges_Tkl': 'Dribblers Tackled',
+        'Challenges_Att': 'Total Dribbles Against',
+        'Challenges_Tkl%': 'Defensive Dribblers Win %',
+        'Challenges_Lost': 'Defensive Challenges Lost',
+        'Blocks_Blocks': 'Total Blocks',
+        'Blocks_Sh': 'Shot Blocks',
+        'Blocks_Pass': 'Pass Blocks',
+        'Int': 'Interceptions',
+        'Tkl+Int': 'Tackles Plus Interceptions',
+        'Clr': 'Clearances',
+        'Err': 'Errors Leading to Goal',
+
+        # Passing
+        'Total_Cmp': 'Passes Completed',
+        'Total_Att': 'Passes Attempted',
+        'Total_Cmp%': 'Pass Completion %',
+        'Total_TotDist': 'Total Pass Distance',
+        'Total_PrgDist': 'Progressive Pass Distance', #towards opponent goal
+        'Short_Cmp': 'Short Passes Completed',
+        'Short_Att': 'Short Passes Attempted',
+        'Short_Cmp%': 'Short Pass Completion %',
+        'Medium_Cmp': 'Medium Passes Completed',
+        'Medium_Att': 'Medium Passes Attempted',
+        'Medium_Cmp%': 'Medium Pass Completion %',
+        'Long_Cmp': 'Long Passes Completed',
+        'Long_Att': 'Long Passes Attempted',
+        'Long_Cmp%': 'Long Pass Completion %',
+
+        # Creative Play
+        'Ast': 'Assists',
+        'xAG': 'Expected Assists Goals',
+        'xA': 'Expected Assists',
+        'KP': 'Key Passes',
+        '1/3': 'Passes into Final Third',
+        'PPA': 'Passes into Penalty Area',
+        'CrsPA': 'Crosses into Penalty Area',
+        'PrgP': 'Progressive Passes', #pass that move forward from the furthest point (at leats 10 yards)
+
+        # Goalkeeping
+        'Performance_SoTA': 'Shots on Target Against',
+        'Performance_Saves': 'Keeper Saves',
+        'Performance_Save%': 'Keeper Save Percentage',
+        'Performance_CS': 'Clean Sheets', #0 ou 1
+
+        # Penalty Kicks
+        'Penalty Kicks_PKA': 'Penalty Kicks Against',
+        'Penalty Kicks_PKsv': 'Penalty Kicks Against Saved',
+        'Penalty Kicks_PKm': 'Penalty Kicks Against Missed',}
+
+    # Renommer les colonnes selon le dictionnaire
+    df.rename(columns=precise_renaming_dict, inplace=True)
+
+    # Liste des colonnes à supprimer
+    columns_to_drop = [
+        "Launched_Cmp", 
+        "Launched_Att", 
+        "Launched_Cmp%", 
+        "Passes_Att (GK)", 
+        "Passes_Thr", 
+        "Passes_Launch%", 
+        "Passes_AvgLen", 
+        "Goal Kicks_Att", 
+        "Goal Kicks_Launch%", 
+        "Goal Kicks_AvgLen", 
+        "Crosses_Opp", 
+        "Crosses_Stp", 
+        "Crosses_Stp%", 
+        "Sweeper_#OPA", 
+        "Sweeper_AvgDist",
+        "Penalty Kicks_PKatt",
+        "Performance_GA",
+        "Performance_PSxG",
+        "Performance_PSxG+/-",
+        "Receiving_Rec",
+        "Touches_Live",
+        "Standard_PKatt",
+        "Receiving_PrgR"
+        # Ajoutez d'autres noms de colonnes ici si nécessaire
+    ]
+    
+    # Supprimer les colonnes non nécessaires
+    df.drop(columns=columns_to_drop, inplace=True)
 
     return df
