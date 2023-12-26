@@ -461,4 +461,4 @@ def modelisation(df, cutoff_date):
     df.loc[X_test.index, 'Predicted_Result'] = y_pred
     df.loc[X_test.index, 'Prediction_Probability'] = max_proba
 
-    return df[["DateTime", "Comp", "Saison", "Round", "Day","Team Home", "Team Away", "Result", 'Predicted_Result', "Prediction_Probability", "MatchID"]][df['Predicted_Result'].notnull()]
+    return df[["DateTime", "Comp", "Saison", "Round", "Day","Team Home", "Team Away", "Result", 'Predicted_Result', "Prediction_Probability"]][df['Predicted_Result'].notnull()]

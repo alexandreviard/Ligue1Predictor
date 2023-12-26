@@ -14,22 +14,6 @@ mapping_equipe = {
         'Saint Etienne': 'Saint-Étienne'
     }
 
-def update_data():
-
-    base_actuelle = pd.read_csv("/home/onyxia/work/Projet-python/Fbref_alex/SOCCER_241223.csv")
-    data = scrape_latest_ligue1_data()
-    base_supplémentaire = data[0]
-
-    base_updated = add_new_matches(base_initiale=base_actuelle, base_nouvelle=base_supplémentaire)
-
-    base_updated.to_csv("/home/onyxia/work/Projet-python/Fbref_alex/SOCCER_241223.csv")
-
-    recup_matchweek = data[1]
-
-    recup_matchweek.to_csv("/home/onyxia/work/Projet-python/Fbref_alex/recup_matchweek.csv")
-
-    return
-
 def automatisation():
 
     a = pd.read_csv("/home/onyxia/work/Projet-python/Fbref_alex/recup_matchweek.csv", index_col=0)
@@ -112,9 +96,11 @@ def find_futur_matchweeks(df, mapping_equipe):
 
     # Filtrer pour garder seulement les matchs programmés dans les 10 jours suivant la 'premiere_date_proche'.
     df = df[df['DateTime'] <= dix_jours]
-
-    return df
-
+    
+    if df.isnull().values.any():
+            return None
+        else:
+            return df
 
 def preparation_modelisation(matchweeks, base_initial, mapping_equipe):
 

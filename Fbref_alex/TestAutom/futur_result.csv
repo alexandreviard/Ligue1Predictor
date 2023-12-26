@@ -1,0 +1,10 @@
+,DateTime,Comp,Saison,Round,Day,Team Home,Team Away,Result,Predicted_Result,Prediction_Probability
+1807,2024-01-14 15:00:00,Ligue 1,2023-2024,18,Sun,Brest,Montpellier,,W_Home,0.56
+1825,2024-01-14 17:05:00,Ligue 1,2023-2024,18,Sun,Le Havre,Lyon,,W_Away,0.48
+1834,2024-01-14 20:45:00,Ligue 1,2023-2024,18,Sun,Lens,Paris Saint Germain,,W_Home,0.39
+1843,2024-01-14 13:00:00,Ligue 1,2023-2024,18,Sun,Lille,Lorient,,W_Home,0.62
+1870,2024-01-12 21:00:00,Ligue 1,2023-2024,18,Fri,Marseille,Strasbourg,,W_Home,0.44
+1879,2024-01-14 15:00:00,Ligue 1,2023-2024,18,Sun,Metz,Toulouse,,W_Away,0.43
+1888,2024-01-13 17:00:00,Ligue 1,2023-2024,18,Sat,Monaco,Reims,,W_Home,0.62
+1907,2024-01-14 15:00:00,Ligue 1,2023-2024,18,Sun,Nantes,Clermont Foot,,W_Home,0.43
+1943,2024-01-13 21:00:00,Ligue 1,2023-2024,18,Sat,Rennes,Nice,,W_Away,0.37
