@@ -159,7 +159,7 @@ def preparation_model(df):
     # Créer les variables de décalage
     df[['CumulativeWins_Lag1', 'CumulativeDraws_Lag1', 'CumulativeLosses_Lag1']] = df.groupby('MatchID')[['CumulativeWins', 'CumulativeDraws', 'CumulativeLosses']].shift(1)
 
-    """
+
     # 3. Liste des colonnes de statistiques pour lesquelles calculer les moyennes mobiles décalées
     stat_columns = [
         col for col in df.columns 
@@ -174,7 +174,7 @@ def preparation_model(df):
 
     # Suppression des colonnes initiales de statistiques pour éviter les fuites de données (data leakage)
     df.drop(stat_columns, axis=1, inplace=True, errors='ignore')
-    """
+
     
     # Réorganisation finale du DataFrame
     df = df.sort_values(by=['Saison', 'Team', 'DateTime']).reset_index(drop=True)
