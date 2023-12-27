@@ -1,8 +1,13 @@
 import pandas as pd
 import time
-from datetime import datetime
+from imblearn.over_sampling import RandomOverSampler
+from sklearn.model_selection import train_test_split 
+from sklearn.ensemble import RandomForestClassifier  
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix 
+import numpy as np
+from datetime import datetime, timedelta
 
-def preprocess_intitial(df, mapping_equipe):
+def preprocess_initial(df, mapping_equipe):
     """
     Cette fonction effectue plusieurs opérations de prétraitement sur nos données footballistiques scrappées.
     
@@ -11,9 +16,12 @@ def preprocess_intitial(df, mapping_equipe):
     """
 
     # Conversion et nettoyage des colonnes 'Date' et 'Time' en une seule colonne
-    df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
-    df.drop(["Date", "Time"], axis=1, inplace=True)
-    df = df[['DateTime'] + [col for col in df if col != 'DateTime']]
+    if 'DateTime' in df.columns:
+        df['DateTime'] = pd.to_datetime(df['DateTime'])
+    elif all(col in df.columns for col in ["Date", "Time"]):
+        df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
+        df.drop(["Date", "Time"], axis=1, inplace=True)
+        df = df[['DateTime'] + [col for col in df.columns if col != 'DateTime']]
 
     # Normalisation des noms des équipes pour qu'il n'y est pas de noms de mêmes équipes différentes
     df['Opponent'] = df['Opponent'].map(mapping_equipe).fillna(df['Opponent'])
@@ -23,7 +31,12 @@ def preprocess_intitial(df, mapping_equipe):
     df = df[df["Comp"] == "Ligue 1"]
 
     # Extraire uniquement le numéro de chaque journée (en ligue 1 il y'a 38 journées par an, ici on ne garde que le numéro)
-    df['Round'] = df['Round'].str.extract(r'(\d+)').astype(int)
+    try:
+        df['Round'] = df['Round'].str.extract(r'(\d+)').astype(int)
+    except AttributeError:
+        pass  # La colonne 'Round' n'était pas de type chaîne de caractères, aucune modification nécessaire
+    except KeyError:
+        pass  # La colonne 'Round' n'existe pas, pas de modification nécessaire
 
     # Création d'une colonne "Saison" qui nous permettra de facilement accéder au matchs d'une année partiulière
     df['Saison'] = df['DateTime'].apply(lambda x: f"{x.year}-{x.year + 1}" if x.month >= 8 else f"{x.year - 1}-{x.year}")
@@ -83,17 +96,6 @@ def preprocess_variables(df):
     df.sort_values(by=['Saison', 'Round', 'Points_Cum', 'GD_Cum'], ascending=[True, True, False, False], inplace=True)
     df['Classement'] = df.groupby(['Saison', 'Round']).cumcount() + 1
 
-    """ # Application des décalages (lags)
-    df[[f'{col}_Lag1' for col in lag_cols]] = df.groupby(['Saison', 'Team'])[lag_cols].shift(1)
-
-
-    # Calcul des moyennes roulantes
-    for col in mean_cols:
-        df[f'Moyenne_{col}'] = df.groupby(['Saison', 'Team'])[col].transform(lambda x: x.shift(1).expanding().mean())
-    """
-
-    # Création d'un identifiant unique pour analyser les dernières rencontres entre deux équipes
-
     outcome_cols = ['IsWin', 'IsDraw', 'IsLoss']
     df['Past_Matches'] = df.groupby('MatchID').cumcount()
     df['IsWin'] = df['Result'].apply(lambda x: 1 if x == 'W' else 0)
@@ -107,6 +109,7 @@ def preprocess_variables(df):
     df.sort_values(by=['Saison', 'Team', 'DateTime'], inplace=True)
 
     return df
+
 
 def affichage_colonne(df):
 
@@ -122,63 +125,56 @@ def affichage_colonne(df):
     df = df[nouvelles_colonnes]
 
     return df
-
-
-#mean_cols = ['Standard_SoT%', 'Total_Cmp%', 'Poss_x', 'Touches_Def Pen', 'Touches_Def 3rd']
-#outcome_cols = ['IsWin', 'IsDraw', 'IsLoss']
-#lag_cols = ['Points_Cum', 'GD_Cum', 'GF_Cum', 'GA_Cum']
-
-def variables_pertinentes(df):
-    {'Standard_Sh': 'Total_shots',
-     'Standard_SoT': "Shots_on_target",
-     'Standard_SoT%' : 'SoT%'
-      'Standar'}
+    
 
 
 def preparation_model(df):
-
-    """ Une fois le preprocess utilisé sur la base, on prépare la base pour modéliser de la prédiction
-    pour cela on créer des variables laggés, des variables par saisons, et des variables dont on aurait accès avant un match
+    """
+    Prépare les données pour la modélisation en ajoutant des variables dérivées :
+    - Variables lagged (décalées) : Points, différence de buts, buts pour et contre
+    - Classement et statistiques cumulatives des dernières rencontres entre équipes
+    - Moyennes mobiles décalées pour diverses statistiques de match
+    Ensuite, les données sont réorganisées et les colonnes non nécessaires sont supprimées pour éviter la fuite de données.
     """
 
-    # 0. Préparation pour le calcul cumulatif
+    # Tri initial par saison, round et équipe
     df.sort_values(by=['Saison', 'Round', 'Team'], inplace=True)
     df.reset_index(drop=True, inplace=True)
 
-    # 1. Application des décalages (lags) sur les variables principales
-
+    # Création de variables décalées pour les statistiques cumulatives
     lag_cols = ['Points_Cum', 'GD_Cum', 'GF_Cum', 'GA_Cum']
     df[[f'{col}_Lag1' for col in lag_cols]] = df.groupby(['Saison', 'Team'])[lag_cols].shift(1)
-    
-    # 2. Création du classement et des cumulatives laggés des dernières rencontres entre les deux équipes
+
+    # Décalage du classement pour chaque équipe
     df['Classement_Lag1'] = df.groupby(['Team'])['Classement'].shift(1)
 
-    # Trier le DataFrame
+    # Tri par points et différence de buts cumulés
     df.sort_values(by=['Saison', 'Round', 'Points_Cum', 'GD_Cum'], ascending=[True, True, False, False], inplace=True)
 
-    # Créer les variables de décalage
+    # Décalage des statistiques de victoires, nuls et défaites
     df[['CumulativeWins_Lag1', 'CumulativeDraws_Lag1', 'CumulativeLosses_Lag1']] = df.groupby('MatchID')[['CumulativeWins', 'CumulativeDraws', 'CumulativeLosses']].shift(1)
 
-
-    # 3. Liste des colonnes de statistiques pour lesquelles calculer les moyennes mobiles décalées
+    # Liste des colonnes de statistiques pour calculer les moyennes mobiles décalées
     stat_columns = [
-        col for col in df.columns 
-        if col.startswith(('Standard_', 'Expected_', 'Poss_', 'Touches_', 'Take-Ons_', 'Carries_', 
-                       'Receiving_', 'Tackles_', 'Challenges_', 'Blocks_', 'Total_', 'Short_', 
-                       'Medium_', 'Long_', 'Performance_', 'Penalty Kicks_', 'Launched_', 
-                       'Passes_', 'Goal Kicks_', 'Crosses_', 'Sweeper_'))
-    ]
+        "Total Shots", "Shots on Target", "Shots on Target %", "Goals per Shot", "Total Touches", 
+        "Touches in Defensive Penalty Area", "Touches in Defensive Third", "Touches in Midfield Third", 
+        "Touches in Attacking Third", "Touches in Attacking Penalty Area", "Dribbles Attempted", 
+        "Successful Dribbles", "Successful Dribble %", "Total Carries", "Total Carry Distance", 
+        "Progressive Carry Distance", "Progressive Carries", "Carries into Final Third", 
+        "Carries into Penalty Area", "Tackles", "Tackles Won", "Tackles in Defensive Third", 
+        "Tackles in Midfield Third", "Tackles in Attacking Third", "Dribblers Tackled", 
+        "Total Dribbles Against", "Defensive Dribblers Win %", "Interceptions", "Errors Leading to Goal", 
+        "Key Passes", "Passes Completed", "Passes Attempted", "Passes into Final Third", 
+        "Progressive Passes", "Shots on Target Against", "Keeper Saves", "Keeper Save Percentage"]
 
     for col in stat_columns:
         df[f'Moyenne_{col}_Lag'] = df.groupby(['Saison', 'Team'])[col].transform(lambda x: x.shift(1).expanding().mean())
 
-    # Suppression des colonnes initiales de statistiques pour éviter les fuites de données (data leakage)
-    df.drop(stat_columns, axis=1, inplace=True, errors='ignore')
+    # Suppression des colonnes initiales pour éviter les fuites de données
+    df.drop(stat_columns + lag_cols + ['Classement', 'CumulativeWins', 'CumulativeDraws', 'CumulativeLosses'], axis=1, inplace=True, errors='ignore')
 
-    
-    # Réorganisation finale du DataFrame
+    # Réorganisation finale par saison, équipe et date
     df = df.sort_values(by=['Saison', 'Team', 'DateTime']).reset_index(drop=True)
-    
 
     return df
 
@@ -207,7 +203,7 @@ def renommer_colonnes(df):
         #'GA': 'Goals Against',
         
         # Standard stats
-        'Standard_Gls': 'Goals Scored',
+
         'Standard_Sh': 'Total Shots',
         'Standard_SoT': 'Shots on Target',
         'Standard_SoT%': 'Shots on Target %',
@@ -305,11 +301,15 @@ def renommer_colonnes(df):
         'Penalty Kicks_PKsv': 'Penalty Kicks Against Saved',
         'Penalty Kicks_PKm': 'Penalty Kicks Against Missed',}
 
-    # Renommer les colonnes selon le dictionnaire
-    df.rename(columns=precise_renaming_dict, inplace=True)
+    # Renommer les colonnes selon le dictionnaire, en tenant compte de celles qui existent
+    for old_col, new_col in precise_renaming_dict.items():
+        if old_col in df.columns:
+            df.rename(columns={old_col: new_col}, inplace=True)
+
 
     # Liste des colonnes à supprimer
     columns_to_drop = [
+        "Standard_Gls",
         "Launched_Cmp", 
         "Launched_Att", 
         "Launched_Cmp%", 
@@ -336,7 +336,155 @@ def renommer_colonnes(df):
         # Ajoutez d'autres noms de colonnes ici si nécessaire
     ]
     
-    # Supprimer les colonnes non nécessaires
-    df.drop(columns=columns_to_drop, inplace=True)
+    # Supprimer les colonnes non nécessaires, en vérifiant leur existence
+    columns_to_drop_existing = [col for col in columns_to_drop if col in df.columns]
+    df.drop(columns=columns_to_drop_existing, inplace=True)
 
     return df
+
+def columns_to_keep(df):
+    # Liste des colonnes à garder
+    columns_to_keep = [
+        "DateTime", "Comp", "Round", "Day", "Venue", "Result", "GF", "GA", "Opponent","MatchID","Saison", 
+        "Attendance", "Captain", "Formation", "Referee", "Match Report", "Notes", "Team", 
+        "Total Shots", "Shots on Target", "Shots on Target %", "Goals per Shot", "Total Touches", 
+        "Touches in Defensive Penalty Area", "Touches in Defensive Third", "Touches in Midfield Third", 
+        "Touches in Attacking Third", "Touches in Attacking Penalty Area", "Dribbles Attempted", 
+        "Successful Dribbles", "Successful Dribble %", "Total Carries", "Total Carry Distance", 
+        "Progressive Carry Distance", "Progressive Carries", "Carries into Final Third", 
+        "Carries into Penalty Area", "Tackles", "Tackles Won", "Tackles in Defensive Third", 
+        "Tackles in Midfield Third", "Tackles in Attacking Third", "Dribblers Tackled", 
+        "Total Dribbles Against", "Defensive Dribblers Win %", "Interceptions", "Errors Leading to Goal", 
+        "Key Passes", "Passes Completed", "Passes Attempted", "Passes into Final Third", 
+        "Progressive Passes", "Shots on Target Against", "Keeper Saves", "Keeper Save Percentage"
+    ]
+    
+    # Créer une liste des colonnes à garder qui existent réellement dans le DataFrame
+    columns_to_keep_existing = [col for col in columns_to_keep if col in df.columns]
+    
+    # Sélectionner uniquement les colonnes existantes dans le DataFrame
+    df = df[columns_to_keep_existing]
+
+    return df
+
+
+def preprocess_data(df):
+
+    # Fonction pour créer le MatchID
+    def create_match_id(row):
+        teams = sorted([row['Team'], row['Opponent']])
+        return f"{row['DateTime']}-{teams[0]}-vs-{teams[1]}"
+    
+    # Ajout de la colonne MatchID
+    df['MatchID'] = df.apply(create_match_id, axis=1)
+
+    # Colonnes qui doivent rester inchangées (sans suffixes)
+    colonnes_fixes = ['DateTime', 'Comp', 'Round', 'Day', 'MatchID', 'Saison', 'Referee', 'Match Report', 'Notes']
+
+    # Identification des colonnes variables (en excluant les colonnes fixes)
+    colonnes_variables = [col for col in df.columns if col not in colonnes_fixes]
+
+    # Séparation du dataframe en domicile et à l'extérieur
+    df_domicile = df[df['Venue'] == 'Home'].copy()
+    df_exterieur = df[df['Venue'] == 'Away'].copy()
+
+    # Ajout de suffixes aux colonnes variables
+    df_domicile = df_domicile.rename(columns={col: col + '_Home' for col in colonnes_variables})
+    df_exterieur = df_exterieur.rename(columns={col: col + '_Away' for col in colonnes_variables})
+
+
+    # Définition de la fonction determine_result
+    def determine_result(row):
+        if row['Result_Home'] == 'W':
+            return 'W_Home'
+        elif row['Result_Away'] == 'W':
+            return 'W_Away'
+        elif row['Result_Away'] == 'D':
+            return 'D'
+        else:
+            return np.nan
+
+    # Appliquer la fonction determine_result à chaque ligne de merged_df
+
+    merged_df = pd.merge(df_domicile, df_exterieur, on=colonnes_fixes, how='inner')
+    merged_df['Result'] = merged_df.apply(determine_result, axis=1)
+    merged_df.rename(columns = {"Team_Home" : "Team Home", "Team_Away": "Team Away"}, inplace=True)
+
+    return merged_df
+
+
+
+
+
+
+
+def modelisation(df, cutoff_date):
+    
+    selected_columns = ["Result", "DateTime"] + [col for col in df.columns if col.endswith(('Lag1_Home', 'Lag1_Away', 'Lag_Home', 'Lag_Away'))]
+
+    X = df[selected_columns].copy() 
+    X["Result"] = X['Result'].astype('category')
+
+    # Séparation des données
+    X_train = X[df['DateTime'] <= cutoff_date].dropna()
+    y_train = X_train["Result"]
+    X_train.drop(columns=['Result', 'DateTime'], errors='ignore', inplace=True)
+    X_test = X[df['DateTime'] > cutoff_date].drop(columns=['Result', 'DateTime'], errors='ignore').dropna(subset=[col for col in df.columns if col.endswith(('Lag1_Home', 'Lag1_Away', 'Lag_Home', 'Lag_Away'))])
+
+
+    # Suréchantillonnage pour équilibrer toutes les classes
+    oversampler = RandomOverSampler(sampling_strategy='all', random_state=5)
+    X_train_resampled, y_train_resampled = oversampler.fit_resample(X_train, y_train)
+
+    # Création et entraînement du modèle
+    base_rf = RandomForestClassifier(random_state=42)
+    base_rf.fit(X_train_resampled, y_train_resampled)
+
+    # Prédiction et probabilités sur l'ensemble de test
+    y_pred = base_rf.predict(X_test)
+    y_pred_proba = base_rf.predict_proba(X_test)
+    max_proba = np.max(y_pred_proba, axis=1)
+
+    # Ajouter les prédictions et les probabilités au DataFrame
+    df.loc[X_test.index, 'Predicted_Result'] = y_pred
+    df.loc[X_test.index, 'Prediction_Probability'] = max_proba
+
+    return df[["DateTime", "Comp", "Saison", "Round", "Day","Team Home", "Team Away", "Result", 'Predicted_Result', "Prediction_Probability", "MatchID"]][df['Predicted_Result'].notnull()]
+
+
+
+def find_futur_matchweeks(df, mapping_equipe):
+
+    # Supprimer les lignes où les colonnes 'Date', 'Time' et 'Round' sont manquantes.
+    df.dropna(subset=["Date", "Time", "Round"], inplace=True)
+
+    # Prétraiter le DataFrame en utilisant la fonction 'preprocess_intitial' et le mapping des équipes.
+    df = preprocess_initial(df, mapping_equipe)
+
+    # Obtenir la date et l'heure actuelles.
+    ajd = datetime.now()
+
+    # Filtrer pour garder seulement les matchs programmés après la date et l'heure actuelles.
+    df = df[df['DateTime'] >= ajd]
+
+    # Trier le DataFrame en fonction de la colonne 'DateTime' dans l'ordre croissant.
+    df = df.sort_values(by='DateTime')
+
+    # Si le DataFrame n'est pas vide, obtenir la date du premier match à venir.
+    # Sinon, définir 'premiere_date_proche' à None.
+    if df.empty != True:
+        premiere_date_proche = df['DateTime'].iloc[0]
+    else:
+        return None
+    
+    # Calculer la date qui est 10 jours après la 'premiere_date_proche'.
+    dix_jours = timedelta(days=10) + premiere_date_proche
+
+    # Filtrer pour garder seulement les matchs programmés dans les 10 jours suivant la 'premiere_date_proche'.
+    df = df[df['DateTime'] <= dix_jours]
+
+    # Si 'premiere_date_proche' est None, retourner None.
+    if df.empty == True:
+        return None
+    else:# Retourner le DataFrame s'il n'est pas vide, sinon retourner None.
+        return df

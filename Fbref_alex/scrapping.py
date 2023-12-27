@@ -112,7 +112,7 @@ def rate_limit():
     Fonction pour limiter le taux de requêtes et éviter de surcharger le serveur.
     Utilise un délai d'attente entre les requêtes pour respecter les limitations.
     """
-    MIN_REQUEST_INTERVAL = 2.5
+    MIN_REQUEST_INTERVAL = 3
     last_request_time = getattr(rate_limit, "last_request_time", None)
     if last_request_time is not None:
         elapsed_time = time.time() - last_request_time
