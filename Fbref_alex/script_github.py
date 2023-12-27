@@ -75,4 +75,6 @@ def update_data_global():
 
     return
 
+update_data_global()
+
 
