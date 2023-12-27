@@ -45,7 +45,7 @@ def fonction_resultats(i):
     df['Journée'] = df['Journée'].astype(int)
     return df, affiches
 
-def fonction_prepa_base (dataframe_final):
+def fonction_prepa_base (dataframe_final, i):
     dataframe_final.insert(4, 'Equipe 1 à Domicile', 1)
     noms_colonnes = ['Saison', 'Journée', 'Equipe 1', 'Equipe 2', 'Equipe 1 à Domicile', 'Buts Equipe 1', 'Buts Equipe 2', 'Résultat']
     dataframe_final.columns = noms_colonnes
@@ -79,15 +79,15 @@ def fonction_prepa_base (dataframe_final):
     dataframe_final[['CPoints', 'CGD', 'CGF', 'CGA']] = result[['Points', 'GD', 'GF', 'GA']]
     dataframe_final = dataframe_final.sort_values(by=['Saison', 'Journée', 'CPoints', 'CGD', 'CGF'], ascending=[True, True, False, False, False]).reset_index()
     dataframe_final['Classement Equipe 1'] = dataframe_final.groupby(['Saison', 'Journée']).cumcount() + 1
-    dataframe_final['Classement Equipe 1'] = dataframe_final.groupby(['Saison','Equipe 1'])['Classement Equipe 1'].shift(1).astype(pd.Int64Dtype())
+    dataframe_final['Classement Equipe 1'] = dataframe_final.groupby(['Saison','Equipe 1'])['Classement Equipe 1'].shift(i).astype(pd.Int64Dtype())
     dataframe_final = dataframe_final.sort_values(by=['Saison', 'Equipe 1', 'Journée']).reset_index(drop=True).drop(['index','Points', 'GD', 'GF', 'GA','CPoints', 'CGD', 'CGF', 'CGA'], axis=1)
 
     dataframe_final['Classement Equipe 2'] = dataframe_final.merge(dataframe_final, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Classement Equipe 1_y']
-    dataframe_final['Moyenne_BM par 1'] = dataframe_final.groupby(['Saison', 'Equipe 1'])['Buts Equipe 1'].transform(lambda x: x.shift(1).expanding().mean())
+    dataframe_final['Moyenne_BM par 1'] = dataframe_final.groupby(['Saison', 'Equipe 1'])['Buts Equipe 1'].transform(lambda x: x.shift(i).expanding().mean())
     dataframe_final['Moyenne_BM par 2'] = dataframe_final.merge(dataframe_final, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Moyenne_BM par 1_y']
     dataframe_final.loc[dataframe_final['Equipe 1 à Domicile'] == 1, 'Moyenne_BM par 1 à Domicile'] = (
-        (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 1'].cumsum() - dataframe_final['Buts Equipe 1']) / 
-        (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount())
+        (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 1'].cumsum() - i*dataframe_final['Buts Equipe 1']) / 
+        (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount() +1-i)
     )
     dataframe_final.loc[dataframe_final['Equipe 1 à Domicile'] == 0, 'Moyenne_BM par 1 à Domicile'] = (
         (dataframe_final.groupby(['Saison', 'Equipe 1'])['Buts Equipe 1'].cumsum() - dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 1'].cumsum()) 
@@ -95,96 +95,44 @@ def fonction_prepa_base (dataframe_final):
     )
     dataframe_final['Moyenne_BM par 2 à Domicile'] = dataframe_final.merge(dataframe_final, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Moyenne_BM par 1 à Domicile_y']
     dataframe_final.loc[dataframe_final['Equipe 1 à Domicile'] == 0, 'Moyenne_BM par 1 à Extérieur'] = (
-        (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 1'].cumsum() - dataframe_final['Buts Equipe 1']) 
-        / (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount())
+        (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 1'].cumsum() - i*dataframe_final['Buts Equipe 1']) 
+        / (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount() +1-i)
     )
     dataframe_final.loc[dataframe_final['Equipe 1 à Domicile'] == 1, 'Moyenne_BM par 1 à Extérieur'] = (
         (dataframe_final.groupby(['Saison', 'Equipe 1'])['Buts Equipe 1'].cumsum() - dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 1'].cumsum()) 
         / (dataframe_final.groupby(['Saison', 'Equipe 1'])['Journée'].cumcount() - dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount())
     )
     dataframe_final['Moyenne_BM par 2 à Extérieur'] = dataframe_final.merge(dataframe_final, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Moyenne_BM par 1 à Extérieur_y']
-    dataframe_final['Moyenne_BE par 1'] = dataframe_final.groupby(['Saison', 'Equipe 1'])['Buts Equipe 2'].transform(lambda x: x.shift(1).expanding().mean())
+    dataframe_final['Moyenne_BE par 1'] = dataframe_final.groupby(['Saison', 'Equipe 1'])['Buts Equipe 2'].transform(lambda x: x.shift(i).expanding().mean())
     dataframe_final['Moyenne_BE par 2'] = dataframe_final.merge(dataframe_final, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Moyenne_BE par 1_y']
     dataframe_final.loc[dataframe_final['Equipe 1 à Domicile'] == 1, 'Moyenne_BE par 1 à Domicile'] = (
-        (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 2'].cumsum() - dataframe_final['Buts Equipe 2']) 
-        / (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount())
+        (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 2'].cumsum() - i*dataframe_final['Buts Equipe 2']) 
+        / (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount() + 1-i)
     )
     dataframe_final.loc[dataframe_final['Equipe 1 à Domicile'] == 0, 'Moyenne_BE par 1 à Domicile'] = (
         (dataframe_final.groupby(['Saison', 'Equipe 1'])['Buts Equipe 2'].cumsum() - dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 2'].cumsum()) 
         / (dataframe_final.groupby(['Saison', 'Equipe 1'])['Journée'].cumcount() - dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount())
     )
     dataframe_final['Moyenne_BE par 2 à Domicile'] = dataframe_final.merge(dataframe_final, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Moyenne_BE par 1 à Domicile_y']
+    
     dataframe_final.loc[dataframe_final['Equipe 1 à Domicile'] == 0, 'Moyenne_BE par 1 à Extérieur'] = (
-        (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 2'].cumsum() - dataframe_final['Buts Equipe 2']) 
-        / (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount())
+        (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 2'].cumsum() - i*dataframe_final['Buts Equipe 2']) 
+        / (dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount()+1-i)
     )
     dataframe_final.loc[dataframe_final['Equipe 1 à Domicile'] == 1, 'Moyenne_BE par 1 à Extérieur'] = (
         (dataframe_final.groupby(['Saison', 'Equipe 1'])['Buts Equipe 2'].cumsum() - dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 2'].cumsum()) 
         / (dataframe_final.groupby(['Saison', 'Equipe 1'])['Journée'].cumcount() - dataframe_final.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount()))
     dataframe_final['Moyenne_BE par 2 à Extérieur'] = dataframe_final.merge(dataframe_final, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Moyenne_BE par 1 à Extérieur_y']
-    dataframe_final['Forme 1'] = dataframe_final.groupby(['Saison', 'Equipe 1'])['Résultat'].rolling(window=6, min_periods=2).sum().reset_index(drop=True)-dataframe_final['Résultat']
+    dataframe_final['Forme 1'] = dataframe_final.groupby(['Saison', 'Equipe 1'])['Résultat'].rolling(window=i+5, min_periods=i+1).sum().reset_index(drop=True) - i*dataframe_final['Résultat']
     dataframe_final['Forme 2'] = dataframe_final.merge(dataframe_final, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Forme 1_y']
-    dataframe_final['Historique'] = dataframe_final.groupby(['Equipe 1', 'Equipe 2'])['Résultat'].cumsum() - dataframe_final['Résultat']
-
+    dataframe_final['Historique'] = dataframe_final.groupby(['Equipe 1', 'Equipe 2'])['Résultat'].cumsum() - i*dataframe_final['Résultat']
+    if i == 0:
+        dataframe_final['Résultat'] = dataframe_final['Résultat'].map({1: 'Victoire', 0: 'Nul', -1: 'Défaite'})
+        dataframe_final['Equipe 1 à Domicile'] = dataframe_final['Equipe 1 à Domicile'].map({1: 'Domicile', 0: 'Extérieur'})
+        dataframe_final = dataframe_final.rename(columns={'Equipe 1 à Domicile': 'Lieu'})
     return dataframe_final
 
-def fonction_prepa_stats (dataframe_stats):
-    dataframe_stats['GF'] = dataframe_stats['Buts Equipe 1'].astype(float).astype(int)
-    dataframe_stats['GA'] = dataframe_stats['Buts Equipe 2'].astype(float).astype(int)
 
-    dataframe_stats['GD'] = dataframe_stats['GA']
-    dataframe_stats['Points'] = dataframe_stats['Résultat'].map({1: 3, 0: 1, -1: 0})
-
-    dataframe_stats.sort_values(by=['Saison', 'Journée', 'Equipe 1']).reset_index()
-    result = dataframe_stats.groupby(['Saison', 'Equipe 1']).agg({
-        'Points': 'cumsum',
-        'GD': 'cumsum',
-        'GF': 'cumsum',
-        'GA' : 'cumsum'
-    }).reset_index()
-
-    dataframe_stats[['CPoints', 'CGD', 'CGF','CGA']] = result[['Points', 'GD', 'GF', 'GA']]
-    dataframe_stats = dataframe_stats.sort_values(by=['Saison', 'Journée', 'CPoints', 'CGD', 'CGF'], ascending=[True, True, False, False, False]).reset_index()
-    dataframe_stats['Classement Equipe 1'] = dataframe_stats.groupby(['Saison', 'Journée']).cumcount() + 1
-    dataframe_stats['Classement Equipe 1'] = dataframe_stats.groupby(['Saison','Equipe 1'])['Classement Equipe 1'].shift(0).astype(pd.Int64Dtype())
-    dataframe_stats = dataframe_stats.sort_values(by=['Saison', 'Equipe 1', 'Journée']).reset_index(drop=True).drop(['index','Points', 'GD', 'GF', 'GA','CPoints', 'CGD', 'CGF', 'CGA'], axis=1)
-
-    dataframe_stats['Classement Equipe 2'] = dataframe_stats.merge(dataframe_stats, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Classement Equipe 1_y']
-    dataframe_stats['Moyenne_BM par 1'] = dataframe_stats.groupby(['Saison', 'Equipe 1'])['Buts Equipe 1'].transform(lambda x: x.expanding().mean())
-    dataframe_stats['Moyenne_BM par 2'] = dataframe_stats.merge(dataframe_stats, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Moyenne_BM par 1_y']
-    dataframe_stats.loc[dataframe_stats['Equipe 1 à Domicile'] == 1, 'Moyenne_BM par 1 à Domicile'] = (
-        (dataframe_stats.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 1'].cumsum()) / 
-        (dataframe_stats.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount() + 1)
-    )
-
-    dataframe_stats['Moyenne_BM par 2 à Domicile'] = dataframe_stats.merge(dataframe_stats, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Moyenne_BM par 1 à Domicile_y']
-    dataframe_stats.loc[dataframe_stats['Equipe 1 à Domicile'] == 0, 'Moyenne_BM par 1 à Extérieur'] = (
-        (dataframe_stats.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 1'].cumsum()) 
-        / (dataframe_stats.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount() + 1)
-    )
-    dataframe_stats['Moyenne_BM par 2 à Extérieur'] = dataframe_stats.merge(dataframe_stats, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Moyenne_BM par 1 à Extérieur_y']
-    dataframe_stats['Moyenne_BE par 1'] = dataframe_stats.groupby(['Saison', 'Equipe 1'])['Buts Equipe 2'].transform(lambda x: x.expanding().mean())
-    dataframe_stats['Moyenne_BE par 2'] = dataframe_stats.merge(dataframe_stats, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Moyenne_BE par 1_y']
-    dataframe_stats.loc[dataframe_stats['Equipe 1 à Domicile'] == 1, 'Moyenne_BE par 1 à Domicile'] = (
-        (dataframe_stats.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 2'].cumsum()) 
-        / (dataframe_stats.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount() + 1)
-    )
-    dataframe_stats['Moyenne_BE par 2 à Domicile'] = dataframe_stats.merge(dataframe_stats, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Moyenne_BE par 1 à Domicile_y']
-    dataframe_stats.loc[dataframe_stats['Equipe 1 à Domicile'] == 0, 'Moyenne_BE par 1 à Extérieur'] = (
-        (dataframe_stats.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Buts Equipe 2'].cumsum()) 
-        / (dataframe_stats.groupby(['Saison', 'Equipe 1', 'Equipe 1 à Domicile'])['Journée'].cumcount() + 1)
-    )
-    dataframe_stats['Moyenne_BE par 2 à Extérieur'] = dataframe_stats.merge(dataframe_stats, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Moyenne_BE par 1 à Extérieur_y']
-    dataframe_stats['Forme 1'] = dataframe_stats.groupby(['Saison', 'Equipe 1'])['Résultat'].rolling(window=6, min_periods=1).sum().reset_index(drop=True)
-    dataframe_stats['Forme 2'] = dataframe_stats.merge(dataframe_stats, how='left', left_on=['Saison', 'Journée', 'Equipe 1'], right_on=['Saison', 'Journée', 'Equipe 2'])['Forme 1_y']
-    dataframe_stats['Historique'] = dataframe_stats.groupby(['Equipe 1', 'Equipe 2'])['Résultat'].cumsum()
-
-    dataframe_stats['Résultat'] = dataframe_stats['Résultat'].map({1: 'Victoire', 0: 'Nul', -1: 'Défaite'})
-    dataframe_stats['Equipe 1 à Domicile'] = dataframe_stats['Equipe 1 à Domicile'].map({1: 'Domicile', 0: 'Extérieur'})
-    dataframe_stats = dataframe_stats.rename(columns={'Equipe 1 à Domicile': 'Lieu'})
-    dataframe_stats = dataframe_stats.fillna(0)
-
-    return dataframe_stats
 
 def fonction_pred(df_train):
     dataframe_regression = df_train.dropna().copy()
