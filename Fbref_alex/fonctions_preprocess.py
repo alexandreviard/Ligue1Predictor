@@ -1,11 +1,11 @@
 import pandas as pd
 import time
-from datetime import datetime
 from imblearn.over_sampling import RandomOverSampler
-from sklearn.model_selection import train_test_split  # Pour diviser les données en ensembles d'entraînement et de test
-from sklearn.ensemble import RandomForestClassifier  # Pour créer et entraîner un modèle de forêt aléatoire
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix  # Pour évaluer les performances du modèle
+from sklearn.model_selection import train_test_split 
+from sklearn.ensemble import RandomForestClassifier  
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix 
 import numpy as np
+from datetime import datetime, timedelta
 
 def preprocess_initial(df, mapping_equipe):
     """
@@ -96,15 +96,6 @@ def preprocess_variables(df):
     df.sort_values(by=['Saison', 'Round', 'Points_Cum', 'GD_Cum'], ascending=[True, True, False, False], inplace=True)
     df['Classement'] = df.groupby(['Saison', 'Round']).cumcount() + 1
 
-    """ # Application des décalages (lags)
-    df[[f'{col}_Lag1' for col in lag_cols]] = df.groupby(['Saison', 'Team'])[lag_cols].shift(1)
-
-
-    # Calcul des moyennes roulantes
-    for col in mean_cols:
-        df[f'Moyenne_{col}'] = df.groupby(['Saison', 'Team'])[col].transform(lambda x: x.shift(1).expanding().mean())
-    """
-
     outcome_cols = ['IsWin', 'IsDraw', 'IsLoss']
     df['Past_Matches'] = df.groupby('MatchID').cumcount()
     df['IsWin'] = df['Result'].apply(lambda x: 1 if x == 'W' else 0)
@@ -118,6 +109,7 @@ def preprocess_variables(df):
     df.sort_values(by=['Saison', 'Team', 'DateTime'], inplace=True)
 
     return df
+
 
 def affichage_colonne(df):
 
@@ -133,11 +125,7 @@ def affichage_colonne(df):
     df = df[nouvelles_colonnes]
 
     return df
-
-
-#mean_cols = ['Standard_SoT%', 'Total_Cmp%', 'Poss_x', 'Touches_Def Pen', 'Touches_Def 3rd']
-#outcome_cols = ['IsWin', 'IsDraw', 'IsLoss']
-#lag_cols = ['Points_Cum', 'GD_Cum', 'GF_Cum', 'GA_Cum']
+    
 
 
 def preparation_model(df):
@@ -462,3 +450,41 @@ def modelisation(df, cutoff_date):
     df.loc[X_test.index, 'Prediction_Probability'] = max_proba
 
     return df[["DateTime", "Comp", "Saison", "Round", "Day","Team Home", "Team Away", "Result", 'Predicted_Result', "Prediction_Probability", "MatchID"]][df['Predicted_Result'].notnull()]
+
+
+
+def find_futur_matchweeks(df, mapping_equipe):
+
+    # Supprimer les lignes où les colonnes 'Date', 'Time' et 'Round' sont manquantes.
+    df.dropna(subset=["Date", "Time", "Round"], inplace=True)
+
+    # Prétraiter le DataFrame en utilisant la fonction 'preprocess_intitial' et le mapping des équipes.
+    df = preprocess_initial(df, mapping_equipe)
+
+    # Obtenir la date et l'heure actuelles.
+    ajd = datetime.now()
+
+    # Filtrer pour garder seulement les matchs programmés après la date et l'heure actuelles.
+    df = df[df['DateTime'] >= ajd]
+
+    # Trier le DataFrame en fonction de la colonne 'DateTime' dans l'ordre croissant.
+    df = df.sort_values(by='DateTime')
+
+    # Si le DataFrame n'est pas vide, obtenir la date du premier match à venir.
+    # Sinon, définir 'premiere_date_proche' à None.
+    if df.empty != True:
+        premiere_date_proche = df['DateTime'].iloc[0]
+    else:
+        return None
+    
+    # Calculer la date qui est 10 jours après la 'premiere_date_proche'.
+    dix_jours = timedelta(days=10) + premiere_date_proche
+
+    # Filtrer pour garder seulement les matchs programmés dans les 10 jours suivant la 'premiere_date_proche'.
+    df = df[df['DateTime'] <= dix_jours]
+
+    # Si 'premiere_date_proche' est None, retourner None.
+    if df.empty == True:
+        return None
+    else:# Retourner le DataFrame s'il n'est pas vide, sinon retourner None.
+        return df
