@@ -30,8 +30,11 @@ def fonction_resultats(i):
         df = pd.read_html(str(table))[0].dropna(subset = 'Wk').reset_index(drop=True)
         df['Wk'] = df['Wk'].astype(int)
         affiches = df[df['Score'].isna()]
+        affiches[['Home', 'Away']] = affiches[['Home', 'Away']].replace('Paris S-G', 'Paris Saint Germain')
+
     else:
         df = pd.read_html(str(table))[0].dropna(subset = 'Wk').dropna(subset = 'Score').reset_index(drop=True)
+        affiches = pd.DataFrame()
     df = df[['Wk', 'Home', 'Score', 'Away']]
     noms_colonnes = ['Saison','Journée','Domicile','Extérieur','Buts domicile','Buts extérieur','Résultat']
     df.insert(0,'Saison', str(i) + '-' + str(i+1))
@@ -44,7 +47,6 @@ def fonction_resultats(i):
     df.columns = noms_colonnes
     df['Journée'] = df['Journée'].astype(int)
     df[['Domicile', 'Extérieur']] = df[['Domicile', 'Extérieur']].replace('Paris S-G', 'Paris Saint Germain')
-    affiches[['Home', 'Away']] = affiches[['Home', 'Away']].replace('Paris S-G', 'Paris Saint Germain')
     return df, affiches
 
 def fonction_prepa_base (dataframe_final, i):
@@ -136,33 +138,90 @@ def fonction_prepa_base (dataframe_final, i):
 
 
 
-def fonction_pred(df_train):
-    dataframe_regression = df_train.dropna().copy()
-
-    dataframe_regression['Classement Equipe 1'] = 1/dataframe_regression['Classement Equipe 1']
-    dataframe_regression['Classement Equipe 2'] = 1/dataframe_regression['Classement Equipe 2']
-
-
-    X_train = dataframe_regression.drop(['Equipe 1', 'Equipe 2', 'Saison', 'Journée', 'Buts Equipe 1', 'Buts Equipe 2', 'Résultat'], axis=1)
-    X_train['poids'] = np.where(dataframe_regression['Journée'] > 15, 2, 1)
+def fonction_appli_modeles(dataframe_regression, X):
+    random_forest_model = RandomForestClassifier(n_estimators=1000, random_state=5)
+    svm_model = svm.SVC(kernel='rbf', C=50, random_state=42)
+    X['poids'] = 1 + (dataframe_regression['Journée'] - 1) * 0.1
+    Y = dataframe_regression[["Résultat"]]
+    Z = dataframe_regression[["Buts Equipe 1"]]
+    W = dataframe_regression[["Buts Equipe 2"]]
+    X_train, X_test, Y_train, Y_test, Z_train, Z_test, W_train, W_test = train_test_split(X, Y, Z, W, test_size=0.2, random_state=42)
     weights_train = X_train['poids']
-    X_train = X_train.drop(['poids'], axis=1)
-    X_train1 = sm.add_constant(X_train)
-    Y_train = dataframe_regression["Buts Equipe 1"]
-    Y_train2 = dataframe_regression["Résultat"]
+    X_train1 = X_train.drop(['poids'], axis=1)
+    X_test1 = X_test.drop(['poids'], axis=1)  
+
+    #Régression sur le résultat
+    X_train1 = sm.add_constant(X_train1)
+    X_test1 = sm.add_constant(X_test1)
+    model = sm.WLS(Y_train.astype(float), X_train1.astype(float), weights=weights_train)
+    results = model.fit()
+
+    print(results.summary())
+
+    Y_pred = results.predict(X_test1)
+    Y_pred = [-1 if x < 0 else 1 for x in Y_pred]
+    Y_test = Y_test[Y_test.columns[0]] .tolist()
+
+    bon_résultat = [a == b for a, b in zip(Y_pred, Y_test)]
+
+    accuracy = (sum(bon_résultat) / len(bon_résultat)) 
+    print('Régression sur le Résultat')
+    print('accuracy: ', accuracy)
+
+    #Régression sur les Scores dont on déduit un Résultat
+    model = sm.WLS(Z_train.astype(float), X_train1.astype(float), weights_train)
+    results = model.fit()
+
+    print(results.summary())
+
+    Z_pred = results.predict(X_test1)
+    Z_test = Z_test[Z_test.columns[0]] .tolist()
+
+    model = sm.WLS(W_train.astype(float), X_train1.astype(float), weights = weights_train)
+    results = model.fit()
+
+    print(results.summary())
+
+    W_pred = results.predict(X_test1)
+    W_test = W_test[W_test.columns[0]] .tolist()
+
+    resultat = [a - b for a, b in zip(Z_pred, W_pred)]
+    Y_pred2 = [-1 if x < 0 else 1 for x in  resultat]
+    bon_résultat = [a == b for a, b in zip(Y_pred2, Y_test)]
+
+    accuracy = (sum(bon_résultat) / len(bon_résultat)) 
+    print('Régression sur les Scores dont on déduit un Résultat')
+    print('accuracy: ', accuracy)
 
 
-    random_forest_model2 = RandomForestClassifier(n_estimators=1000, random_state=5)
-    random_forest_model2.fit(X_train, Y_train)
+    #Random Forest sur le résultat
+    X_train['Classement Equipe 1'] = 1/X_train['Classement Equipe 1']     #On repasse les classements en mode classique pour les deux prochains modèles
+    X_train['Classement Equipe 2'] = 1/X_train['Classement Equipe 2']
+    X_test['Classement Equipe 1'] = 1/X_test['Classement Equipe 1']
+    X_test['Classement Equipe 2'] = 1/X_test['Classement Equipe 2']
+    random_forest_model.fit(X_train, Y_train)
+    Y_pred3 = random_forest_model.predict(X_test)
 
-    model1 = sm.WLS(Y_train.astype(float), X_train1.astype(float), weights = weights_train)
-    results1 = model1.fit()
 
-    model2 = sm.WLS(Y_train2.astype(float), X_train1.astype(float), weights = weights_train)
-    results2 = model2.fit()
+    accuracy = accuracy_score(Y_test, Y_pred3)
+    classification_report_result = classification_report(Y_test, Y_pred3)
 
-    
-    return random_forest_model2, model1, model2, 
+    print('Random Forest sur le Résultat')
+    print(f"Accuracy: {accuracy:.4f}")
+    print("Classification Report:\n", classification_report_result)
+
+    #SVM model sur le résultat
+    svm_model.fit(X_train, Y_train)
+
+    Y_pred4 = svm_model.predict(X_test)
+    accuracy = accuracy_score(Y_test, Y_pred4)
+    classification_report_result = classification_report(Y_test, Y_pred4)
+
+    print('SVM model sur le Résultat')
+    print(f"Accuracy: {accuracy:.4f}")
+    print("Classification Report:\n", classification_report_result)
+
+    return Y_test, Y_pred, Y_pred2, Y_pred3, Y_pred4
 
 
 def trouver_chemins_images_avec_mot_cle(dossier, mot_cle):
