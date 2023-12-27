@@ -43,6 +43,8 @@ def fonction_resultats(i):
     df.loc[df['Buts domicile'] == df['Buts extérieur'], 'Résultat'] = 0
     df.columns = noms_colonnes
     df['Journée'] = df['Journée'].astype(int)
+    df[['Domicile', 'Extérieur']] = df[['Domicile', 'Extérieur']].replace('Paris S-G', 'Paris Saint Germain')
+    affiches[['Home', 'Away']] = affiches[['Home', 'Away']].replace('Paris S-G', 'Paris Saint Germain')
     return df, affiches
 
 def fonction_prepa_base (dataframe_final, i):
