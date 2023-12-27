@@ -8,3 +8,5 @@ lxml
 html5lib
 openpyxl
 imblearn
+seaborn
+statsmodels
