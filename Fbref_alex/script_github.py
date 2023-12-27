@@ -61,10 +61,29 @@ def update_data_global():
             combined_data = preparation_model(combined_data)
             combined_data = preprocess_data(combined_data)
 
+"""
             # Mettre à jour la colonne 'Result' dans future_results
             future_results = future_results.merge(combined_data[['MatchID', 'Result']], on='MatchID', how='left', suffixes=('', '_from_combined'))
             future_results['Result'].update(future_results['Result_from_combined'])
             future_results.drop(columns=['Result_from_combined'], inplace=True)
+"""
+            # Mettre à jour la colonne 'Result'
+            future_results = future_results.merge(combined_data[['MatchID', 'Result']], on='MatchID', how='left', suffixes=('', '_from_combined'))
+            future_results['Result'].update(future_results['Result_from_combined'])
+            future_results.drop(columns=['Result_from_combined'], inplace=True)
+
+            # Mettre à jour la colonne 'Minus 2.5 Goals', si cette colonne existe dans combined_data
+            if 'GF_Home' in combined_data.columns:
+                future_results = future_results.merge(combined_data[['MatchID', 'GF_Home']], on='MatchID', how='left', suffixes=('', '_from_combined'))
+                future_results['GF_Home'].update(future_results['GF_Home_from_combined'])
+                future_results.drop(columns=['GF_Home_from_combined'], inplace=True)
+
+            # Mettre à jour la colonne 'Minus 2.5 Goals', si cette colonne existe dans combined_data
+            if 'GF_Away' in combined_data.columns:
+                future_results = future_results.merge(combined_data[['MatchID', 'GF_Away']], on='MatchID', how='left', suffixes=('', '_from_combined'))
+                future_results['GF_Away'].update(future_results['GF_Away_from_combined'])
+                future_results.drop(columns=['GF_Away_from_combined'], inplace=True)
+
 
             # Traiter les données pour la modélisation et la mise à jour finale
             final_result = modelisation(combined_data, current_datetime)

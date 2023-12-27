@@ -91,7 +91,6 @@ def preprocess_variables(df):
     df[['Points_Cum', 'GD_Cum', 'GF_Cum', 'GA_Cum']] = cumulative_cols[['Points', 'GD', 'GF', 'GA']]
 
 
-
     # Calculer un classement basé sur les points cumulés et la différence de buts
     df.sort_values(by=['Saison', 'Round', 'Points_Cum', 'GD_Cum'], ascending=[True, True, False, False], inplace=True)
     df['Classement'] = df.groupby(['Saison', 'Round']).cumcount() + 1
@@ -101,7 +100,20 @@ def preprocess_variables(df):
     df['IsWin'] = df['Result'].apply(lambda x: 1 if x == 'W' else 0)
     df['IsDraw'] = df['Result'].apply(lambda x: 1 if x == 'D' else 0)
     df['IsLoss'] = df['Result'].apply(lambda x: 1 if x == 'L' else 0)
+
+
     df[['CumulativeWins', 'CumulativeDraws', 'CumulativeLosses']] = df.groupby('MatchID')[outcome_cols].cumsum()
+
+    df["Total_Goals"] = df["GF"] + df["GA"]
+    # Créer la colonne "Minus 1.5 Goals"
+    df["Minus 1.5 Goals"] = (df["Total_Goals"] <= 1.5).astype(int)
+
+    # Créer la colonne "Minus 2.5 Goals"
+    df["Minus 2.5 Goals"] = (df["Total_Goals"] <= 2.5).astype(int)
+
+    # Créer la colonne "Minus 3.5 Goals"
+    df["Minus 3.5 Goals"] = (df["Total_Goals"] <= 3.5).astype(int)
+
 
 
     # Réinitialisation de l'index et tri final
@@ -154,6 +166,10 @@ def preparation_model(df):
     # Décalage des statistiques de victoires, nuls et défaites
     df[['CumulativeWins_Lag1', 'CumulativeDraws_Lag1', 'CumulativeLosses_Lag1']] = df.groupby('MatchID')[['CumulativeWins', 'CumulativeDraws', 'CumulativeLosses']].shift(1)
 
+    df['FormeW_Lag'] = df.groupby(['Saison', 'Team'])['IsWin'].apply(lambda x: x.shift(1).rolling(window=5, min_periods=5).sum())
+    df['FormeL_Lag'] = df.groupby(['Saison', 'Team'])['IsLoss'].apply(lambda x: x.shift(1).rolling(window=5, min_periods=5).sum())
+
+
     # Liste des colonnes de statistiques pour calculer les moyennes mobiles décalées
     stat_columns = [
         "Total Shots", "Shots on Target", "Shots on Target %", "Goals per Shot", "Total Touches", 
@@ -171,7 +187,7 @@ def preparation_model(df):
         df[f'Moyenne_{col}_Lag'] = df.groupby(['Saison', 'Team'])[col].transform(lambda x: x.shift(1).expanding().mean())
 
     # Suppression des colonnes initiales pour éviter les fuites de données
-    df.drop(stat_columns + lag_cols + ['Classement', 'CumulativeWins', 'CumulativeDraws', 'CumulativeLosses'], axis=1, inplace=True, errors='ignore')
+    #df.drop(stat_columns + lag_cols + ['Classement', 'CumulativeWins', 'CumulativeDraws', 'CumulativeLosses'], axis=1, inplace=True, errors='ignore')
 
     # Réorganisation finale par saison, équipe et date
     df = df.sort_values(by=['Saison', 'Team', 'DateTime']).reset_index(drop=True)
@@ -379,7 +395,7 @@ def preprocess_data(df):
     df['MatchID'] = df.apply(create_match_id, axis=1)
 
     # Colonnes qui doivent rester inchangées (sans suffixes)
-    colonnes_fixes = ['DateTime', 'Comp', 'Round', 'Day', 'MatchID', 'Saison', 'Referee', 'Match Report', 'Notes']
+    colonnes_fixes = ['DateTime', 'Comp', 'Round', 'Day', 'MatchID', 'Saison', 'Referee', 'Match Report', 'Notes', "Minus 1.5 Goals", "Minus 2.5 Goals", "Minus 3.5 Goals"]
 
     # Identification des colonnes variables (en excluant les colonnes fixes)
     colonnes_variables = [col for col in df.columns if col not in colonnes_fixes]
@@ -414,13 +430,12 @@ def preprocess_data(df):
 
 
 
-
-
-
-
+"""
 def modelisation(df, cutoff_date):
     
-    selected_columns = ["Result", "DateTime"] + [col for col in df.columns if col.endswith(('Lag1_Home', 'Lag1_Away', 'Lag_Home', 'Lag_Away'))]
+    selected_columns = ["Result", "Minus 1.5 Goals", "Minus 2.5 Goals", "Minus 3.5 Goals", "DateTime"] + [col for col in df.columns if col.endswith(('Lag1_Home', 'Lag1_Away', 'Lag_Home', 'Lag_Away'))]
+
+
 
     X = df[selected_columns].copy() 
     X["Result"] = X['Result'].astype('category')
@@ -449,8 +464,51 @@ def modelisation(df, cutoff_date):
     df.loc[X_test.index, 'Predicted_Result'] = y_pred
     df.loc[X_test.index, 'Prediction_Probability'] = max_proba
 
-    return df[["DateTime", "Comp", "Saison", "Round", "Day","Team Home", "Team Away", "Result", 'Predicted_Result', "Prediction_Probability", "MatchID"]][df['Predicted_Result'].notnull()]
+    return df[["DateTime", "Comp", "Saison", "Round", "Day","Team Home","GF_Home", "GF_Away", "Team Away", "Result", "Classement_Home",  "Classement_Away", 'Predicted_Result', "Prediction_Probability", "MatchID"]][df['Predicted_Result'].notnull()]
+"""
 
+
+
+def modelisation(df, cutoff_date):
+    
+    targets = ["Result", "Minus 2.5 Goals"]
+    selected_columns = ["DateTime"] + [col for col in df.columns if col.endswith(('Lag1_Home', 'Lag1_Away', 'Lag_Home', 'Lag_Away'))]
+
+    # Boucle sur chaque cible
+    for target in targets:
+        X = df[selected_columns].copy()
+        X[target] = df[target].astype('category')
+
+        # Séparation des données
+        X_train = X[df['DateTime'] <= cutoff_date].dropna()
+        y_train = X_train[target]
+        X_train.drop(columns=[target, 'DateTime'], errors='ignore', inplace=True)
+
+        X_test = X[df['DateTime'] > cutoff_date].drop(columns=[target, 'DateTime'], errors='ignore').dropna(subset=[col for col in selected_columns if col != 'DateTime'])
+
+        # Suréchantillonnage
+        oversampler = RandomOverSampler(sampling_strategy='all', random_state=5)
+        X_train_resampled, y_train_resampled = oversampler.fit_resample(X_train, y_train)
+
+        # Modèle et entraînement
+        model = RandomForestClassifier(random_state=42)
+        model.fit(X_train_resampled, y_train_resampled)
+
+        # Prédiction et probabilités
+        y_pred = model.predict(X_test)
+        y_pred_proba = model.predict_proba(X_test)
+        max_proba = np.max(y_pred_proba, axis=1)
+
+        # Ajout des prédictions et probabilités
+        df.loc[X_test.index, f'Predicted_{target}'] = y_pred
+        df.loc[X_test.index, f'Prediction_Probability_{target}'] = max_proba
+
+    # Colonnes à retourner
+    return_cols = ["DateTime", "Comp", "Saison", "Round", "Day", "Team Home", "GF_Home", "GF_Away", "Team Away", "Result"] + \
+                  [col for target in targets for col in (f'Predicted_{target}', f'Prediction_Probability_{target}')] +  ["MatchID"]
+
+    
+    return df[return_cols][(df['DateTime'] > cutoff_date) & (df['Predicted_Result'].notnull())]
 
 
 def find_futur_matchweeks(df, mapping_equipe):
