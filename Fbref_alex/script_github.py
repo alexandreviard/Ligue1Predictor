@@ -61,12 +61,13 @@ def update_data_global():
             combined_data = preparation_model(combined_data)
             combined_data = preprocess_data(combined_data)
 
-"""
+            """
             # Mettre à jour la colonne 'Result' dans future_results
             future_results = future_results.merge(combined_data[['MatchID', 'Result']], on='MatchID', how='left', suffixes=('', '_from_combined'))
             future_results['Result'].update(future_results['Result_from_combined'])
             future_results.drop(columns=['Result_from_combined'], inplace=True)
-"""
+            
+            """
             # Mettre à jour la colonne 'Result'
             future_results = future_results.merge(combined_data[['MatchID', 'Result']], on='MatchID', how='left', suffixes=('', '_from_combined'))
             future_results['Result'].update(future_results['Result_from_combined'])
