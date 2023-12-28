@@ -241,11 +241,11 @@ def trouver_chemins_images_avec_mot_cle(dossier, mot_cle):
 
 def fonction_tableau_stats(df, first, equipe, venue):
     if venue == 'Domicile':
-        noms_colonnes = ['Classement', 'Moyenne buts marqués', 'Moyenne buts marqués à Domicile', 'Moyenne buts encaissés', 'Moyenne buts encaissés à Domicile', 'Forme']
+        noms_colonnes = ['Classement', 'Moyenne buts marqués', 'Moyenne buts encaissés', 'Moyenne buts marqués à Domicile', 'Moyenne buts encaissés à Domicile', 'Forme']
         columns_to_round = ['Moyenne_BM par 1', 'Moyenne_BM par 1 à Domicile', 'Moyenne_BE par 1', 'Moyenne_BE par 1 à Domicile']
         df_match = df[((df['Equipe 1'] == equipe) & (df['Journée'] == first))][['Classement Equipe 1', 'Moyenne_BM par 1','Moyenne_BE par 1', 'Moyenne_BM par 1 à Domicile', 'Moyenne_BE par 1 à Domicile']].reset_index(drop=True)
     else:
-        noms_colonnes = ['Classement', 'Moyenne buts marqués', 'Moyenne buts marqués à Extérieur', 'Moyenne buts encaissés', 'Moyenne buts encaissés à Extérieur', 'Forme']
+        noms_colonnes = ['Classement', 'Moyenne buts marqués', 'Moyenne buts encaissés', 'Moyenne buts marqués à Extérieur',  'Moyenne buts encaissés à Extérieur', 'Forme']
         columns_to_round = ['Moyenne_BM par 1', 'Moyenne_BM par 1 à Extérieur', 'Moyenne_BE par 1', 'Moyenne_BE par 1 à Extérieur']
         df_match = df[((df['Equipe 1'] == equipe) & (df['Journée'] == first))][['Classement Equipe 1', 'Moyenne_BM par 1','Moyenne_BE par 1', 'Moyenne_BM par 1 à Extérieur', 'Moyenne_BE par 1 à Extérieur']].reset_index(drop=True)
 
