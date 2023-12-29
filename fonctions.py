@@ -220,22 +220,6 @@ def preparation_model(df):
     return df
 
 
-
-def affichage_colonne_stockage(df):
-
-    # Réorganisez les colonnes dans le DataFrame
-    colonnes_a_afficher_en_premier = ["DateTime", "Comp", "Round", "Day", "Venue", "Team", "Classement_Lag1",  
-                                  "Predicted_Result", "Opponent"]
-    # Réorganisez les colonnes dans le DataFrame
-    #df = df[colonnes_a_afficher_en_premier + [col for col in df.columns if col not in colonnes_a_afficher_en_premier]]
-   
-    nouvelles_colonnes = colonnes_a_afficher_en_premier + [col for col in df.columns if col not in colonnes_a_afficher_en_premier]
-    df = df[nouvelles_colonnes]
-
-    return df
-
-
-
 def renommer_colonnes(df):
     
     precise_renaming_dict = {
@@ -382,6 +366,7 @@ def renommer_colonnes(df):
     df.drop(columns=columns_to_drop_existing, inplace=True)
 
     return df
+
 
 def columns_to_keep(df):
     # Liste des colonnes à garder
@@ -575,7 +560,7 @@ def find_futur_matchweeks(df, mapping_equipe):
 
 
 
-# Fonctions pour la deuxième approche
+# Fonctions pour la première approche
 
 def fonction_resultats(i):
     url = 'https://fbref.com/en/comps/13/' + str(i) +'-' + str(i+1) + '/schedule/' + str(i) +'-' + str(i+1) + '-Ligue-1-Scores-and-Fixtures'
