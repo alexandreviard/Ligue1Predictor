@@ -19,7 +19,7 @@ def update_data_global():
     current_datetime = datetime.now()
 
     # Lire le fichier CSV contenant les résultats futurs
-    future_results = pd.read_csv("Fbref_alex/results.csv", index_col=0)
+    future_results = pd.read_csv("results.csv", index_col=0)
     future_results["DateTime"] = pd.to_datetime(future_results["DateTime"])
 
     # Vérifier si la dernière date dans le fichier est antérieure à la date actuelle
@@ -27,7 +27,7 @@ def update_data_global():
     if last_date_in_file <= current_datetime:
 
         # Lire le fichier CSV de la base de données actuelle
-        current_database = pd.read_csv("Fbref_alex/dynamic_soccer_database.csv", index_col=0)
+        current_database = pd.read_csv("dynamic_soccer_database.csv", index_col=0)
 
         # Scrapper les dernières données de Ligue 1
         latest_data = scrape_latest_ligue1_data()
@@ -35,7 +35,7 @@ def update_data_global():
 
         # Ajouter les nouveaux matchs à la base de données actuelle
         updated_database = add_new_matches(base_initiale=current_database, base_nouvelle=new_data)
-        updated_database.to_csv("Fbref_alex/dynamic_soccer_database.csv")
+        updated_database.to_csv("dynamic_soccer_database.csv")
 
         # Préparer les données pour les prochaines semaines de match
         upcoming_matchweeks = latest_data[1].copy()
