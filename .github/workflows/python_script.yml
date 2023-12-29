@@ -35,6 +35,6 @@ jobs:
       run: |
         git config --global user.email "vincent.graillat@hec.edu"
         git config --global user.name "vincentgraillat"
-        git add *.csv
+        git add Database/*.csv
         git commit -m "Automated data update" --allow-empty
         git push https://${{ secrets.MY_PERSONNAL_TOKEN }}@github.com/vincentgraillat/Projet-python.git
