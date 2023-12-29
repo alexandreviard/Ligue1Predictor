@@ -27,7 +27,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run script
-      run: python Fbref_alex/script_github.py
+      run: python script_github.py
 
     - name: Commit and push if changes
       env:
