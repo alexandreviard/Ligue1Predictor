@@ -160,14 +160,16 @@ def preparation_model(df):
     # Décalage du classement pour chaque équipe
     df['Classement_Lag1'] = df.groupby(['Team'])['Classement'].shift(1)
 
+    # Création d'un indicateur de forme sur les derniers matchs
+    df['FormeW_Lag'] = df.groupby(['Saison', 'Team'])['IsWin'].transform(lambda x: x.shift(1).rolling(window=5, min_periods=5).sum())
+    df['FormeL_Lag'] = df.groupby(['Saison', 'Team'])['IsLoss'].transform(lambda x: x.shift(1).rolling(window=5, min_periods=5).sum())
+
     # Tri par points et différence de buts cumulés
     df.sort_values(by=['Saison', 'Round', 'Points_Cum', 'GD_Cum'], ascending=[True, True, False, False], inplace=True)
 
     # Décalage des statistiques de victoires, nuls et défaites
     df[['CumulativeWins_Lag1', 'CumulativeDraws_Lag1', 'CumulativeLosses_Lag1']] = df.groupby('MatchID')[['CumulativeWins', 'CumulativeDraws', 'CumulativeLosses']].shift(1)
 
-    df['FormeW_Lag'] = df.groupby(['Saison', 'Team'])['IsWin'].apply(lambda x: x.shift(1).rolling(window=5, min_periods=5).sum())
-    df['FormeL_Lag'] = df.groupby(['Saison', 'Team'])['IsLoss'].apply(lambda x: x.shift(1).rolling(window=5, min_periods=5).sum())
 
 
     # Liste des colonnes de statistiques pour calculer les moyennes mobiles décalées
