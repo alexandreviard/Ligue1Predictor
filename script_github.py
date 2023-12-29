@@ -91,7 +91,7 @@ def update_data_global():
             future_results = pd.concat([future_results, final_result]).sort_values(by="DateTime", ascending=False).reset_index(drop=True)
 
             # Enregistrer les résultats futurs mis à jour
-            future_results.to_csv("Fbref_alex/results.csv")
+            future_results.to_csv("results.csv")
 
     return
 
