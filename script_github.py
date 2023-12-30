@@ -7,6 +7,7 @@ def update_data_global():
     """
     Met à jour les données de football en récupérant les dernières données scrapeées,
     en traitant ces données, et en les fusionnant avec les données existantes.
+    Le script prédit également les futurs matchs de foot scrappés, et atrribue les probabilités associées.
     """
 
     mapping_equipe = {
