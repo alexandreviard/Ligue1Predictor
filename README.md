@@ -1,7 +1,7 @@
 # Projet Python - Scraping et Analyse de la Ligue 1
 
 ## Description
-Ce projet, réalisé par Alexandre Viard et Vincent Graillat, étudiants en 2ème année à l'ENSAE, vise à établir un modèle de prédiction des résultats des matchs de Ligue 1. Il se focalise sur le scraping des statistiques de la Ligue 1 depuis fbref, fournissant une base de données riche comprenant des dizaines de colonnes de statistiques pour chaque match et chaque équipe. L'objectif est d'automatiser entièrement le processus, avec un script Python quotidien qui met à jour la base avec les derniers résultats et génère des prévisions pour les prochains matchs.
+Ce projet, réalisé par Alexandre Viard et Vincent Graillat, étudiants en 2ème année à l'ENSAE, vise à établir un modèle de prédiction des résultats des matchs de Ligue 1. Il se focalise sur le scraping des statistiques de la Ligue 1 depuis *fbref.com*, fournissant une base de données riche comprenant des dizaines de colonnes de statistiques pour chaque match et chaque équipe. L'objectif est d'automatiser entièrement le processus, avec un script Python quotidien qui met à jour la base avec les derniers résultats et génère des prévisions pour les prochains matchs.
 
 ## Installation
 Clonez le dépôt GitHub et installez les dépendances via **`requirements.txt`**.
