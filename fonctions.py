@@ -19,7 +19,6 @@ import requests
 import re
 import os
 from sklearn.metrics import confusion_matrix, roc_curve, auc, ConfusionMatrixDisplay
-
 from IPython.display import display
 import tkinter as tk
 from tkinter import ttk
@@ -27,7 +26,6 @@ from PIL import Image, ImageTk
 import matplotlib.pyplot as plt 
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-
 from sklearn.model_selection import cross_val_score, train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
@@ -450,8 +448,6 @@ def modelisation(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_t
     }
 
     label_encoders = {target: LabelEncoder() for target in targets}
-    num_classes = {target: len(df[target].unique()) for target in targets}
-
 
     for target in targets:
         
@@ -463,8 +459,13 @@ def modelisation(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_t
         y_train = label_encoders[target].fit_transform(y_train)
 
         
+        if plot_features:
+            X_test = X[df['DateTime'] > cutoff_date].drop(columns=['DateTime'], errors='ignore').dropna(subset=[col for col in selected_columns if col != 'DateTime'])
+            y_test = X_test[target]
+            X_test.drop(columns=target, inplace= True)
+        else:
+            X_test = X[df['DateTime'] > cutoff_date].drop(columns=[target,'DateTime'], errors='ignore').dropna(subset=[col for col in selected_columns if col != 'DateTime'])
 
-        X_test = X[df['DateTime'] > cutoff_date].drop(columns=[target, 'DateTime'], errors='ignore').dropna(subset=[col for col in selected_columns if col != 'DateTime'])
 
         # Sélectionner le meilleur modèle via la validation croisée si aucun modèle n'est spécifié
         best_model = model_type
@@ -488,6 +489,18 @@ def modelisation(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_t
         # Entraînement du modèle sélectionné
         selected_model.fit(X_train_resampled, y_train_resampled)
 
+
+        # Prédiction des résultats et calcul des probabilités
+
+        y_pred = selected_model.predict(X_test)
+        df.loc[X_test.index, f'Predicted_{target}'] = label_encoders[target].inverse_transform(y_pred)
+
+
+        if hasattr(selected_model, "predict_proba"):
+            df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.max(selected_model.predict_proba(X_test), axis=1)
+        else:
+            df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.nan
+
         # Si plot_features est True et le modèle est un RandomForest, tracer les importances des caractéristiques
         if plot_features and isinstance(selected_model, RandomForestClassifier):
             importances = selected_model.feature_importances_
@@ -499,15 +512,11 @@ def modelisation(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_t
             plt.tight_layout()
             plt.show()
 
-        # Prédiction des résultats et calcul des probabilités
+        if plot_features:
+            # Calcul de l'accuracy
+            accuracy = accuracy_score(label_encoders[target].transform(y_test.dropna()), y_pred[:len(y_test.dropna())])
+            print(f"Précision de précision sur '{target}' avec {best_model}: {accuracy:.2f}")
 
-        y_pred = selected_model.predict(X_test)
-        df.loc[X_test.index, f'Predicted_{target}'] = label_encoders[target].inverse_transform(y_pred)
-
-        if hasattr(selected_model, "predict_proba"):
-            df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.max(selected_model.predict_proba(X_test), axis=1)
-        else:
-            df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.nan
 
 
     # Colonnes à retourner
