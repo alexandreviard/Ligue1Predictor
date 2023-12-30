@@ -11,3 +11,4 @@ imblearn
 seaborn
 statsmodels
 IPython
+xgboost
