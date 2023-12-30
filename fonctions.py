@@ -33,6 +33,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from imblearn.over_sampling import RandomOverSampler
 import numpy as np
+from sklearn.preprocessing import LabelEncoder  
 
 
 
@@ -423,7 +424,12 @@ def preprocess_data(df):
 
     return merged_df
 
-def modelisation2(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_type=None):
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+
+
+
+def modelisation(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_type=None):
     """
     Fonction pour créer et appliquer des modèles de prédiction pour plusieurs cibles.
 
@@ -436,11 +442,12 @@ def modelisation2(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_
     selected_columns = ["DateTime"] + [col for col in df.columns if col.endswith(('Lag1_Home', 'Lag1_Away', 'Lag_Home', 'Lag_Away'))]
 
     models = {
-        'RandomForest': RandomForestClassifier(random_state=42),
-        'XGBoost': XGBClassifier(random_state=42, use_label_encoder=False, eval_metric='logloss'),
-        'LogisticRegression': LogisticRegression(random_state=42),
+        'RandomForest': RandomForestClassifier(random_state=42, n_estimators=300, n_jobs=-1),
         'SVC': SVC(random_state=42, probability=True)
     }
+
+    label_encoders = {target: LabelEncoder() for target in targets}
+    num_classes = {target: len(df[target].unique()) for target in targets}
 
 
     for target in targets:
@@ -450,21 +457,26 @@ def modelisation2(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_
         X_train = X[df['DateTime'] <= cutoff_date].dropna()
         y_train = X_train[target]
         X_train.drop(columns=[target, 'DateTime'], errors='ignore', inplace=True)
+        y_train = label_encoders[target].fit_transform(y_train)
 
         
+
+        X_test = X[df['DateTime'] > cutoff_date].drop(columns=[target, 'DateTime'], errors='ignore').dropna(subset=[col for col in selected_columns if col != 'DateTime'])
+
         # Sélectionner le meilleur modèle via la validation croisée si aucun modèle n'est spécifié
         best_model = model_type
+
         if best_model is None:
             best_score = 0
             for name, model in models.items():
-                # Assurez-vous que X_train ne contient que des variables numériques
+
                 score = np.mean(cross_val_score(model, X_train, y_train, cv=3))
                 if score > best_score:
                     best_score = score
                     best_model = name
 
-        # Utiliser le meilleur modèle trouvé ou celui spécifié par l'utilisateur
         selected_model = models[best_model]
+
 
         # Gestion du Suréchantillonnage
         oversampler = RandomOverSampler(sampling_strategy='all', random_state=5)
@@ -474,16 +486,24 @@ def modelisation2(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_
         selected_model.fit(X_train_resampled, y_train_resampled)
 
         # Prédiction des résultats et calcul des probabilités
-        df.loc[X_test.index, f'Predicted_{target}'] = selected_model.predict(X_test)
+
+        y_pred = selected_model.predict(X_test)
+        df.loc[X_test.index, f'Predicted_{target}'] = label_encoders[target].inverse_transform(y_pred)
+
         if hasattr(selected_model, "predict_proba"):
             df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.max(selected_model.predict_proba(X_test), axis=1)
         else:
             df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.nan
 
-    return df
+
+    # Colonnes à retourner
+    return_cols = ["DateTime", "Comp", "Saison", "Round", "Day", "Team Home", "GF_Home", "GF_Away", "Team Away", "Result"] + \
+                  [col for target in targets for col in (f'Predicted_{target}', f'Prediction_Probability_{target}')] +  ["MatchID"]
+
+    return df[return_cols][(df['DateTime'] > cutoff_date) & (df['Predicted_Result'].notnull())]
 
 
-
+"""
 def modelisation(df, cutoff_date):
     
     targets = ["Result", "Minus 2.5 Goals"]
@@ -525,6 +545,7 @@ def modelisation(df, cutoff_date):
     
     return df[return_cols][(df['DateTime'] > cutoff_date) & (df['Predicted_Result'].notnull())]
 
+"""
 
 
 def find_futur_matchweeks(df, mapping_equipe):
