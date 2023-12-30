@@ -18,6 +18,8 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import os
+from sklearn.metrics import confusion_matrix, roc_curve, auc, ConfusionMatrixDisplay
+
 from IPython.display import display
 import tkinter as tk
 from tkinter import ttk
@@ -429,13 +431,14 @@ from sklearn.preprocessing import StandardScaler
 
 
 
-def modelisation(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_type=None):
+def modelisation(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_type=None, plot_features=False):
     """
     Fonction pour créer et appliquer des modèles de prédiction pour plusieurs cibles.
 
     :param df: DataFrame contenant les données des matchs.
     :param cutoff_date: Date limite pour séparer les données d'entraînement et de test.
     :param targets: Liste des colonnes cibles pour la prédiction.
+    :param plot_features: Booléen indiquant si les importances des caractéristiques doivent être tracées.
     :param model_type: Type de modèle de prédiction à utiliser. Si None, sélectionne automatiquement le meilleur modèle.
     :return: DataFrame avec les prédictions ajoutées pour chaque cible.
     """
@@ -484,6 +487,17 @@ def modelisation(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_t
 
         # Entraînement du modèle sélectionné
         selected_model.fit(X_train_resampled, y_train_resampled)
+
+        # Si plot_features est True et le modèle est un RandomForest, tracer les importances des caractéristiques
+        if plot_features and isinstance(selected_model, RandomForestClassifier):
+            importances = selected_model.feature_importances_
+            indices = np.argsort(importances)[::-1]
+            plt.figure(figsize=(12, 6))
+            plt.title(f'Feature Importances for Target: {target}')
+            plt.bar(range(X_train_resampled.shape[1]), importances[indices], align='center')
+            plt.xticks(range(X_train_resampled.shape[1]), X_train_resampled.columns[indices], rotation=90)
+            plt.tight_layout()
+            plt.show()
 
         # Prédiction des résultats et calcul des probabilités
 
