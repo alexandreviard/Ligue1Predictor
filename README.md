@@ -10,7 +10,7 @@ Clonez le dépôt GitHub et installez les dépendances via `requirements.txt`.
 Ouvrez `Rapport_projet_python.ipynb` pour accéder à notre rapport présentant deux approches mises en place. Ce fichier s'appuie sur les autres fichiers .py du dossier, dans lesquels se trouvent les fonctions utilisées dans le rapport. Se trouve aussi dans le dossier, les bases de données enregistrées au format csv pour éviter le scrapping trop long, notamment dans la deuxième approche. A la fin du rapport vous pourrez trouver une interface codée avec Tkinter qui vous permettra de manipuler la base.
 
 ## Automatisation
-Le scraping est exécuté automatiquement chaque nuit à minuit pour une mise à jour des résultats et un téléchargement des futures rencontres.
+Le scraping est exécuté automatiquement chaque nuit à minuit pour une mise à jour des résultats et un téléchargement des futures rencontres. Ceci passe par le fichier 'script_github.py' qui est lancé chaque soir à minuit par un workflow github. Une approche d'automatisation du scrapping des futurs journées était primordial dans un contexte d'évaluation sportif.
 
 ## Analyse de Données
 Le notebook principal détaille la construction et l'exploitation de la base de données, et offre un aperçu du développement de l'interface utilisateur.
