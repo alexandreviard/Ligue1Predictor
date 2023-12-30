@@ -1,7 +1,6 @@
 import pandas as pd
 import time
 from imblearn.over_sampling import RandomOverSampler
-from sklearn.model_selection import train_test_split 
 from sklearn.ensemble import RandomForestClassifier  
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix 
 import numpy as np
@@ -26,6 +25,15 @@ from PIL import Image, ImageTk
 import matplotlib.pyplot as plt 
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+from sklearn.model_selection import cross_val_score, train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from xgboost import XGBClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from imblearn.over_sampling import RandomOverSampler
+import numpy as np
+
 
 
 #Fonctions pour la deuxième approche:
@@ -146,22 +154,6 @@ def preprocess_variables(df):
     return df
 
 
-def affichage_colonne(df):
-
-    # Réorganisez les colonnes dans le DataFrame
-    colonnes_a_afficher_en_premier = ["DateTime", "Comp", "Round", "Day", "Venue", "Team", "Classement",  
-                                  "Formation", "Result", "GF", "GA", "Opponent", "Past_Matches", 
-                                  "CumulativeWins", "CumulativeDraws", "CumulativeLosses", 
-                                  "Attendance", "Captain", "Referee"]
-    # Réorganisez les colonnes dans le DataFrame
-    #df = df[colonnes_a_afficher_en_premier + [col for col in df.columns if col not in colonnes_a_afficher_en_premier]]
-   
-    nouvelles_colonnes = colonnes_a_afficher_en_premier + [col for col in df.columns if col not in colonnes_a_afficher_en_premier]
-    df = df[nouvelles_colonnes]
-
-    return df
-    
-
 
 def preparation_model(df):
     """
@@ -169,7 +161,6 @@ def preparation_model(df):
     - Variables lagged (décalées) : Points, différence de buts, buts pour et contre
     - Classement et statistiques cumulatives des dernières rencontres entre équipes
     - Moyennes mobiles décalées pour diverses statistiques de match
-    Ensuite, les données sont réorganisées et les colonnes non nécessaires sont supprimées pour éviter la fuite de données.
     """
 
     # Tri initial par saison, round et équipe
@@ -211,9 +202,6 @@ def preparation_model(df):
     for col in stat_columns:
         df[f'Moyenne_{col}_Lag'] = df.groupby(['Saison', 'Team'])[col].transform(lambda x: x.shift(1).expanding().mean())
 
-    # Suppression des colonnes initiales pour éviter les fuites de données
-    #df.drop(stat_columns + lag_cols + ['Classement', 'CumulativeWins', 'CumulativeDraws', 'CumulativeLosses'], axis=1, inplace=True, errors='ignore')
-
     # Réorganisation finale par saison, équipe et date
     df = df.sort_values(by=['Saison', 'Team', 'DateTime']).reset_index(drop=True)
 
@@ -223,9 +211,6 @@ def preparation_model(df):
 def renommer_colonnes(df):
     
     precise_renaming_dict = {
-        # General match information
-        #'GF': 'Goals For',
-        #'GA': 'Goals Against',
         
         # Standard stats
 
@@ -438,44 +423,64 @@ def preprocess_data(df):
 
     return merged_df
 
+def modelisation2(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_type=None):
+    """
+    Fonction pour créer et appliquer des modèles de prédiction pour plusieurs cibles.
+
+    :param df: DataFrame contenant les données des matchs.
+    :param cutoff_date: Date limite pour séparer les données d'entraînement et de test.
+    :param targets: Liste des colonnes cibles pour la prédiction.
+    :param model_type: Type de modèle de prédiction à utiliser. Si None, sélectionne automatiquement le meilleur modèle.
+    :return: DataFrame avec les prédictions ajoutées pour chaque cible.
+    """
+    selected_columns = ["DateTime"] + [col for col in df.columns if col.endswith(('Lag1_Home', 'Lag1_Away', 'Lag_Home', 'Lag_Away'))]
+
+    models = {
+        'RandomForest': RandomForestClassifier(random_state=42),
+        'XGBoost': XGBClassifier(random_state=42, use_label_encoder=False, eval_metric='logloss'),
+        'LogisticRegression': LogisticRegression(random_state=42),
+        'SVC': SVC(random_state=42, probability=True)
+    }
 
 
-"""
-def modelisation(df, cutoff_date):
-    
-    selected_columns = ["Result", "Minus 1.5 Goals", "Minus 2.5 Goals", "Minus 3.5 Goals", "DateTime"] + [col for col in df.columns if col.endswith(('Lag1_Home', 'Lag1_Away', 'Lag_Home', 'Lag_Away'))]
+    for target in targets:
+        
+        X = df[selected_columns].copy()
+        X[target] = df[target].astype('category')
+        X_train = X[df['DateTime'] <= cutoff_date].dropna()
+        y_train = X_train[target]
+        X_train.drop(columns=[target, 'DateTime'], errors='ignore', inplace=True)
 
+        
+        # Sélectionner le meilleur modèle via la validation croisée si aucun modèle n'est spécifié
+        best_model = model_type
+        if best_model is None:
+            best_score = 0
+            for name, model in models.items():
+                # Assurez-vous que X_train ne contient que des variables numériques
+                score = np.mean(cross_val_score(model, X_train, y_train, cv=3))
+                if score > best_score:
+                    best_score = score
+                    best_model = name
 
+        # Utiliser le meilleur modèle trouvé ou celui spécifié par l'utilisateur
+        selected_model = models[best_model]
 
-    X = df[selected_columns].copy() 
-    X["Result"] = X['Result'].astype('category')
+        # Gestion du Suréchantillonnage
+        oversampler = RandomOverSampler(sampling_strategy='all', random_state=5)
+        X_train_resampled, y_train_resampled = oversampler.fit_resample(X_train, y_train)
 
-    # Séparation des données
-    X_train = X[df['DateTime'] <= cutoff_date].dropna()
-    y_train = X_train["Result"]
-    X_train.drop(columns=['Result', 'DateTime'], errors='ignore', inplace=True)
-    X_test = X[df['DateTime'] > cutoff_date].drop(columns=['Result', 'DateTime'], errors='ignore').dropna(subset=[col for col in df.columns if col.endswith(('Lag1_Home', 'Lag1_Away', 'Lag_Home', 'Lag_Away'))])
+        # Entraînement du modèle sélectionné
+        selected_model.fit(X_train_resampled, y_train_resampled)
 
+        # Prédiction des résultats et calcul des probabilités
+        df.loc[X_test.index, f'Predicted_{target}'] = selected_model.predict(X_test)
+        if hasattr(selected_model, "predict_proba"):
+            df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.max(selected_model.predict_proba(X_test), axis=1)
+        else:
+            df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.nan
 
-    # Suréchantillonnage pour équilibrer toutes les classes
-    oversampler = RandomOverSampler(sampling_strategy='all', random_state=5)
-    X_train_resampled, y_train_resampled = oversampler.fit_resample(X_train, y_train)
-
-    # Création et entraînement du modèle
-    base_rf = RandomForestClassifier(random_state=42)
-    base_rf.fit(X_train_resampled, y_train_resampled)
-
-    # Prédiction et probabilités sur l'ensemble de test
-    y_pred = base_rf.predict(X_test)
-    y_pred_proba = base_rf.predict_proba(X_test)
-    max_proba = np.max(y_pred_proba, axis=1)
-
-    # Ajouter les prédictions et les probabilités au DataFrame
-    df.loc[X_test.index, 'Predicted_Result'] = y_pred
-    df.loc[X_test.index, 'Prediction_Probability'] = max_proba
-
-    return df[["DateTime", "Comp", "Saison", "Round", "Day","Team Home","GF_Home", "GF_Away", "Team Away", "Result", "Classement_Home",  "Classement_Away", 'Predicted_Result', "Prediction_Probability", "MatchID"]][df['Predicted_Result'].notnull()]
-"""
+    return df
 
 
 
@@ -496,11 +501,11 @@ def modelisation(df, cutoff_date):
 
         X_test = X[df['DateTime'] > cutoff_date].drop(columns=[target, 'DateTime'], errors='ignore').dropna(subset=[col for col in selected_columns if col != 'DateTime'])
 
-        # Suréchantillonnage
+        # Gestion du Suréchantillonnage des modalités
         oversampler = RandomOverSampler(sampling_strategy='all', random_state=5)
         X_train_resampled, y_train_resampled = oversampler.fit_resample(X_train, y_train)
 
-        # Modèle et entraînement
+        # Modèle et entraînement (Random Forest avec paramètres par défaults)
         model = RandomForestClassifier(random_state=42)
         model.fit(X_train_resampled, y_train_resampled)
 
@@ -521,8 +526,14 @@ def modelisation(df, cutoff_date):
     return df[return_cols][(df['DateTime'] > cutoff_date) & (df['Predicted_Result'].notnull())]
 
 
+
 def find_futur_matchweeks(df, mapping_equipe):
 
+    """
+    À partir du scrapping on récupère un DataFrame qui contient les futurs journées, il faut le mettre en forme.
+    args: DataFrame, le mapping ligue1
+    """
+    
     # Supprimer les lignes où les colonnes 'Date', 'Time' et 'Round' sont manquantes.
     df.dropna(subset=["Date", "Time", "Round"], inplace=True)
 
