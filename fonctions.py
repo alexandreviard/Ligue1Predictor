@@ -506,7 +506,7 @@ def modelisation(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_t
             importances = selected_model.feature_importances_
             indices = np.argsort(importances)[::-1]
             plt.figure(figsize=(12, 6))
-            plt.title(f'Feature Importances for Target: {target}')
+            plt.title(f'Importance des features: {target}')
             plt.bar(range(X_train_resampled.shape[1]), importances[indices], align='center')
             plt.xticks(range(X_train_resampled.shape[1]), X_train_resampled.columns[indices], rotation=90)
             plt.tight_layout()
@@ -515,7 +515,7 @@ def modelisation(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_t
         if plot_features:
             # Calcul de l'accuracy
             accuracy = accuracy_score(label_encoders[target].transform(y_test.dropna()), y_pred[:len(y_test.dropna())])
-            print(f"Précision de précision sur '{target}' avec {best_model}: {accuracy:.2f}")
+            print(f"Précision sur les prédictions : '{target}' avec {best_model}: {accuracy:.2f}")
 
 
 
