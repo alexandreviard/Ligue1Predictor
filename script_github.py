@@ -88,7 +88,7 @@ def update_data_global():
 
 
             # Traiter les données pour la modélisation et la mise à jour finale
-            final_result = modelisation(combined_data, current_datetime)
+            final_result = modelisation(combined_data, current_datetime, model_type="RandomForest)
             future_results = pd.concat([future_results, final_result]).sort_values(by="DateTime", ascending=False).reset_index(drop=True)
 
             # Enregistrer les résultats futurs mis à jour
