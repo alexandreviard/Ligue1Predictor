@@ -612,6 +612,14 @@ def find_futur_matchweeks(df, mapping_equipe):
     else:# Retourner le DataFrame s'il n'est pas vide, sinon retourner None.
         return df
 
+def main_process(data):
+    data = renommer_colonnes(data)
+    data = preprocess_initial(data, mapping_equipe)
+    data = columns_to_keep(data)
+    data = preprocess_variables(data)
+    data = preparation_model(data)
+    data = preparation_model(data)
+    return data
 
 
 
