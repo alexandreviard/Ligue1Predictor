@@ -24,26 +24,7 @@ def update_data_global():
     future_results["DateTime"] = pd.to_datetime(future_results["DateTime"])
 
     # Vérifier si la dernière date dans le fichier est antérieure à la date actuelle
-
-
-    # Mettre à jour la colonne 'Result'
-    future_results = future_results.merge(combined_data[['MatchID', 'Result']], on='MatchID', how='left', suffixes=('', '_from_combined'))
-    future_results['Result'].update(future_results['Result_from_combined'])
-    future_results.drop(columns=['Result_from_combined'], inplace=True)
-
-        # Mettre à jour la colonne 'Minus 2.5 Goals', si cette colonne existe dans combined_data
-    if 'GF_Home' in combined_data.columns:
-        future_results = future_results.merge(combined_data[['MatchID', 'GF_Home']], on='MatchID', how='left', suffixes=('', '_from_combined'))
-        future_results['GF_Home'].update(future_results['GF_Home_from_combined'])
-        future_results.drop(columns=['GF_Home_from_combined'], inplace=True)
-
-    # Mettre à jour la colonne 'Minus 2.5 Goals', si cette colonne existe dans combined_data
-    if 'GF_Away' in combined_data.columns:
-        future_results = future_results.merge(combined_data[['MatchID', 'GF_Away']], on='MatchID', how='left', suffixes=('', '_from_combined'))
-        future_results['GF_Away'].update(future_results['GF_Away_from_combined'])
-        future_results.drop(columns=['GF_Away_from_combined'], inplace=True)
-
-    
+  
     last_date_in_file = future_results["DateTime"].max()
     if last_date_in_file <= current_datetime:
 
