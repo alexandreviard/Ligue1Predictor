@@ -1,13 +1,4 @@
 ,DateTime,Comp,Saison,Round,Day,Team Home,GF_Home,GF_Away,Team Away,Result,Predicted_Result,Prediction_Probability_Result,Predicted_Minus 2.5 Goals,Prediction_Probability_Minus 2.5 Goals,MatchID
-0,2024-01-28 20:45:00,Ligue 1,2023-2024,19,Sun,Paris Saint Germain,,,Brest,,W_Home,0.6433333333333333,0.0,0.7,2024-01-28 20:45:00-Brest-vs-Paris Saint Germain
-1,2024-01-28 17:05:00,Ligue 1,2023-2024,19,Sun,Toulouse,,,Lens,,W_Away,0.4533333333333333,0.0,0.5,2024-01-28 17:05:00-Lens-vs-Toulouse
-2,2024-01-28 15:00:00,Ligue 1,2023-2024,19,Sun,Clermont Foot,,,Strasbourg,,D,0.35333333333333333,0.0,0.5366666666666666,2024-01-28 15:00:00-Clermont Foot-vs-Strasbourg
-3,2024-01-28 15:00:00,Ligue 1,2023-2024,19,Sun,Reims,,,Nantes,,W_Home,0.4766666666666667,1.0,0.5433333333333333,2024-01-28 15:00:00-Nantes-vs-Reims
-4,2024-01-28 15:00:00,Ligue 1,2023-2024,19,Sun,Lorient,,,Le Havre,,W_Away,0.43333333333333335,0.0,0.57,2024-01-28 15:00:00-Le Havre-vs-Lorient
-5,2024-01-28 13:00:00,Ligue 1,2023-2024,19,Sun,Montpellier,,,Lille,,D,0.41,1.0,0.6733333333333333,2024-01-28 13:00:00-Lille-vs-Montpellier
-6,2024-01-27 21:00:00,Ligue 1,2023-2024,19,Sat,Marseille,,,Monaco,,W_Home,0.38333333333333336,0.0,0.5366666666666666,2024-01-27 21:00:00-Marseille-vs-Monaco
-7,2024-01-27 17:00:00,Ligue 1,2023-2024,19,Sat,Nice,,,Metz,,W_Home,0.6066666666666667,1.0,0.5233333333333333,2024-01-27 17:00:00-Metz-vs-Nice
-8,2024-01-26 21:00:00,Ligue 1,2023-2024,19,Fri,Lyon,,,Rennes,,W_Home,0.44666666666666666,1.0,0.5333333333333333,2024-01-26 21:00:00-Lyon-vs-Rennes
 9,2024-01-14 20:45:00,Ligue 1,2023-2024,18,Sun,Lens,,,Paris Saint Germain,,D,0.41,1.0,0.57,2024-01-14 20:45:00-Lens-vs-Paris Saint Germain
 10,2024-01-14 17:05:00,Ligue 1,2023-2024,18,Sun,Le Havre,,,Lyon,,W_Away,0.52,1.0,0.61,2024-01-14 17:05:00-Le Havre-vs-Lyon
 11,2024-01-14 15:00:00,Ligue 1,2023-2024,18,Sun,Metz,,,Toulouse,,W_Away,0.55,1.0,0.64,2024-01-14 15:00:00-Metz-vs-Toulouse
