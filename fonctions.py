@@ -497,7 +497,7 @@ def modelisation(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_t
 
 
         if hasattr(selected_model, "predict_proba"):
-            df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.max(selected_model.predict_proba(X_test), axis=1)
+            df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.max(selected_model.predict_proba(X_test), axis=1).round(2)
         else:
             df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.nan
 
