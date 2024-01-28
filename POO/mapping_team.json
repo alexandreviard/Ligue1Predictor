@@ -1,0 +1,45 @@
+{
+    "La Liga": {
+        "Alaves": "Alavés",
+        "Almeria": "Almería",
+        "Atletico Madrid": "Atlético Madrid",
+        "Cadiz": "Cádiz",
+        "Leganes": "Leganés",
+        "Real Betis": "Betis"
+    },
+    "Ligue 1": {
+        "Nimes": "Nîmes",
+        "Paris S-G": "Paris Saint Germain",
+        "Saint Etienne": "Saint-Étienne"
+    },
+    "Premier League": {
+        "Brighton and Hove Albion": "Brighton",
+        "Huddersfield Town": "Huddersfield",
+        "Manchester United": "Manchester Utd",
+        "Newcastle United": "Newcastle Utd",
+        "Nottingham Forest": "Nott'ham Forest",
+        "Sheffield United": "Sheffield Utd",
+        "Tottenham Hotspur": "Tottenham",
+        "West Bromwich Albion": "West Brom",
+        "West Ham United": "West Ham",
+        "Wolverhampton Wanderers": "Wolves"
+    },
+    "Serie A": {
+        "Internazionale": "Inter"
+    },
+    "Bundesliga": {
+        "Bayer Leverkusen": "Leverkusen",
+        "Dusseldorf": "Düsseldorf",
+        "Eintracht Frankfurt": "Eint Frankfurt",
+        "Greuther Furth": "Greuther Fürth",
+        "Koln": "Köln",
+        "Monchengladbach": "M'Gladbach",
+        "Nurnberg": "Nürnberg"
+    },
+    "Eredivisie": {
+        "Go Ahead Eagles": "Go Ahead Eag",
+        "Sparta Rotterdam": "Sparta R'dam",
+        "VVV Venlo": "VVV-Venlo"
+    }
+}
+
