@@ -12,3 +12,4 @@ seaborn
 statsmodels
 IPython
 xgboost
+scikit-learn==1.2.2
