@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import time
 
-def scrape_ligue1_data(nb_saisons=6):
+def scrape_ligue1_data(nb_saisons=7):
     """
     Récupère les données de la Ligue 1 sur plusieurs saisons spécifiées.
     
