@@ -51,6 +51,7 @@ def scrape_ligue1_data(nb_saisons=7):
 
             # Traitement des statistiques détaillées
             for stats_url in set(stats_urls):
+                print(team_url, stats_urls)
                 rate_limit()
                 detailed_stats = get_detailed_stats(stats_url, headers)
                 team_data = team_data.merge(detailed_stats, on="Date")
