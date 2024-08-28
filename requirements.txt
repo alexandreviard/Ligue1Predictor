@@ -1,7 +1,6 @@
 beautifulsoup4
 pandas
-numpy==1.21.0
-imbalanced-learn==0.8.0
+numpy==1.15.1
 datetime
 requests
 lxml
