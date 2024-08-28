@@ -1,6 +1,6 @@
 beautifulsoup4
 pandas
-numpy==1.15.1
+numpy==1.26.4
 datetime
 requests
 lxml
