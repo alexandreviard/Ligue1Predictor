@@ -1,162 +1,171 @@
 ,DateTime,Comp,Saison,Round,Day,Team Home,GF_Home,GF_Away,Team Away,Result,Predicted_Result,Prediction_Probability_Result,Predicted_Minus 2.5 Goals,Prediction_Probability_Minus 2.5 Goals,MatchID
-0,2024-10-06 20:45:00,Ligue 1,2024-2025,7,Sun,Nice,,,Paris Saint Germain,,W_Away,0.49,0.0,0.55,2024-10-06 20:45:00-Nice-vs-Paris Saint Germain
-1,2024-10-06 17:00:00,Ligue 1,2024-2025,7,Sun,Brest,,,Le Havre,,W_Home,0.41,0.0,0.5,2024-10-06 17:00:00-Brest-vs-Le Havre
-2,2024-10-05 21:00:00,Ligue 1,2024-2025,7,Sat,Rennes,,,Monaco,,W_Away,0.41,1.0,0.53,2024-10-05 21:00:00-Monaco-vs-Rennes
-3,2024-09-29 20:45:00,Ligue 1,2024-2025,6,Sun,Strasbourg,,,Marseille,,W_Home,0.36,0.0,0.53,2024-09-29 20:45:00-Marseille-vs-Strasbourg
-4,2024-09-29 17:00:00,Ligue 1,2024-2025,6,Sun,Angers,,,Reims,,W_Home,0.38,0.0,0.51,2024-09-29 17:00:00-Angers-vs-Reims
-5,2024-09-29 17:00:00,Ligue 1,2024-2025,6,Sun,Nantes,,,Saint-Étienne,,W_Home,0.42,0.0,0.51,2024-09-29 17:00:00-Nantes-vs-Saint-Étienne
-6,2024-09-29 15:00:00,Ligue 1,2024-2025,6,Sun,Toulouse,,,Lyon,,W_Away,0.37,0.0,0.56,2024-09-29 15:00:00-Lyon-vs-Toulouse
-7,2024-09-28 17:00:00,Ligue 1,2024-2025,6,Sat,Lens,,,Nice,,W_Home,0.39,1.0,0.52,2024-09-28 17:00:00-Lens-vs-Nice
-8,2024-09-27 21:00:00,Ligue 1,2024-2025,6,Fri,Paris Saint Germain,3.0,1.0,Rennes,W_Home,W_Home,0.5,0.0,0.54,2024-09-27 21:00:00-Paris Saint Germain-vs-Rennes
-9,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Lyon,2.0,1.0,Strasbourg,W_Home,W_Home,0.57,0.0,0.55,2024-05-19 21:00:00-Lyon-vs-Strasbourg
-10,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Lorient,5.0,0.0,Clermont Foot,W_Home,W_Away,0.37,0.0,0.51,2024-05-19 21:00:00-Clermont Foot-vs-Lorient
-11,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Lens,2.0,2.0,Montpellier,D,W_Home,0.63,0.0,0.64,2024-05-19 21:00:00-Lens-vs-Montpellier
-12,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Metz,0.0,2.0,Paris Saint Germain,W_Away,W_Away,0.72,0.0,0.71,2024-05-19 21:00:00-Metz-vs-Paris Saint Germain
-13,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Le Havre,1.0,2.0,Marseille,W_Away,W_Away,0.48,0.0,0.52,2024-05-19 21:00:00-Le Havre-vs-Marseille
-14,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Reims,2.0,1.0,Rennes,W_Home,W_Away,0.42,0.0,0.64,2024-05-19 21:00:00-Reims-vs-Rennes
-15,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Lille,2.0,2.0,Nice,D,W_Home,0.41,0.0,0.5,2024-05-19 21:00:00-Lille-vs-Nice
-16,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Toulouse,0.0,3.0,Brest,W_Away,W_Away,0.46,0.0,0.67,2024-05-19 21:00:00-Brest-vs-Toulouse
-17,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Monaco,4.0,0.0,Nantes,W_Home,W_Home,0.56,0.0,0.62,2024-05-19 21:00:00-Monaco-vs-Nantes
-18,2024-05-15 21:00:00,Ligue 1,2023-2024,32,Wed,Reims,1.0,0.0,Marseille,W_Home,D,0.39,0.0,0.56,2024-05-15 21:00:00-Marseille-vs-Reims
-19,2024-05-15 21:00:00,Ligue 1,2023-2024,32,Wed,Nice,1.0,2.0,Paris Saint Germain,W_Away,W_Away,0.48,1.0,0.55,2024-05-15 21:00:00-Nice-vs-Paris Saint Germain
-20,2024-05-12 21:00:00,Ligue 1,2023-2024,33,Sun,Rennes,1.0,1.0,Lens,D,W_Home,0.42,0.0,0.64,2024-05-12 21:00:00-Lens-vs-Rennes
-21,2024-05-12 21:00:00,Ligue 1,2023-2024,33,Sun,Montpellier,0.0,2.0,Monaco,W_Away,W_Away,0.67,0.0,0.68,2024-05-12 21:00:00-Monaco-vs-Montpellier
-22,2024-05-12 21:00:00,Ligue 1,2023-2024,33,Sun,Strasbourg,2.0,1.0,Metz,W_Home,W_Away,0.4,1.0,0.52,2024-05-12 21:00:00-Metz-vs-Strasbourg
-23,2024-05-12 21:00:00,Ligue 1,2023-2024,33,Sun,Clermont Foot,0.0,1.0,Lyon,W_Away,W_Away,0.62,0.0,0.61,2024-05-12 21:00:00-Clermont Foot-vs-Lyon
-24,2024-05-12 21:00:00,Ligue 1,2023-2024,33,Sun,Nantes,1.0,2.0,Lille,W_Away,W_Away,0.6,0.0,0.56,2024-05-12 21:00:00-Lille-vs-Nantes
-25,2024-05-06 21:00:00,Ligue 1,2023-2024,32,Mon,Lille,3.0,4.0,Lyon,W_Away,W_Home,0.52,0.0,0.58,2024-05-06 21:00:00-Lille-vs-Lyon
-26,2024-05-04 21:00:00,Ligue 1,2023-2024,32,Sat,Brest,0.0,0.0,Nantes,D,W_Home,0.49,1.0,0.61,2024-05-04 21:00:00-Brest-vs-Nantes
-27,2024-05-04 19:00:00,Ligue 1,2023-2024,32,Sat,Metz,2.0,3.0,Rennes,W_Away,W_Away,0.64,0.0,0.62,2024-05-04 19:00:00-Metz-vs-Rennes
-28,2024-05-04 17:00:00,Ligue 1,2023-2024,32,Sat,Monaco,4.0,1.0,Clermont Foot,W_Home,W_Home,0.52,0.0,0.59,2024-05-04 17:00:00-Clermont Foot-vs-Monaco
-29,2024-05-04 15:00:00,Ligue 1,2023-2024,32,Sat,Le Havre,3.0,1.0,Strasbourg,W_Home,D,0.44,1.0,0.67,2024-05-04 15:00:00-Le Havre-vs-Strasbourg
-30,2024-05-03 21:00:00,Ligue 1,2023-2024,32,Fri,Lens,2.0,0.0,Lorient,W_Home,W_Home,0.67,0.0,0.63,2024-05-03 21:00:00-Lens-vs-Lorient
-31,2024-05-03 19:00:00,Ligue 1,2023-2024,32,Fri,Toulouse,1.0,2.0,Montpellier,W_Away,W_Away,0.4,0.0,0.55,2024-05-03 19:00:00-Montpellier-vs-Toulouse
-32,2024-04-28 21:00:00,Ligue 1,2023-2024,31,Sun,Marseille,2.0,1.0,Lens,W_Home,W_Home,0.38,1.0,0.55,2024-04-28 21:00:00-Lens-vs-Marseille
-33,2024-04-28 19:00:00,Ligue 1,2023-2024,31,Sun,Lyon,3.0,2.0,Monaco,W_Home,W_Away,0.48,0.0,0.59,2024-04-28 19:00:00-Lyon-vs-Monaco
-34,2024-04-28 17:05:00,Ligue 1,2023-2024,31,Sun,Rennes,4.0,5.0,Brest,W_Away,W_Home,0.46,0.0,0.61,2024-04-28 17:05:00-Brest-vs-Rennes
-35,2024-04-28 15:00:00,Ligue 1,2023-2024,31,Sun,Clermont Foot,4.0,1.0,Reims,W_Home,W_Away,0.45,0.0,0.51,2024-04-28 15:00:00-Clermont Foot-vs-Reims
-36,2024-04-28 15:00:00,Ligue 1,2023-2024,31,Sun,Lorient,1.0,2.0,Toulouse,W_Away,W_Away,0.49,1.0,0.54,2024-04-28 15:00:00-Lorient-vs-Toulouse
-37,2024-04-28 15:00:00,Ligue 1,2023-2024,31,Sun,Strasbourg,1.0,3.0,Nice,W_Away,W_Home,0.35,1.0,0.56,2024-04-28 15:00:00-Nice-vs-Strasbourg
-38,2024-04-28 13:00:00,Ligue 1,2023-2024,31,Sun,Metz,1.0,2.0,Lille,W_Away,W_Away,0.57,0.0,0.5,2024-04-28 13:00:00-Lille-vs-Metz
-39,2024-04-27 21:00:00,Ligue 1,2023-2024,31,Sat,Paris Saint Germain,3.0,3.0,Le Havre,D,W_Home,0.63,0.0,0.73,2024-04-27 21:00:00-Le Havre-vs-Paris Saint Germain
-40,2024-04-26 21:00:00,Ligue 1,2023-2024,31,Fri,Montpellier,1.0,1.0,Nantes,D,W_Home,0.38,1.0,0.56,2024-04-26 21:00:00-Montpellier-vs-Nantes
-41,2024-04-24 21:00:00,Ligue 1,2023-2024,29,Wed,Marseille,2.0,2.0,Nice,D,W_Home,0.45,1.0,0.65,2024-04-24 21:00:00-Marseille-vs-Nice
-42,2024-04-24 19:00:00,Ligue 1,2023-2024,29,Wed,Monaco,,,Lille,,W_Home,0.4,1.0,0.56,2024-04-24 19:00:00-Lille-vs-Monaco
-43,2024-04-21 15:00:00,Ligue 1,2023-2024,30,Sun,Le Havre,0.0,1.0,Metz,W_Away,W_Home,0.45,1.0,0.65,2024-04-21 15:00:00-Le Havre-vs-Metz
-44,2024-04-21 15:00:00,Ligue 1,2023-2024,30,Sun,Reims,1.0,2.0,Montpellier,W_Away,W_Home,0.43,0.0,0.54,2024-04-21 15:00:00-Montpellier-vs-Reims
-45,2024-04-20 21:00:00,Ligue 1,2023-2024,30,Sat,Lens,1.0,0.0,Clermont Foot,W_Home,W_Home,0.63,0.0,0.62,2024-04-20 21:00:00-Clermont Foot-vs-Lens
-46,2024-04-20 17:00:00,Ligue 1,2023-2024,30,Sat,Nantes,0.0,3.0,Rennes,W_Away,W_Away,0.46,1.0,0.53,2024-04-20 17:00:00-Nantes-vs-Rennes
-47,2024-04-19 21:00:00,Ligue 1,2023-2024,30,Fri,Nice,3.0,0.0,Lorient,W_Home,W_Home,0.46,0.0,0.59,2024-04-19 21:00:00-Lorient-vs-Nice
-48,2024-04-14 20:45:00,Ligue 1,2023-2024,29,Sun,Lyon,4.0,3.0,Brest,W_Home,W_Home,0.39,1.0,0.63,2024-04-14 20:45:00-Brest-vs-Lyon
-49,2024-04-14 15:00:00,Ligue 1,2023-2024,29,Sun,Clermont Foot,1.0,1.0,Montpellier,D,W_Away,0.43,0.0,0.56,2024-04-14 15:00:00-Clermont Foot-vs-Montpellier
-50,2024-04-14 13:00:00,Ligue 1,2023-2024,29,Sun,Le Havre,0.0,1.0,Nantes,W_Away,W_Away,0.4,1.0,0.69,2024-04-14 13:00:00-Le Havre-vs-Nantes
-51,2024-04-13 21:00:00,Ligue 1,2023-2024,29,Sat,Rennes,1.0,2.0,Toulouse,W_Away,W_Home,0.48,0.0,0.5,2024-04-13 21:00:00-Rennes-vs-Toulouse
-52,2024-04-13 17:00:00,Ligue 1,2023-2024,29,Sat,Strasbourg,3.0,1.0,Reims,W_Home,W_Away,0.39,1.0,0.56,2024-04-13 17:00:00-Reims-vs-Strasbourg
-53,2024-04-12 21:00:00,Ligue 1,2023-2024,29,Fri,Metz,2.0,1.0,Lens,W_Home,W_Away,0.57,1.0,0.58,2024-04-12 21:00:00-Lens-vs-Metz
-54,2024-04-07 20:45:00,Ligue 1,2023-2024,28,Sun,Nantes,1.0,3.0,Lyon,W_Away,W_Away,0.61,0.0,0.54,2024-04-07 20:45:00-Lyon-vs-Nantes
-55,2024-04-07 17:05:00,Ligue 1,2023-2024,28,Sun,Monaco,1.0,0.0,Rennes,W_Home,D,0.35,0.0,0.57,2024-04-07 17:05:00-Monaco-vs-Rennes
-56,2024-04-07 15:00:00,Ligue 1,2023-2024,28,Sun,Toulouse,0.0,0.0,Strasbourg,D,W_Away,0.36,0.0,0.56,2024-04-07 15:00:00-Strasbourg-vs-Toulouse
-57,2024-04-07 15:00:00,Ligue 1,2023-2024,28,Sun,Reims,0.0,0.0,Nice,D,W_Home,0.35,1.0,0.55,2024-04-07 15:00:00-Nice-vs-Reims
-58,2024-04-07 15:00:00,Ligue 1,2023-2024,28,Sun,Montpellier,2.0,0.0,Lorient,W_Home,W_Home,0.43,0.0,0.65,2024-04-07 15:00:00-Lorient-vs-Montpellier
-59,2024-04-07 13:00:00,Ligue 1,2023-2024,28,Sun,Brest,4.0,3.0,Metz,W_Home,W_Home,0.55,0.0,0.54,2024-04-07 13:00:00-Brest-vs-Metz
-60,2024-04-06 21:00:00,Ligue 1,2023-2024,28,Sat,Paris Saint Germain,1.0,1.0,Clermont Foot,D,W_Home,0.59,0.0,0.85,2024-04-06 21:00:00-Clermont Foot-vs-Paris Saint Germain
-61,2024-04-06 17:00:00,Ligue 1,2023-2024,28,Sat,Lens,1.0,1.0,Le Havre,D,W_Home,0.73,0.0,0.6,2024-04-06 17:00:00-Le Havre-vs-Lens
-62,2024-04-05 21:00:00,Ligue 1,2023-2024,28,Fri,Lille,3.0,1.0,Marseille,W_Home,W_Home,0.55,1.0,0.54,2024-04-05 21:00:00-Lille-vs-Marseille
-63,2024-03-31 20:45:00,Ligue 1,2023-2024,27,Sun,Marseille,0.0,2.0,Paris Saint Germain,W_Away,W_Away,0.39,1.0,0.63,2024-03-31 20:45:00-Marseille-vs-Paris Saint Germain
-64,2024-03-31 17:05:00,Ligue 1,2023-2024,27,Sun,Strasbourg,2.0,0.0,Rennes,W_Home,W_Away,0.52,1.0,0.51,2024-03-31 17:05:00-Rennes-vs-Strasbourg
-65,2024-03-31 15:00:00,Ligue 1,2023-2024,27,Sun,Clermont Foot,0.0,3.0,Toulouse,W_Away,D,0.36,1.0,0.64,2024-03-31 15:00:00-Clermont Foot-vs-Toulouse
-66,2024-03-31 15:00:00,Ligue 1,2023-2024,27,Sun,Le Havre,0.0,2.0,Montpellier,W_Away,W_Away,0.39,1.0,0.59,2024-03-31 15:00:00-Le Havre-vs-Montpellier
-67,2024-03-31 15:00:00,Ligue 1,2023-2024,27,Sun,Nice,1.0,2.0,Nantes,W_Away,W_Home,0.52,1.0,0.59,2024-03-31 15:00:00-Nantes-vs-Nice
-68,2024-03-31 13:00:00,Ligue 1,2023-2024,27,Sun,Lorient,0.0,1.0,Brest,W_Away,W_Away,0.56,1.0,0.62,2024-03-31 13:00:00-Brest-vs-Lorient
-69,2024-03-30 21:00:00,Ligue 1,2023-2024,27,Sat,Lyon,1.0,1.0,Reims,D,W_Home,0.46,0.0,0.53,2024-03-30 21:00:00-Lyon-vs-Reims
-70,2024-03-30 17:00:00,Ligue 1,2023-2024,27,Sat,Metz,2.0,5.0,Monaco,W_Away,W_Away,0.68,1.0,0.51,2024-03-30 17:00:00-Metz-vs-Monaco
-71,2024-03-29 21:00:00,Ligue 1,2023-2024,27,Fri,Lille,2.0,1.0,Lens,W_Home,W_Home,0.38,1.0,0.56,2024-03-29 21:00:00-Lens-vs-Lille
-72,2024-03-17 20:45:00,Ligue 1,2023-2024,26,Sun,Montpellier,2.0,6.0,Paris Saint Germain,W_Away,W_Away,0.65,0.0,0.62,2024-03-17 20:45:00-Montpellier-vs-Paris Saint Germain
-73,2024-03-17 17:05:00,Ligue 1,2023-2024,26,Sun,Rennes,2.0,0.0,Marseille,W_Home,W_Away,0.4,1.0,0.59,2024-03-17 17:05:00-Marseille-vs-Rennes
-74,2024-03-17 15:00:00,Ligue 1,2023-2024,26,Sun,Clermont Foot,2.0,1.0,Le Havre,W_Home,W_Home,0.41,0.0,0.53,2024-03-17 15:00:00-Clermont Foot-vs-Le Havre
-75,2024-03-17 15:00:00,Ligue 1,2023-2024,26,Sun,Monaco,2.0,2.0,Lorient,D,W_Home,0.46,0.0,0.63,2024-03-17 15:00:00-Lorient-vs-Monaco
-76,2024-03-17 15:00:00,Ligue 1,2023-2024,26,Sun,Reims,2.0,1.0,Metz,W_Home,W_Home,0.41,1.0,0.64,2024-03-17 15:00:00-Metz-vs-Reims
-77,2024-03-17 13:00:00,Ligue 1,2023-2024,26,Sun,Brest,1.0,1.0,Lille,D,W_Home,0.4,1.0,0.68,2024-03-17 13:00:00-Brest-vs-Lille
-78,2024-03-16 21:00:00,Ligue 1,2023-2024,26,Sat,Lens,1.0,3.0,Nice,W_Away,W_Home,0.53,1.0,0.65,2024-03-16 21:00:00-Lens-vs-Nice
-79,2024-03-16 17:00:00,Ligue 1,2023-2024,26,Sat,Nantes,1.0,3.0,Strasbourg,W_Away,D,0.45,0.0,0.52,2024-03-16 17:00:00-Nantes-vs-Strasbourg
-80,2024-03-15 21:00:00,Ligue 1,2023-2024,26,Fri,Toulouse,2.0,3.0,Lyon,W_Away,W_Away,0.43,0.0,0.55,2024-03-15 21:00:00-Lyon-vs-Toulouse
-81,2024-03-10 20:45:00,Ligue 1,2023-2024,25,Sun,Marseille,2.0,0.0,Nantes,W_Home,W_Home,0.66,0.0,0.54,2024-03-10 20:45:00-Marseille-vs-Nantes
-82,2024-03-10 17:00:00,Ligue 1,2023-2024,25,Sun,Lille,,,Rennes,,W_Home,0.48,0.0,0.51,2024-03-10 17:00:00-Lille-vs-Rennes
-83,2024-03-10 15:00:00,Ligue 1,2023-2024,25,Sun,Metz,1.0,0.0,Clermont Foot,W_Home,W_Away,0.48,1.0,0.56,2024-03-10 15:00:00-Clermont Foot-vs-Metz
-84,2024-03-10 15:00:00,Ligue 1,2023-2024,25,Sun,Le Havre,1.0,0.0,Toulouse,W_Home,W_Away,0.47,1.0,0.6,2024-03-10 15:00:00-Le Havre-vs-Toulouse
-85,2024-03-10 15:00:00,Ligue 1,2023-2024,25,Sun,Strasbourg,0.0,1.0,Monaco,W_Away,W_Away,0.65,0.0,0.71,2024-03-10 15:00:00-Monaco-vs-Strasbourg
-86,2024-03-10 13:00:00,Ligue 1,2023-2024,25,Sun,Paris Saint Germain,2.0,2.0,Reims,D,W_Home,0.71,0.0,0.67,2024-03-10 13:00:00-Paris Saint Germain-vs-Reims
-87,2024-03-09 21:00:00,Ligue 1,2023-2024,25,Sat,Lens,1.0,0.0,Brest,W_Home,W_Home,0.43,0.0,0.61,2024-03-09 21:00:00-Brest-vs-Lens
-88,2024-03-09 17:00:00,Ligue 1,2023-2024,25,Sat,Lorient,0.0,2.0,Lyon,W_Away,W_Away,0.56,1.0,0.52,2024-03-09 17:00:00-Lorient-vs-Lyon
-89,2024-03-08 21:00:00,Ligue 1,2023-2024,25,Fri,Nice,1.0,2.0,Montpellier,W_Away,W_Home,0.64,1.0,0.53,2024-03-08 21:00:00-Montpellier-vs-Nice
-90,2024-03-03 20:45:00,Ligue 1,2023-2024,24,Sun,Lyon,0.0,3.0,Lens,W_Away,W_Home,0.46,1.0,0.69,2024-03-03 20:45:00-Lens-vs-Lyon
-91,2024-03-03 17:05:00,Ligue 1,2023-2024,24,Sun,Rennes,1.0,2.0,Lorient,W_Away,W_Home,0.66,0.0,0.64,2024-03-03 17:05:00-Lorient-vs-Rennes
-92,2024-03-03 15:00:00,Ligue 1,2023-2024,24,Sun,Nantes,0.0,2.0,Metz,W_Away,W_Home,0.48,1.0,0.53,2024-03-03 15:00:00-Metz-vs-Nantes
-93,2024-03-03 15:00:00,Ligue 1,2023-2024,24,Sun,Brest,1.0,0.0,Le Havre,W_Home,W_Home,0.54,1.0,0.55,2024-03-03 15:00:00-Brest-vs-Le Havre
-94,2024-03-03 15:00:00,Ligue 1,2023-2024,24,Sun,Montpellier,2.0,2.0,Strasbourg,D,W_Home,0.38,1.0,0.52,2024-03-03 15:00:00-Montpellier-vs-Strasbourg
-95,2024-03-03 13:00:00,Ligue 1,2023-2024,24,Sun,Toulouse,2.0,1.0,Nice,W_Home,W_Away,0.35,1.0,0.68,2024-03-03 13:00:00-Nice-vs-Toulouse
-96,2024-03-02 21:00:00,Ligue 1,2023-2024,24,Sat,Clermont Foot,1.0,5.0,Marseille,W_Away,W_Away,0.44,1.0,0.6,2024-03-02 21:00:00-Clermont Foot-vs-Marseille
-97,2024-03-02 17:00:00,Ligue 1,2023-2024,24,Sat,Reims,0.0,1.0,Lille,W_Away,D,0.45,1.0,0.66,2024-03-02 17:00:00-Lille-vs-Reims
-98,2024-03-01 21:00:00,Ligue 1,2023-2024,24,Fri,Monaco,0.0,0.0,Paris Saint Germain,D,W_Away,0.5,1.0,0.53,2024-03-01 21:00:00-Monaco-vs-Paris Saint Germain
-99,2024-02-25 20:45:00,Ligue 1,2023-2024,23,Sun,Marseille,4.0,1.0,Montpellier,W_Home,W_Home,0.62,0.0,0.58,2024-02-25 20:45:00-Marseille-vs-Montpellier
-100,2024-02-25 17:05:00,Ligue 1,2023-2024,23,Sun,Paris Saint Germain,1.0,1.0,Rennes,D,W_Home,0.71,0.0,0.8,2024-02-25 17:05:00-Paris Saint Germain-vs-Rennes
-101,2024-02-25 15:00:00,Ligue 1,2023-2024,23,Sun,Toulouse,3.0,1.0,Lille,W_Home,W_Away,0.42,1.0,0.65,2024-02-25 15:00:00-Lille-vs-Toulouse
-102,2024-02-25 15:00:00,Ligue 1,2023-2024,23,Sun,Le Havre,1.0,2.0,Reims,W_Away,W_Away,0.41,1.0,0.69,2024-02-25 15:00:00-Le Havre-vs-Reims
-103,2024-02-25 15:00:00,Ligue 1,2023-2024,23,Sun,Nice,0.0,0.0,Clermont Foot,D,W_Home,0.64,0.0,0.57,2024-02-25 15:00:00-Clermont Foot-vs-Nice
-104,2024-02-25 13:00:00,Ligue 1,2023-2024,23,Sun,Lens,2.0,3.0,Monaco,W_Away,W_Away,0.4,0.0,0.6,2024-02-25 13:00:00-Lens-vs-Monaco
-105,2024-02-24 21:00:00,Ligue 1,2023-2024,23,Sat,Strasbourg,0.0,3.0,Brest,W_Away,D,0.39,0.0,0.52,2024-02-24 21:00:00-Brest-vs-Strasbourg
-106,2024-02-24 17:00:00,Ligue 1,2023-2024,23,Sat,Lorient,0.0,1.0,Nantes,W_Away,W_Away,0.41,1.0,0.53,2024-02-24 17:00:00-Lorient-vs-Nantes
-107,2024-02-23 21:00:00,Ligue 1,2023-2024,23,Fri,Metz,1.0,2.0,Lyon,W_Away,W_Away,0.58,1.0,0.55,2024-02-23 21:00:00-Lyon-vs-Metz
-108,2024-02-18 20:45:00,Ligue 1,2023-2024,22,Sun,Brest,1.0,0.0,Marseille,W_Home,W_Away,0.34,1.0,0.63,2024-02-18 20:45:00-Brest-vs-Marseille
-109,2024-02-18 17:05:00,Ligue 1,2023-2024,22,Sun,Reims,1.0,1.0,Lens,D,W_Away,0.5,1.0,0.61,2024-02-18 17:05:00-Lens-vs-Reims
-110,2024-02-18 15:00:00,Ligue 1,2023-2024,22,Sun,Rennes,3.0,1.0,Clermont Foot,W_Home,W_Home,0.62,0.0,0.66,2024-02-18 15:00:00-Clermont Foot-vs-Rennes
-111,2024-02-18 15:00:00,Ligue 1,2023-2024,22,Sun,Montpellier,3.0,0.0,Metz,W_Home,W_Home,0.41,1.0,0.68,2024-02-18 15:00:00-Metz-vs-Montpellier
-112,2024-02-18 15:00:00,Ligue 1,2023-2024,22,Sun,Monaco,1.0,2.0,Toulouse,W_Away,W_Home,0.5,1.0,0.53,2024-02-18 15:00:00-Monaco-vs-Toulouse
-113,2024-02-18 13:00:00,Ligue 1,2023-2024,22,Sun,Strasbourg,1.0,3.0,Lorient,W_Away,W_Home,0.47,0.0,0.51,2024-02-18 13:00:00-Lorient-vs-Strasbourg
-114,2024-02-17 21:00:00,Ligue 1,2023-2024,22,Sat,Nantes,0.0,2.0,Paris Saint Germain,W_Away,W_Away,0.69,0.0,0.61,2024-02-17 21:00:00-Nantes-vs-Paris Saint Germain
-115,2024-02-17 17:00:00,Ligue 1,2023-2024,22,Sat,Lille,3.0,0.0,Le Havre,W_Home,W_Home,0.61,1.0,0.61,2024-02-17 17:00:00-Le Havre-vs-Lille
-116,2024-02-16 21:00:00,Ligue 1,2023-2024,22,Fri,Lyon,1.0,0.0,Nice,W_Home,W_Away,0.37,1.0,0.66,2024-02-16 21:00:00-Lyon-vs-Nice
-117,2024-02-11 20:45:00,Ligue 1,2023-2024,21,Sun,Nice,2.0,3.0,Monaco,W_Away,W_Home,0.52,1.0,0.53,2024-02-11 20:45:00-Monaco-vs-Nice
-118,2024-02-11 17:05:00,Ligue 1,2023-2024,21,Sun,Montpellier,1.0,2.0,Lyon,W_Away,D,0.41,1.0,0.66,2024-02-11 17:05:00-Lyon-vs-Montpellier
-119,2024-02-11 15:00:00,Ligue 1,2023-2024,21,Sun,Clermont Foot,1.0,1.0,Brest,D,W_Away,0.5,1.0,0.52,2024-02-11 15:00:00-Brest-vs-Clermont Foot
-120,2024-02-11 15:00:00,Ligue 1,2023-2024,21,Sun,Lorient,2.0,0.0,Reims,W_Home,W_Away,0.51,0.0,0.52,2024-02-11 15:00:00-Lorient-vs-Reims
-121,2024-02-11 15:00:00,Ligue 1,2023-2024,21,Sun,Toulouse,1.0,2.0,Nantes,W_Away,D,0.42,1.0,0.66,2024-02-11 15:00:00-Nantes-vs-Toulouse
-122,2024-02-11 13:00:00,Ligue 1,2023-2024,21,Sun,Le Havre,0.0,1.0,Rennes,W_Away,W_Away,0.53,1.0,0.53,2024-02-11 13:00:00-Le Havre-vs-Rennes
-123,2024-02-10 21:00:00,Ligue 1,2023-2024,21,Sat,Paris Saint Germain,3.0,1.0,Lille,W_Home,W_Home,0.61,0.0,0.76,2024-02-10 21:00:00-Lille-vs-Paris Saint Germain
-124,2024-02-10 17:00:00,Ligue 1,2023-2024,21,Sat,Lens,3.0,1.0,Strasbourg,W_Home,W_Home,0.51,1.0,0.59,2024-02-10 17:00:00-Lens-vs-Strasbourg
-125,2024-02-09 21:00:00,Ligue 1,2023-2024,21,Fri,Marseille,1.0,1.0,Metz,D,W_Home,0.56,1.0,0.6,2024-02-09 21:00:00-Marseille-vs-Metz
-126,2024-02-04 20:45:00,Ligue 1,2023-2024,20,Sun,Lyon,1.0,0.0,Marseille,W_Home,W_Away,0.41,1.0,0.55,2024-02-04 20:45:00-Lyon-vs-Marseille
-127,2024-02-04 17:05:00,Ligue 1,2023-2024,20,Sun,Brest,0.0,0.0,Nice,D,W_Home,0.41,1.0,0.56,2024-02-04 17:05:00-Brest-vs-Nice
-128,2024-02-04 15:00:00,Ligue 1,2023-2024,20,Sun,Reims,2.0,3.0,Toulouse,W_Away,W_Home,0.39,1.0,0.56,2024-02-04 15:00:00-Reims-vs-Toulouse
-129,2024-02-04 15:00:00,Ligue 1,2023-2024,20,Sun,Lille,4.0,0.0,Clermont Foot,W_Home,W_Home,0.58,0.0,0.51,2024-02-04 15:00:00-Clermont Foot-vs-Lille
-130,2024-02-04 15:00:00,Ligue 1,2023-2024,20,Sun,Metz,1.0,2.0,Lorient,W_Away,W_Away,0.42,1.0,0.52,2024-02-04 15:00:00-Lorient-vs-Metz
-131,2024-02-04 13:00:00,Ligue 1,2023-2024,20,Sun,Monaco,1.0,1.0,Le Havre,D,W_Home,0.68,0.0,0.54,2024-02-04 13:00:00-Le Havre-vs-Monaco
-132,2024-02-03 21:00:00,Ligue 1,2023-2024,20,Sat,Nantes,0.0,1.0,Lens,W_Away,W_Away,0.41,1.0,0.53,2024-02-03 21:00:00-Lens-vs-Nantes
-133,2024-02-03 17:00:00,Ligue 1,2023-2024,20,Sat,Rennes,2.0,1.0,Montpellier,W_Home,W_Home,0.59,1.0,0.56,2024-02-03 17:00:00-Montpellier-vs-Rennes
-134,2024-02-02 21:00:00,Ligue 1,2023-2024,20,Fri,Strasbourg,1.0,2.0,Paris Saint Germain,W_Away,W_Away,0.53,0.0,0.6,2024-02-02 21:00:00-Paris Saint Germain-vs-Strasbourg
-135,2024-01-28 20:45:00,Ligue 1,2023-2024,19,Sun,Paris Saint Germain,2.0,2.0,Brest,D,W_Home,0.7,0.0,0.71,2024-01-28 20:45:00-Brest-vs-Paris Saint Germain
-136,2024-01-28 17:05:00,Ligue 1,2023-2024,19,Sun,Toulouse,0.0,2.0,Lens,W_Away,W_Away,0.46,1.0,0.54,2024-01-28 17:05:00-Lens-vs-Toulouse
-137,2024-01-28 15:00:00,Ligue 1,2023-2024,19,Sun,Reims,0.0,0.0,Nantes,D,W_Home,0.52,0.0,0.51,2024-01-28 15:00:00-Nantes-vs-Reims
-138,2024-01-28 15:00:00,Ligue 1,2023-2024,19,Sun,Lorient,3.0,3.0,Le Havre,D,W_Away,0.48,0.0,0.58,2024-01-28 15:00:00-Le Havre-vs-Lorient
-139,2024-01-28 15:00:00,Ligue 1,2023-2024,19,Sun,Clermont Foot,1.0,1.0,Strasbourg,D,W_Home,0.36,0.0,0.54,2024-01-28 15:00:00-Clermont Foot-vs-Strasbourg
-140,2024-01-28 13:00:00,Ligue 1,2023-2024,19,Sun,Montpellier,0.0,0.0,Lille,D,W_Away,0.42,1.0,0.6,2024-01-28 13:00:00-Lille-vs-Montpellier
-141,2024-01-27 21:00:00,Ligue 1,2023-2024,19,Sat,Marseille,2.0,2.0,Monaco,D,W_Home,0.41,1.0,0.5,2024-01-27 21:00:00-Marseille-vs-Monaco
-142,2024-01-27 17:00:00,Ligue 1,2023-2024,19,Sat,Nice,1.0,0.0,Metz,W_Home,W_Home,0.58,1.0,0.54,2024-01-27 17:00:00-Metz-vs-Nice
-143,2024-01-26 21:00:00,Ligue 1,2023-2024,19,Fri,Lyon,2.0,3.0,Rennes,W_Away,W_Home,0.41,1.0,0.54,2024-01-26 21:00:00-Lyon-vs-Rennes
-144,2024-01-14 20:45:00,Ligue 1,2023-2024,18,Sun,Lens,0.0,2.0,Paris Saint Germain,W_Away,D,0.41,1.0,0.57,2024-01-14 20:45:00-Lens-vs-Paris Saint Germain
-145,2024-01-14 17:05:00,Ligue 1,2023-2024,18,Sun,Le Havre,3.0,1.0,Lyon,W_Home,W_Away,0.52,1.0,0.61,2024-01-14 17:05:00-Le Havre-vs-Lyon
-146,2024-01-14 15:00:00,Ligue 1,2023-2024,18,Sun,Metz,0.0,1.0,Toulouse,W_Away,W_Away,0.55,1.0,0.64,2024-01-14 15:00:00-Metz-vs-Toulouse
-147,2024-01-14 15:00:00,Ligue 1,2023-2024,18,Sun,Nantes,1.0,2.0,Clermont Foot,W_Away,W_Home,0.37,1.0,0.52,2024-01-14 15:00:00-Clermont Foot-vs-Nantes
-148,2024-01-14 15:00:00,Ligue 1,2023-2024,18,Sun,Brest,2.0,0.0,Montpellier,W_Home,W_Home,0.45,0.0,0.51,2024-01-14 15:00:00-Brest-vs-Montpellier
-149,2024-01-14 13:00:00,Ligue 1,2023-2024,18,Sun,Lille,3.0,0.0,Lorient,W_Home,W_Home,0.59,1.0,0.57,2024-01-14 13:00:00-Lille-vs-Lorient
-150,2024-01-13 21:00:00,Ligue 1,2023-2024,18,Sat,Rennes,2.0,0.0,Nice,W_Home,W_Away,0.4,1.0,0.56,2024-01-13 21:00:00-Nice-vs-Rennes
-151,2024-01-13 17:00:00,Ligue 1,2023-2024,18,Sat,Monaco,1.0,3.0,Reims,W_Away,W_Home,0.63,0.0,0.5,2024-01-13 17:00:00-Monaco-vs-Reims
-152,2024-01-12 21:00:00,Ligue 1,2023-2024,18,Fri,Marseille,1.0,1.0,Strasbourg,D,W_Home,0.45,1.0,0.52,2024-01-12 21:00:00-Marseille-vs-Strasbourg
-153,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Nice,2.0,0.0,Lens,W_Home,W_Home,0.53,1.0,0.6,2023-12-20 21:00:00-Lens-vs-Nice
-154,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Montpellier,1.0,1.0,Marseille,D,W_Away,0.43,1.0,0.55,2023-12-20 21:00:00-Marseille-vs-Montpellier
-155,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Brest,4.0,0.0,Lorient,W_Home,W_Home,0.43,0.0,0.54,2023-12-20 21:00:00-Brest-vs-Lorient
-156,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Strasbourg,2.0,1.0,Lille,W_Home,W_Away,0.47,1.0,0.63,2023-12-20 21:00:00-Lille-vs-Strasbourg
-157,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Lyon,1.0,0.0,Nantes,W_Home,W_Home,0.58,0.0,0.66,2023-12-20 21:00:00-Lyon-vs-Nantes
-158,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Clermont Foot,1.0,3.0,Rennes,W_Away,D,0.4,1.0,0.75,2023-12-20 21:00:00-Clermont Foot-vs-Rennes
-159,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Paris Saint Germain,3.0,1.0,Metz,W_Home,W_Home,0.7,0.0,0.74,2023-12-20 21:00:00-Metz-vs-Paris Saint Germain
-160,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Toulouse,1.0,2.0,Monaco,W_Away,W_Away,0.77,1.0,0.51,2023-12-20 21:00:00-Monaco-vs-Toulouse
+0,2024-10-20 20:45:00,Ligue 1,2024-2025,8,Sun,Montpellier,,,Marseille,,W_Away,0.34,1.0,0.51,2024-10-20 20:45:00-Marseille-vs-Montpellier
+1,2024-10-20 17:00:00,Ligue 1,2024-2025,8,Sun,Toulouse,,,Angers,,W_Home,0.39,0.0,0.6,2024-10-20 17:00:00-Angers-vs-Toulouse
+2,2024-10-20 17:00:00,Ligue 1,2024-2025,8,Sun,Auxerre,,,Reims,,W_Home,0.39,0.0,0.52,2024-10-20 17:00:00-Auxerre-vs-Reims
+3,2024-10-20 17:00:00,Ligue 1,2024-2025,8,Sun,Nantes,,,Nice,,D,0.36,1.0,0.54,2024-10-20 17:00:00-Nantes-vs-Nice
+4,2024-10-20 15:00:00,Ligue 1,2024-2025,8,Sun,Le Havre,,,Lyon,,W_Away,0.56,1.0,0.52,2024-10-20 15:00:00-Le Havre-vs-Lyon
+5,2024-10-19 21:00:00,Ligue 1,2024-2025,8,Sat,Paris Saint Germain,,,Strasbourg,,W_Home,0.61,0.0,0.73,2024-10-19 21:00:00-Paris Saint Germain-vs-Strasbourg
+6,2024-10-19 19:00:00,Ligue 1,2024-2025,8,Sat,Saint-Étienne,,,Lens,,W_Away,0.43,0.0,0.51,2024-10-19 19:00:00-Lens-vs-Saint-Étienne
+7,2024-10-19 17:00:00,Ligue 1,2024-2025,8,Sat,Brest,,,Rennes,,W_Away,0.39,1.0,0.53,2024-10-19 17:00:00-Brest-vs-Rennes
+8,2024-10-18 20:45:00,Ligue 1,2024-2025,8,Fri,Monaco,,,Lille,,W_Home,0.46,0.0,0.54,2024-10-18 20:45:00-Lille-vs-Monaco
+9,2024-10-06 20:45:00,Ligue 1,2024-2025,7,Sun,Nice,1.0,1.0,Paris Saint Germain,D,W_Away,0.49,0.0,0.55,2024-10-06 20:45:00-Nice-vs-Paris Saint Germain
+10,2024-10-06 17:00:00,Ligue 1,2024-2025,7,Sun,Brest,2.0,0.0,Le Havre,W_Home,W_Home,0.41,0.0,0.5,2024-10-06 17:00:00-Brest-vs-Le Havre
+11,2024-10-05 21:00:00,Ligue 1,2024-2025,7,Sat,Rennes,1.0,2.0,Monaco,W_Away,W_Away,0.41,1.0,0.53,2024-10-05 21:00:00-Monaco-vs-Rennes
+12,2024-09-29 20:45:00,Ligue 1,2024-2025,6,Sun,Strasbourg,1.0,0.0,Marseille,W_Home,W_Home,0.36,0.0,0.53,2024-09-29 20:45:00-Marseille-vs-Strasbourg
+13,2024-09-29 17:00:00,Ligue 1,2024-2025,6,Sun,Nantes,2.0,2.0,Saint-Étienne,D,W_Home,0.42,0.0,0.51,2024-09-29 17:00:00-Nantes-vs-Saint-Étienne
+14,2024-09-29 17:00:00,Ligue 1,2024-2025,6,Sun,Angers,1.0,3.0,Reims,W_Away,W_Home,0.38,0.0,0.51,2024-09-29 17:00:00-Angers-vs-Reims
+15,2024-09-29 15:00:00,Ligue 1,2024-2025,6,Sun,Toulouse,1.0,2.0,Lyon,W_Away,W_Away,0.37,0.0,0.56,2024-09-29 15:00:00-Lyon-vs-Toulouse
+16,2024-09-28 17:00:00,Ligue 1,2024-2025,6,Sat,Lens,0.0,0.0,Nice,D,W_Home,0.39,1.0,0.52,2024-09-28 17:00:00-Lens-vs-Nice
+17,2024-09-27 21:00:00,Ligue 1,2024-2025,6,Fri,Paris Saint Germain,3.0,1.0,Rennes,W_Home,W_Home,0.5,0.0,0.54,2024-09-27 21:00:00-Paris Saint Germain-vs-Rennes
+18,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Lyon,2.0,1.0,Strasbourg,W_Home,W_Home,0.57,0.0,0.55,2024-05-19 21:00:00-Lyon-vs-Strasbourg
+19,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Lens,2.0,2.0,Montpellier,D,W_Home,0.63,0.0,0.64,2024-05-19 21:00:00-Lens-vs-Montpellier
+20,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Lorient,5.0,0.0,Clermont Foot,W_Home,W_Away,0.37,0.0,0.51,2024-05-19 21:00:00-Clermont Foot-vs-Lorient
+21,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Monaco,4.0,0.0,Nantes,W_Home,W_Home,0.56,0.0,0.62,2024-05-19 21:00:00-Monaco-vs-Nantes
+22,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Toulouse,0.0,3.0,Brest,W_Away,W_Away,0.46,0.0,0.67,2024-05-19 21:00:00-Brest-vs-Toulouse
+23,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Lille,2.0,2.0,Nice,D,W_Home,0.41,0.0,0.5,2024-05-19 21:00:00-Lille-vs-Nice
+24,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Reims,2.0,1.0,Rennes,W_Home,W_Away,0.42,0.0,0.64,2024-05-19 21:00:00-Reims-vs-Rennes
+25,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Le Havre,1.0,2.0,Marseille,W_Away,W_Away,0.48,0.0,0.52,2024-05-19 21:00:00-Le Havre-vs-Marseille
+26,2024-05-19 21:00:00,Ligue 1,2023-2024,34,Sun,Metz,0.0,2.0,Paris Saint Germain,W_Away,W_Away,0.72,0.0,0.71,2024-05-19 21:00:00-Metz-vs-Paris Saint Germain
+27,2024-05-15 21:00:00,Ligue 1,2023-2024,32,Wed,Reims,1.0,0.0,Marseille,W_Home,D,0.39,0.0,0.56,2024-05-15 21:00:00-Marseille-vs-Reims
+28,2024-05-15 21:00:00,Ligue 1,2023-2024,32,Wed,Nice,1.0,2.0,Paris Saint Germain,W_Away,W_Away,0.48,1.0,0.55,2024-05-15 21:00:00-Nice-vs-Paris Saint Germain
+29,2024-05-12 21:00:00,Ligue 1,2023-2024,33,Sun,Strasbourg,2.0,1.0,Metz,W_Home,W_Away,0.4,1.0,0.52,2024-05-12 21:00:00-Metz-vs-Strasbourg
+30,2024-05-12 21:00:00,Ligue 1,2023-2024,33,Sun,Rennes,1.0,1.0,Lens,D,W_Home,0.42,0.0,0.64,2024-05-12 21:00:00-Lens-vs-Rennes
+31,2024-05-12 21:00:00,Ligue 1,2023-2024,33,Sun,Montpellier,0.0,2.0,Monaco,W_Away,W_Away,0.67,0.0,0.68,2024-05-12 21:00:00-Monaco-vs-Montpellier
+32,2024-05-12 21:00:00,Ligue 1,2023-2024,33,Sun,Nantes,1.0,2.0,Lille,W_Away,W_Away,0.6,0.0,0.56,2024-05-12 21:00:00-Lille-vs-Nantes
+33,2024-05-12 21:00:00,Ligue 1,2023-2024,33,Sun,Clermont Foot,0.0,1.0,Lyon,W_Away,W_Away,0.62,0.0,0.61,2024-05-12 21:00:00-Clermont Foot-vs-Lyon
+34,2024-05-06 21:00:00,Ligue 1,2023-2024,32,Mon,Lille,3.0,4.0,Lyon,W_Away,W_Home,0.52,0.0,0.58,2024-05-06 21:00:00-Lille-vs-Lyon
+35,2024-05-04 21:00:00,Ligue 1,2023-2024,32,Sat,Brest,0.0,0.0,Nantes,D,W_Home,0.49,1.0,0.61,2024-05-04 21:00:00-Brest-vs-Nantes
+36,2024-05-04 19:00:00,Ligue 1,2023-2024,32,Sat,Metz,2.0,3.0,Rennes,W_Away,W_Away,0.64,0.0,0.62,2024-05-04 19:00:00-Metz-vs-Rennes
+37,2024-05-04 17:00:00,Ligue 1,2023-2024,32,Sat,Monaco,4.0,1.0,Clermont Foot,W_Home,W_Home,0.52,0.0,0.59,2024-05-04 17:00:00-Clermont Foot-vs-Monaco
+38,2024-05-04 15:00:00,Ligue 1,2023-2024,32,Sat,Le Havre,3.0,1.0,Strasbourg,W_Home,D,0.44,1.0,0.67,2024-05-04 15:00:00-Le Havre-vs-Strasbourg
+39,2024-05-03 21:00:00,Ligue 1,2023-2024,32,Fri,Lens,2.0,0.0,Lorient,W_Home,W_Home,0.67,0.0,0.63,2024-05-03 21:00:00-Lens-vs-Lorient
+40,2024-05-03 19:00:00,Ligue 1,2023-2024,32,Fri,Toulouse,1.0,2.0,Montpellier,W_Away,W_Away,0.4,0.0,0.55,2024-05-03 19:00:00-Montpellier-vs-Toulouse
+41,2024-04-28 21:00:00,Ligue 1,2023-2024,31,Sun,Marseille,2.0,1.0,Lens,W_Home,W_Home,0.38,1.0,0.55,2024-04-28 21:00:00-Lens-vs-Marseille
+42,2024-04-28 19:00:00,Ligue 1,2023-2024,31,Sun,Lyon,3.0,2.0,Monaco,W_Home,W_Away,0.48,0.0,0.59,2024-04-28 19:00:00-Lyon-vs-Monaco
+43,2024-04-28 17:05:00,Ligue 1,2023-2024,31,Sun,Rennes,4.0,5.0,Brest,W_Away,W_Home,0.46,0.0,0.61,2024-04-28 17:05:00-Brest-vs-Rennes
+44,2024-04-28 15:00:00,Ligue 1,2023-2024,31,Sun,Strasbourg,1.0,3.0,Nice,W_Away,W_Home,0.35,1.0,0.56,2024-04-28 15:00:00-Nice-vs-Strasbourg
+45,2024-04-28 15:00:00,Ligue 1,2023-2024,31,Sun,Lorient,1.0,2.0,Toulouse,W_Away,W_Away,0.49,1.0,0.54,2024-04-28 15:00:00-Lorient-vs-Toulouse
+46,2024-04-28 15:00:00,Ligue 1,2023-2024,31,Sun,Clermont Foot,4.0,1.0,Reims,W_Home,W_Away,0.45,0.0,0.51,2024-04-28 15:00:00-Clermont Foot-vs-Reims
+47,2024-04-28 13:00:00,Ligue 1,2023-2024,31,Sun,Metz,1.0,2.0,Lille,W_Away,W_Away,0.57,0.0,0.5,2024-04-28 13:00:00-Lille-vs-Metz
+48,2024-04-27 21:00:00,Ligue 1,2023-2024,31,Sat,Paris Saint Germain,3.0,3.0,Le Havre,D,W_Home,0.63,0.0,0.73,2024-04-27 21:00:00-Le Havre-vs-Paris Saint Germain
+49,2024-04-26 21:00:00,Ligue 1,2023-2024,31,Fri,Montpellier,1.0,1.0,Nantes,D,W_Home,0.38,1.0,0.56,2024-04-26 21:00:00-Montpellier-vs-Nantes
+50,2024-04-24 21:00:00,Ligue 1,2023-2024,29,Wed,Marseille,2.0,2.0,Nice,D,W_Home,0.45,1.0,0.65,2024-04-24 21:00:00-Marseille-vs-Nice
+51,2024-04-24 19:00:00,Ligue 1,2023-2024,29,Wed,Monaco,,,Lille,,W_Home,0.4,1.0,0.56,2024-04-24 19:00:00-Lille-vs-Monaco
+52,2024-04-21 15:00:00,Ligue 1,2023-2024,30,Sun,Reims,1.0,2.0,Montpellier,W_Away,W_Home,0.43,0.0,0.54,2024-04-21 15:00:00-Montpellier-vs-Reims
+53,2024-04-21 15:00:00,Ligue 1,2023-2024,30,Sun,Le Havre,0.0,1.0,Metz,W_Away,W_Home,0.45,1.0,0.65,2024-04-21 15:00:00-Le Havre-vs-Metz
+54,2024-04-20 21:00:00,Ligue 1,2023-2024,30,Sat,Lens,1.0,0.0,Clermont Foot,W_Home,W_Home,0.63,0.0,0.62,2024-04-20 21:00:00-Clermont Foot-vs-Lens
+55,2024-04-20 17:00:00,Ligue 1,2023-2024,30,Sat,Nantes,0.0,3.0,Rennes,W_Away,W_Away,0.46,1.0,0.53,2024-04-20 17:00:00-Nantes-vs-Rennes
+56,2024-04-19 21:00:00,Ligue 1,2023-2024,30,Fri,Nice,3.0,0.0,Lorient,W_Home,W_Home,0.46,0.0,0.59,2024-04-19 21:00:00-Lorient-vs-Nice
+57,2024-04-14 20:45:00,Ligue 1,2023-2024,29,Sun,Lyon,4.0,3.0,Brest,W_Home,W_Home,0.39,1.0,0.63,2024-04-14 20:45:00-Brest-vs-Lyon
+58,2024-04-14 15:00:00,Ligue 1,2023-2024,29,Sun,Clermont Foot,1.0,1.0,Montpellier,D,W_Away,0.43,0.0,0.56,2024-04-14 15:00:00-Clermont Foot-vs-Montpellier
+59,2024-04-14 13:00:00,Ligue 1,2023-2024,29,Sun,Le Havre,0.0,1.0,Nantes,W_Away,W_Away,0.4,1.0,0.69,2024-04-14 13:00:00-Le Havre-vs-Nantes
+60,2024-04-13 21:00:00,Ligue 1,2023-2024,29,Sat,Rennes,1.0,2.0,Toulouse,W_Away,W_Home,0.48,0.0,0.5,2024-04-13 21:00:00-Rennes-vs-Toulouse
+61,2024-04-13 17:00:00,Ligue 1,2023-2024,29,Sat,Strasbourg,3.0,1.0,Reims,W_Home,W_Away,0.39,1.0,0.56,2024-04-13 17:00:00-Reims-vs-Strasbourg
+62,2024-04-12 21:00:00,Ligue 1,2023-2024,29,Fri,Metz,2.0,1.0,Lens,W_Home,W_Away,0.57,1.0,0.58,2024-04-12 21:00:00-Lens-vs-Metz
+63,2024-04-07 20:45:00,Ligue 1,2023-2024,28,Sun,Nantes,1.0,3.0,Lyon,W_Away,W_Away,0.61,0.0,0.54,2024-04-07 20:45:00-Lyon-vs-Nantes
+64,2024-04-07 17:05:00,Ligue 1,2023-2024,28,Sun,Monaco,1.0,0.0,Rennes,W_Home,D,0.35,0.0,0.57,2024-04-07 17:05:00-Monaco-vs-Rennes
+65,2024-04-07 15:00:00,Ligue 1,2023-2024,28,Sun,Toulouse,0.0,0.0,Strasbourg,D,W_Away,0.36,0.0,0.56,2024-04-07 15:00:00-Strasbourg-vs-Toulouse
+66,2024-04-07 15:00:00,Ligue 1,2023-2024,28,Sun,Reims,0.0,0.0,Nice,D,W_Home,0.35,1.0,0.55,2024-04-07 15:00:00-Nice-vs-Reims
+67,2024-04-07 15:00:00,Ligue 1,2023-2024,28,Sun,Montpellier,2.0,0.0,Lorient,W_Home,W_Home,0.43,0.0,0.65,2024-04-07 15:00:00-Lorient-vs-Montpellier
+68,2024-04-07 13:00:00,Ligue 1,2023-2024,28,Sun,Brest,4.0,3.0,Metz,W_Home,W_Home,0.55,0.0,0.54,2024-04-07 13:00:00-Brest-vs-Metz
+69,2024-04-06 21:00:00,Ligue 1,2023-2024,28,Sat,Paris Saint Germain,1.0,1.0,Clermont Foot,D,W_Home,0.59,0.0,0.85,2024-04-06 21:00:00-Clermont Foot-vs-Paris Saint Germain
+70,2024-04-06 17:00:00,Ligue 1,2023-2024,28,Sat,Lens,1.0,1.0,Le Havre,D,W_Home,0.73,0.0,0.6,2024-04-06 17:00:00-Le Havre-vs-Lens
+71,2024-04-05 21:00:00,Ligue 1,2023-2024,28,Fri,Lille,3.0,1.0,Marseille,W_Home,W_Home,0.55,1.0,0.54,2024-04-05 21:00:00-Lille-vs-Marseille
+72,2024-03-31 20:45:00,Ligue 1,2023-2024,27,Sun,Marseille,0.0,2.0,Paris Saint Germain,W_Away,W_Away,0.39,1.0,0.63,2024-03-31 20:45:00-Marseille-vs-Paris Saint Germain
+73,2024-03-31 17:05:00,Ligue 1,2023-2024,27,Sun,Strasbourg,2.0,0.0,Rennes,W_Home,W_Away,0.52,1.0,0.51,2024-03-31 17:05:00-Rennes-vs-Strasbourg
+74,2024-03-31 15:00:00,Ligue 1,2023-2024,27,Sun,Clermont Foot,0.0,3.0,Toulouse,W_Away,D,0.36,1.0,0.64,2024-03-31 15:00:00-Clermont Foot-vs-Toulouse
+75,2024-03-31 15:00:00,Ligue 1,2023-2024,27,Sun,Le Havre,0.0,2.0,Montpellier,W_Away,W_Away,0.39,1.0,0.59,2024-03-31 15:00:00-Le Havre-vs-Montpellier
+76,2024-03-31 15:00:00,Ligue 1,2023-2024,27,Sun,Nice,1.0,2.0,Nantes,W_Away,W_Home,0.52,1.0,0.59,2024-03-31 15:00:00-Nantes-vs-Nice
+77,2024-03-31 13:00:00,Ligue 1,2023-2024,27,Sun,Lorient,0.0,1.0,Brest,W_Away,W_Away,0.56,1.0,0.62,2024-03-31 13:00:00-Brest-vs-Lorient
+78,2024-03-30 21:00:00,Ligue 1,2023-2024,27,Sat,Lyon,1.0,1.0,Reims,D,W_Home,0.46,0.0,0.53,2024-03-30 21:00:00-Lyon-vs-Reims
+79,2024-03-30 17:00:00,Ligue 1,2023-2024,27,Sat,Metz,2.0,5.0,Monaco,W_Away,W_Away,0.68,1.0,0.51,2024-03-30 17:00:00-Metz-vs-Monaco
+80,2024-03-29 21:00:00,Ligue 1,2023-2024,27,Fri,Lille,2.0,1.0,Lens,W_Home,W_Home,0.38,1.0,0.56,2024-03-29 21:00:00-Lens-vs-Lille
+81,2024-03-17 20:45:00,Ligue 1,2023-2024,26,Sun,Montpellier,2.0,6.0,Paris Saint Germain,W_Away,W_Away,0.65,0.0,0.62,2024-03-17 20:45:00-Montpellier-vs-Paris Saint Germain
+82,2024-03-17 17:05:00,Ligue 1,2023-2024,26,Sun,Rennes,2.0,0.0,Marseille,W_Home,W_Away,0.4,1.0,0.59,2024-03-17 17:05:00-Marseille-vs-Rennes
+83,2024-03-17 15:00:00,Ligue 1,2023-2024,26,Sun,Reims,2.0,1.0,Metz,W_Home,W_Home,0.41,1.0,0.64,2024-03-17 15:00:00-Metz-vs-Reims
+84,2024-03-17 15:00:00,Ligue 1,2023-2024,26,Sun,Monaco,2.0,2.0,Lorient,D,W_Home,0.46,0.0,0.63,2024-03-17 15:00:00-Lorient-vs-Monaco
+85,2024-03-17 15:00:00,Ligue 1,2023-2024,26,Sun,Clermont Foot,2.0,1.0,Le Havre,W_Home,W_Home,0.41,0.0,0.53,2024-03-17 15:00:00-Clermont Foot-vs-Le Havre
+86,2024-03-17 13:00:00,Ligue 1,2023-2024,26,Sun,Brest,1.0,1.0,Lille,D,W_Home,0.4,1.0,0.68,2024-03-17 13:00:00-Brest-vs-Lille
+87,2024-03-16 21:00:00,Ligue 1,2023-2024,26,Sat,Lens,1.0,3.0,Nice,W_Away,W_Home,0.53,1.0,0.65,2024-03-16 21:00:00-Lens-vs-Nice
+88,2024-03-16 17:00:00,Ligue 1,2023-2024,26,Sat,Nantes,1.0,3.0,Strasbourg,W_Away,D,0.45,0.0,0.52,2024-03-16 17:00:00-Nantes-vs-Strasbourg
+89,2024-03-15 21:00:00,Ligue 1,2023-2024,26,Fri,Toulouse,2.0,3.0,Lyon,W_Away,W_Away,0.43,0.0,0.55,2024-03-15 21:00:00-Lyon-vs-Toulouse
+90,2024-03-10 20:45:00,Ligue 1,2023-2024,25,Sun,Marseille,2.0,0.0,Nantes,W_Home,W_Home,0.66,0.0,0.54,2024-03-10 20:45:00-Marseille-vs-Nantes
+91,2024-03-10 17:00:00,Ligue 1,2023-2024,25,Sun,Lille,,,Rennes,,W_Home,0.48,0.0,0.51,2024-03-10 17:00:00-Lille-vs-Rennes
+92,2024-03-10 15:00:00,Ligue 1,2023-2024,25,Sun,Strasbourg,0.0,1.0,Monaco,W_Away,W_Away,0.65,0.0,0.71,2024-03-10 15:00:00-Monaco-vs-Strasbourg
+93,2024-03-10 15:00:00,Ligue 1,2023-2024,25,Sun,Metz,1.0,0.0,Clermont Foot,W_Home,W_Away,0.48,1.0,0.56,2024-03-10 15:00:00-Clermont Foot-vs-Metz
+94,2024-03-10 15:00:00,Ligue 1,2023-2024,25,Sun,Le Havre,1.0,0.0,Toulouse,W_Home,W_Away,0.47,1.0,0.6,2024-03-10 15:00:00-Le Havre-vs-Toulouse
+95,2024-03-10 13:00:00,Ligue 1,2023-2024,25,Sun,Paris Saint Germain,2.0,2.0,Reims,D,W_Home,0.71,0.0,0.67,2024-03-10 13:00:00-Paris Saint Germain-vs-Reims
+96,2024-03-09 21:00:00,Ligue 1,2023-2024,25,Sat,Lens,1.0,0.0,Brest,W_Home,W_Home,0.43,0.0,0.61,2024-03-09 21:00:00-Brest-vs-Lens
+97,2024-03-09 17:00:00,Ligue 1,2023-2024,25,Sat,Lorient,0.0,2.0,Lyon,W_Away,W_Away,0.56,1.0,0.52,2024-03-09 17:00:00-Lorient-vs-Lyon
+98,2024-03-08 21:00:00,Ligue 1,2023-2024,25,Fri,Nice,1.0,2.0,Montpellier,W_Away,W_Home,0.64,1.0,0.53,2024-03-08 21:00:00-Montpellier-vs-Nice
+99,2024-03-03 20:45:00,Ligue 1,2023-2024,24,Sun,Lyon,0.0,3.0,Lens,W_Away,W_Home,0.46,1.0,0.69,2024-03-03 20:45:00-Lens-vs-Lyon
+100,2024-03-03 17:05:00,Ligue 1,2023-2024,24,Sun,Rennes,1.0,2.0,Lorient,W_Away,W_Home,0.66,0.0,0.64,2024-03-03 17:05:00-Lorient-vs-Rennes
+101,2024-03-03 15:00:00,Ligue 1,2023-2024,24,Sun,Montpellier,2.0,2.0,Strasbourg,D,W_Home,0.38,1.0,0.52,2024-03-03 15:00:00-Montpellier-vs-Strasbourg
+102,2024-03-03 15:00:00,Ligue 1,2023-2024,24,Sun,Nantes,0.0,2.0,Metz,W_Away,W_Home,0.48,1.0,0.53,2024-03-03 15:00:00-Metz-vs-Nantes
+103,2024-03-03 15:00:00,Ligue 1,2023-2024,24,Sun,Brest,1.0,0.0,Le Havre,W_Home,W_Home,0.54,1.0,0.55,2024-03-03 15:00:00-Brest-vs-Le Havre
+104,2024-03-03 13:00:00,Ligue 1,2023-2024,24,Sun,Toulouse,2.0,1.0,Nice,W_Home,W_Away,0.35,1.0,0.68,2024-03-03 13:00:00-Nice-vs-Toulouse
+105,2024-03-02 21:00:00,Ligue 1,2023-2024,24,Sat,Clermont Foot,1.0,5.0,Marseille,W_Away,W_Away,0.44,1.0,0.6,2024-03-02 21:00:00-Clermont Foot-vs-Marseille
+106,2024-03-02 17:00:00,Ligue 1,2023-2024,24,Sat,Reims,0.0,1.0,Lille,W_Away,D,0.45,1.0,0.66,2024-03-02 17:00:00-Lille-vs-Reims
+107,2024-03-01 21:00:00,Ligue 1,2023-2024,24,Fri,Monaco,0.0,0.0,Paris Saint Germain,D,W_Away,0.5,1.0,0.53,2024-03-01 21:00:00-Monaco-vs-Paris Saint Germain
+108,2024-02-25 20:45:00,Ligue 1,2023-2024,23,Sun,Marseille,4.0,1.0,Montpellier,W_Home,W_Home,0.62,0.0,0.58,2024-02-25 20:45:00-Marseille-vs-Montpellier
+109,2024-02-25 17:05:00,Ligue 1,2023-2024,23,Sun,Paris Saint Germain,1.0,1.0,Rennes,D,W_Home,0.71,0.0,0.8,2024-02-25 17:05:00-Paris Saint Germain-vs-Rennes
+110,2024-02-25 15:00:00,Ligue 1,2023-2024,23,Sun,Toulouse,3.0,1.0,Lille,W_Home,W_Away,0.42,1.0,0.65,2024-02-25 15:00:00-Lille-vs-Toulouse
+111,2024-02-25 15:00:00,Ligue 1,2023-2024,23,Sun,Le Havre,1.0,2.0,Reims,W_Away,W_Away,0.41,1.0,0.69,2024-02-25 15:00:00-Le Havre-vs-Reims
+112,2024-02-25 15:00:00,Ligue 1,2023-2024,23,Sun,Nice,0.0,0.0,Clermont Foot,D,W_Home,0.64,0.0,0.57,2024-02-25 15:00:00-Clermont Foot-vs-Nice
+113,2024-02-25 13:00:00,Ligue 1,2023-2024,23,Sun,Lens,2.0,3.0,Monaco,W_Away,W_Away,0.4,0.0,0.6,2024-02-25 13:00:00-Lens-vs-Monaco
+114,2024-02-24 21:00:00,Ligue 1,2023-2024,23,Sat,Strasbourg,0.0,3.0,Brest,W_Away,D,0.39,0.0,0.52,2024-02-24 21:00:00-Brest-vs-Strasbourg
+115,2024-02-24 17:00:00,Ligue 1,2023-2024,23,Sat,Lorient,0.0,1.0,Nantes,W_Away,W_Away,0.41,1.0,0.53,2024-02-24 17:00:00-Lorient-vs-Nantes
+116,2024-02-23 21:00:00,Ligue 1,2023-2024,23,Fri,Metz,1.0,2.0,Lyon,W_Away,W_Away,0.58,1.0,0.55,2024-02-23 21:00:00-Lyon-vs-Metz
+117,2024-02-18 20:45:00,Ligue 1,2023-2024,22,Sun,Brest,1.0,0.0,Marseille,W_Home,W_Away,0.34,1.0,0.63,2024-02-18 20:45:00-Brest-vs-Marseille
+118,2024-02-18 17:05:00,Ligue 1,2023-2024,22,Sun,Reims,1.0,1.0,Lens,D,W_Away,0.5,1.0,0.61,2024-02-18 17:05:00-Lens-vs-Reims
+119,2024-02-18 15:00:00,Ligue 1,2023-2024,22,Sun,Montpellier,3.0,0.0,Metz,W_Home,W_Home,0.41,1.0,0.68,2024-02-18 15:00:00-Metz-vs-Montpellier
+120,2024-02-18 15:00:00,Ligue 1,2023-2024,22,Sun,Monaco,1.0,2.0,Toulouse,W_Away,W_Home,0.5,1.0,0.53,2024-02-18 15:00:00-Monaco-vs-Toulouse
+121,2024-02-18 15:00:00,Ligue 1,2023-2024,22,Sun,Rennes,3.0,1.0,Clermont Foot,W_Home,W_Home,0.62,0.0,0.66,2024-02-18 15:00:00-Clermont Foot-vs-Rennes
+122,2024-02-18 13:00:00,Ligue 1,2023-2024,22,Sun,Strasbourg,1.0,3.0,Lorient,W_Away,W_Home,0.47,0.0,0.51,2024-02-18 13:00:00-Lorient-vs-Strasbourg
+123,2024-02-17 21:00:00,Ligue 1,2023-2024,22,Sat,Nantes,0.0,2.0,Paris Saint Germain,W_Away,W_Away,0.69,0.0,0.61,2024-02-17 21:00:00-Nantes-vs-Paris Saint Germain
+124,2024-02-17 17:00:00,Ligue 1,2023-2024,22,Sat,Lille,3.0,0.0,Le Havre,W_Home,W_Home,0.61,1.0,0.61,2024-02-17 17:00:00-Le Havre-vs-Lille
+125,2024-02-16 21:00:00,Ligue 1,2023-2024,22,Fri,Lyon,1.0,0.0,Nice,W_Home,W_Away,0.37,1.0,0.66,2024-02-16 21:00:00-Lyon-vs-Nice
+126,2024-02-11 20:45:00,Ligue 1,2023-2024,21,Sun,Nice,2.0,3.0,Monaco,W_Away,W_Home,0.52,1.0,0.53,2024-02-11 20:45:00-Monaco-vs-Nice
+127,2024-02-11 17:05:00,Ligue 1,2023-2024,21,Sun,Montpellier,1.0,2.0,Lyon,W_Away,D,0.41,1.0,0.66,2024-02-11 17:05:00-Lyon-vs-Montpellier
+128,2024-02-11 15:00:00,Ligue 1,2023-2024,21,Sun,Toulouse,1.0,2.0,Nantes,W_Away,D,0.42,1.0,0.66,2024-02-11 15:00:00-Nantes-vs-Toulouse
+129,2024-02-11 15:00:00,Ligue 1,2023-2024,21,Sun,Lorient,2.0,0.0,Reims,W_Home,W_Away,0.51,0.0,0.52,2024-02-11 15:00:00-Lorient-vs-Reims
+130,2024-02-11 15:00:00,Ligue 1,2023-2024,21,Sun,Clermont Foot,1.0,1.0,Brest,D,W_Away,0.5,1.0,0.52,2024-02-11 15:00:00-Brest-vs-Clermont Foot
+131,2024-02-11 13:00:00,Ligue 1,2023-2024,21,Sun,Le Havre,0.0,1.0,Rennes,W_Away,W_Away,0.53,1.0,0.53,2024-02-11 13:00:00-Le Havre-vs-Rennes
+132,2024-02-10 21:00:00,Ligue 1,2023-2024,21,Sat,Paris Saint Germain,3.0,1.0,Lille,W_Home,W_Home,0.61,0.0,0.76,2024-02-10 21:00:00-Lille-vs-Paris Saint Germain
+133,2024-02-10 17:00:00,Ligue 1,2023-2024,21,Sat,Lens,3.0,1.0,Strasbourg,W_Home,W_Home,0.51,1.0,0.59,2024-02-10 17:00:00-Lens-vs-Strasbourg
+134,2024-02-09 21:00:00,Ligue 1,2023-2024,21,Fri,Marseille,1.0,1.0,Metz,D,W_Home,0.56,1.0,0.6,2024-02-09 21:00:00-Marseille-vs-Metz
+135,2024-02-04 20:45:00,Ligue 1,2023-2024,20,Sun,Lyon,1.0,0.0,Marseille,W_Home,W_Away,0.41,1.0,0.55,2024-02-04 20:45:00-Lyon-vs-Marseille
+136,2024-02-04 17:05:00,Ligue 1,2023-2024,20,Sun,Brest,0.0,0.0,Nice,D,W_Home,0.41,1.0,0.56,2024-02-04 17:05:00-Brest-vs-Nice
+137,2024-02-04 15:00:00,Ligue 1,2023-2024,20,Sun,Metz,1.0,2.0,Lorient,W_Away,W_Away,0.42,1.0,0.52,2024-02-04 15:00:00-Lorient-vs-Metz
+138,2024-02-04 15:00:00,Ligue 1,2023-2024,20,Sun,Lille,4.0,0.0,Clermont Foot,W_Home,W_Home,0.58,0.0,0.51,2024-02-04 15:00:00-Clermont Foot-vs-Lille
+139,2024-02-04 15:00:00,Ligue 1,2023-2024,20,Sun,Reims,2.0,3.0,Toulouse,W_Away,W_Home,0.39,1.0,0.56,2024-02-04 15:00:00-Reims-vs-Toulouse
+140,2024-02-04 13:00:00,Ligue 1,2023-2024,20,Sun,Monaco,1.0,1.0,Le Havre,D,W_Home,0.68,0.0,0.54,2024-02-04 13:00:00-Le Havre-vs-Monaco
+141,2024-02-03 21:00:00,Ligue 1,2023-2024,20,Sat,Nantes,0.0,1.0,Lens,W_Away,W_Away,0.41,1.0,0.53,2024-02-03 21:00:00-Lens-vs-Nantes
+142,2024-02-03 17:00:00,Ligue 1,2023-2024,20,Sat,Rennes,2.0,1.0,Montpellier,W_Home,W_Home,0.59,1.0,0.56,2024-02-03 17:00:00-Montpellier-vs-Rennes
+143,2024-02-02 21:00:00,Ligue 1,2023-2024,20,Fri,Strasbourg,1.0,2.0,Paris Saint Germain,W_Away,W_Away,0.53,0.0,0.6,2024-02-02 21:00:00-Paris Saint Germain-vs-Strasbourg
+144,2024-01-28 20:45:00,Ligue 1,2023-2024,19,Sun,Paris Saint Germain,2.0,2.0,Brest,D,W_Home,0.7,0.0,0.71,2024-01-28 20:45:00-Brest-vs-Paris Saint Germain
+145,2024-01-28 17:05:00,Ligue 1,2023-2024,19,Sun,Toulouse,0.0,2.0,Lens,W_Away,W_Away,0.46,1.0,0.54,2024-01-28 17:05:00-Lens-vs-Toulouse
+146,2024-01-28 15:00:00,Ligue 1,2023-2024,19,Sun,Reims,0.0,0.0,Nantes,D,W_Home,0.52,0.0,0.51,2024-01-28 15:00:00-Nantes-vs-Reims
+147,2024-01-28 15:00:00,Ligue 1,2023-2024,19,Sun,Lorient,3.0,3.0,Le Havre,D,W_Away,0.48,0.0,0.58,2024-01-28 15:00:00-Le Havre-vs-Lorient
+148,2024-01-28 15:00:00,Ligue 1,2023-2024,19,Sun,Clermont Foot,1.0,1.0,Strasbourg,D,W_Home,0.36,0.0,0.54,2024-01-28 15:00:00-Clermont Foot-vs-Strasbourg
+149,2024-01-28 13:00:00,Ligue 1,2023-2024,19,Sun,Montpellier,0.0,0.0,Lille,D,W_Away,0.42,1.0,0.6,2024-01-28 13:00:00-Lille-vs-Montpellier
+150,2024-01-27 21:00:00,Ligue 1,2023-2024,19,Sat,Marseille,2.0,2.0,Monaco,D,W_Home,0.41,1.0,0.5,2024-01-27 21:00:00-Marseille-vs-Monaco
+151,2024-01-27 17:00:00,Ligue 1,2023-2024,19,Sat,Nice,1.0,0.0,Metz,W_Home,W_Home,0.58,1.0,0.54,2024-01-27 17:00:00-Metz-vs-Nice
+152,2024-01-26 21:00:00,Ligue 1,2023-2024,19,Fri,Lyon,2.0,3.0,Rennes,W_Away,W_Home,0.41,1.0,0.54,2024-01-26 21:00:00-Lyon-vs-Rennes
+153,2024-01-14 20:45:00,Ligue 1,2023-2024,18,Sun,Lens,0.0,2.0,Paris Saint Germain,W_Away,D,0.41,1.0,0.57,2024-01-14 20:45:00-Lens-vs-Paris Saint Germain
+154,2024-01-14 17:05:00,Ligue 1,2023-2024,18,Sun,Le Havre,3.0,1.0,Lyon,W_Home,W_Away,0.52,1.0,0.61,2024-01-14 17:05:00-Le Havre-vs-Lyon
+155,2024-01-14 15:00:00,Ligue 1,2023-2024,18,Sun,Metz,0.0,1.0,Toulouse,W_Away,W_Away,0.55,1.0,0.64,2024-01-14 15:00:00-Metz-vs-Toulouse
+156,2024-01-14 15:00:00,Ligue 1,2023-2024,18,Sun,Nantes,1.0,2.0,Clermont Foot,W_Away,W_Home,0.37,1.0,0.52,2024-01-14 15:00:00-Clermont Foot-vs-Nantes
+157,2024-01-14 15:00:00,Ligue 1,2023-2024,18,Sun,Brest,2.0,0.0,Montpellier,W_Home,W_Home,0.45,0.0,0.51,2024-01-14 15:00:00-Brest-vs-Montpellier
+158,2024-01-14 13:00:00,Ligue 1,2023-2024,18,Sun,Lille,3.0,0.0,Lorient,W_Home,W_Home,0.59,1.0,0.57,2024-01-14 13:00:00-Lille-vs-Lorient
+159,2024-01-13 21:00:00,Ligue 1,2023-2024,18,Sat,Rennes,2.0,0.0,Nice,W_Home,W_Away,0.4,1.0,0.56,2024-01-13 21:00:00-Nice-vs-Rennes
+160,2024-01-13 17:00:00,Ligue 1,2023-2024,18,Sat,Monaco,1.0,3.0,Reims,W_Away,W_Home,0.63,0.0,0.5,2024-01-13 17:00:00-Monaco-vs-Reims
+161,2024-01-12 21:00:00,Ligue 1,2023-2024,18,Fri,Marseille,1.0,1.0,Strasbourg,D,W_Home,0.45,1.0,0.52,2024-01-12 21:00:00-Marseille-vs-Strasbourg
+162,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Toulouse,1.0,2.0,Monaco,W_Away,W_Away,0.77,1.0,0.51,2023-12-20 21:00:00-Monaco-vs-Toulouse
+163,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Paris Saint Germain,3.0,1.0,Metz,W_Home,W_Home,0.7,0.0,0.74,2023-12-20 21:00:00-Metz-vs-Paris Saint Germain
+164,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Clermont Foot,1.0,3.0,Rennes,W_Away,D,0.4,1.0,0.75,2023-12-20 21:00:00-Clermont Foot-vs-Rennes
+165,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Lyon,1.0,0.0,Nantes,W_Home,W_Home,0.58,0.0,0.66,2023-12-20 21:00:00-Lyon-vs-Nantes
+166,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Strasbourg,2.0,1.0,Lille,W_Home,W_Away,0.47,1.0,0.63,2023-12-20 21:00:00-Lille-vs-Strasbourg
+167,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Montpellier,1.0,1.0,Marseille,D,W_Away,0.43,1.0,0.55,2023-12-20 21:00:00-Marseille-vs-Montpellier
+168,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Nice,2.0,0.0,Lens,W_Home,W_Home,0.53,1.0,0.6,2023-12-20 21:00:00-Lens-vs-Nice
+169,2023-12-20 21:00:00,Ligue 1,2023-2024,17,Wed,Brest,4.0,0.0,Lorient,W_Home,W_Home,0.43,0.0,0.54,2023-12-20 21:00:00-Brest-vs-Lorient
