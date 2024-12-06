@@ -497,7 +497,7 @@ def modelisation(df, cutoff_date, targets=["Result", "Minus 2.5 Goals"], model_t
 
 
         if hasattr(selected_model, "predict_proba"):
-            df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.max(selected_model.predict_proba(X_test), axis=1)
+            df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.max(selected_model.predict_proba(X_test), axis=1).round(2)
         else:
             df.loc[X_test.index, f'Prediction_Probability_{target}'] = np.nan
 
@@ -612,6 +612,14 @@ def find_futur_matchweeks(df, mapping_equipe):
     else:# Retourner le DataFrame s'il n'est pas vide, sinon retourner None.
         return df
 
+def main_process(data):
+    data = renommer_colonnes(data)
+    data = preprocess_initial(data, mapping_equipe)
+    data = columns_to_keep(data)
+    data = preprocess_variables(data)
+    data = preparation_model(data)
+    data = preparation_model(data)
+    return data
 
 
 

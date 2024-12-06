@@ -24,6 +24,7 @@ def update_data_global():
     future_results["DateTime"] = pd.to_datetime(future_results["DateTime"])
 
     # Vérifier si la dernière date dans le fichier est antérieure à la date actuelle
+  
     last_date_in_file = future_results["DateTime"].max()
     if last_date_in_file <= current_datetime:
 

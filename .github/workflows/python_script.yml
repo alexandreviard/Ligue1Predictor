@@ -2,7 +2,7 @@ name: Automate Python Script
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Exécuté à minuit tous les jours
+    - cron: '0 * * * *'  # Exécuté à minuit tous les jours
   workflow_dispatch:
 
 permissions:

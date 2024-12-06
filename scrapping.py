@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import time
 
-def scrape_ligue1_data(nb_saisons=6):
+def scrape_ligue1_data(nb_saisons=7):
     """
     Récupère les données de la Ligue 1 sur plusieurs saisons spécifiées.
     
@@ -98,6 +98,7 @@ def scrape_latest_ligue1_data():
 
         for stats_url in set(stats_urls):
             rate_limit()
+            print(team_url, stats_url)
             detailed_stats = get_detailed_stats(stats_url, headers)
             team_data = team_data.merge(detailed_stats, on="Date")
 
